@@ -49,40 +49,34 @@ const accentBorder: Record<string, string> = {
   </div>
 
   <!-- Main layout: sidebar + content -->
-  <div class="grid md:grid-cols-[220px_1fr] min-h-[640px]">
+  <div class="grid md:grid-cols-[72px_1fr] min-h-[640px]">
 
-    <!-- Sidebar -->
-    <aside class="hidden md:flex flex-col bg-white border-r border-[var(--color-gray-2)] p-5">
-      <div class="flex items-center gap-2 mb-8 px-2">
+    <!-- Sidebar — icon-only в стиле Юриного продукта -->
+    <aside class="hidden md:flex flex-col items-center bg-white border-r border-[var(--color-gray-2)] py-5">
+      <a href="#" class="mb-7 inline-flex items-center justify-center w-11 h-11" aria-label="PULS ERP" onclick="event.preventDefault();">
         <img src="/logo-icon.png" alt="" class="h-7 w-auto" aria-hidden="true" />
-        <span class="font-bold text-[var(--color-primary)] tracking-tight">PULS</span>
-      </div>
+      </a>
 
-      <nav class="flex-1 space-y-1">
+      <nav class="flex-1 flex flex-col items-center gap-2">
         {sidebarItems.map((item) => (
           <a
             href="#"
-            class={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition ${
+            title={item.label}
+            aria-label={item.label}
+            class={`inline-flex items-center justify-center w-11 h-11 rounded-xl transition ${
               item.active
-                ? "bg-[var(--color-primary)] text-white font-medium"
-                : "text-[var(--color-gray-1)] hover:bg-[var(--color-gray-3)]"
+                ? "bg-[var(--color-primary)] text-white"
+                : "text-[var(--color-gray-1)] hover:bg-[var(--color-gray-3)] hover:text-[var(--color-primary)]"
             }`}
             onclick="event.preventDefault();"
           >
-            <Icon name={item.icon} size={18} />
-            <span>{item.label}</span>
+            <Icon name={item.icon} size={20} />
           </a>
         ))}
       </nav>
 
-      <div class="pt-5 mt-5 border-t border-[var(--color-gray-2)]">
-        <div class="flex items-center gap-2 px-2">
-          <div class="w-9 h-9 rounded-full bg-[var(--color-primary)] text-white text-xs font-bold flex items-center justify-center">АП</div>
-          <div class="leading-tight">
-            <div class="text-sm font-medium text-[var(--color-primary)]">Артём П.</div>
-            <div class="text-xs text-[var(--color-gray-1)]">директор</div>
-          </div>
-        </div>
+      <div class="mt-5 pt-5 border-t border-[var(--color-gray-2)] w-10 flex justify-center">
+        <div class="w-10 h-10 rounded-full bg-[var(--color-primary)] text-white text-xs font-bold flex items-center justify-center" title="Артём П. · директор">АП</div>
       </div>
     </aside>
 

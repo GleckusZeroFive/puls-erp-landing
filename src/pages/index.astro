@@ -4,6 +4,7 @@ import Hero from "../components/Hero.astro";
 import Footer from "../components/Footer.astro";
 import Icon from "../components/Icon.astro";
 import PulseDashboard from "../components/PulseDashboard.astro";
+import CityPattern from "../components/CityPattern.astro";
 
 const pains = [
   { icon: "message-square", label: "Чаты с прорабами" },
@@ -173,8 +174,9 @@ const integrations = [
   </section>
 
   <!-- 04 · FEATURES -->
-  <section id="features" class="bg-[var(--color-primary)] text-white">
-    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+  <section id="features" class="relative overflow-hidden bg-[var(--color-primary)] text-white">
+    <CityPattern opacity={0.08} />
+    <div class="relative mx-auto max-w-6xl px-6 py-20 md:py-24">
       <div class="reveal max-w-3xl mb-14">
         <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Возможности</div>
         <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
@@ -260,12 +262,38 @@ const integrations = [
       </div>
 
       <div class="grid md:grid-cols-3 gap-5 reveal">
-        {cases.map((c) => (
-          <div class="bg-[var(--color-gray-3)] rounded-2xl p-7 border border-dashed border-[var(--color-gray-2)]">
-            <div class="text-3xl font-black text-[var(--color-gray-2)] mb-3">{c.metric}</div>
-            <div class="font-semibold mb-2">{c.company}</div>
-            <div class="text-[var(--color-gray-1)] text-sm leading-relaxed">{c.desc}</div>
-          </div>
+        {[1, 2, 3].map((_, i) => (
+          <article class="relative bg-[var(--color-gray-3)] rounded-2xl p-6 border border-[var(--color-gray-2)] overflow-hidden">
+            <span class="absolute top-5 right-5 inline-flex items-center gap-1.5 bg-white text-[var(--color-gray-1)] text-[11px] uppercase tracking-widest font-medium px-2.5 py-1 rounded-full border border-[var(--color-gray-2)]">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-warning)]"></span>
+              скоро
+            </span>
+
+            <!-- Логотип-плейсхолдер -->
+            <div class="w-32 h-9 bg-[var(--color-gray-2)]/70 rounded-md mb-6"></div>
+
+            <!-- Метрика-плейсхолдер -->
+            <div class="mb-5">
+              <div class="h-10 w-24 bg-[var(--color-gray-2)]/80 rounded-md mb-2"></div>
+              <div class="h-3 w-32 bg-[var(--color-gray-2)]/60 rounded"></div>
+            </div>
+
+            <!-- Текст-плейсхолдер -->
+            <div class="space-y-2 mb-6">
+              <div class="h-2.5 w-full bg-[var(--color-gray-2)]/50 rounded"></div>
+              <div class="h-2.5 w-11/12 bg-[var(--color-gray-2)]/50 rounded"></div>
+              <div class="h-2.5 w-4/5 bg-[var(--color-gray-2)]/50 rounded"></div>
+            </div>
+
+            <!-- Автор-плейсхолдер -->
+            <div class="flex items-center gap-3 pt-5 border-t border-[var(--color-gray-2)]">
+              <div class="w-9 h-9 rounded-full bg-[var(--color-gray-2)]/70"></div>
+              <div class="flex-1 space-y-1.5">
+                <div class="h-2.5 w-2/3 bg-[var(--color-gray-2)]/70 rounded"></div>
+                <div class="h-2 w-1/2 bg-[var(--color-gray-2)]/50 rounded"></div>
+              </div>
+            </div>
+          </article>
         ))}
       </div>
     </div>
@@ -412,8 +440,9 @@ const integrations = [
   </section>
 
   <!-- 12 · FORM -->
-  <section id="form" class="bg-[var(--color-primary)] text-white">
-    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+  <section id="form" class="relative overflow-hidden bg-[var(--color-primary)] text-white">
+    <CityPattern opacity={0.1} />
+    <div class="relative mx-auto max-w-6xl px-6 py-20 md:py-24">
       <div class="grid md:grid-cols-2 gap-10 items-start">
         <div class="reveal">
           <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Заявка</div>

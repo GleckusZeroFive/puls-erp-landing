@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# QA artefacts — рендеры в _qa/out, скрипты — в репо
+_qa/out/
