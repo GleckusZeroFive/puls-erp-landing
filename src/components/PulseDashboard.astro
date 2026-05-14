@@ -1,6 +1,7 @@
 ---
 import Icon from "./Icon.astro";
 import PulseScenarioTabs from "./PulseScenarioTabs.astro";
+import CityPattern from "./CityPattern.astro";
 import { scenarios } from "../data/scenarios.ts";
 
 const sidebarItems = [
@@ -109,11 +110,12 @@ const accentBorder: Record<string, string> = {
       {scenarios.map((s) => (
         <div class="pulse-scenario space-y-5" data-pulse-scenario={s.id}>
           <!-- AI summary banner -->
-          <div class="bg-[var(--color-primary)] text-white rounded-2xl p-5 md:p-6 flex items-start gap-4">
-            <div class="shrink-0 w-10 h-10 rounded-xl bg-[var(--color-accent)] flex items-center justify-center">
+          <div class="relative overflow-hidden bg-[var(--color-primary)] text-white rounded-2xl p-5 md:p-6 flex items-start gap-4">
+            <CityPattern opacity={0.1} />
+            <div class="relative shrink-0 w-10 h-10 rounded-xl bg-[var(--color-accent)] flex items-center justify-center">
               <Icon name="sparkles" size={20} />
             </div>
-            <div class="flex-1 leading-relaxed">
+            <div class="relative flex-1 leading-relaxed">
               <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-1.5 font-medium">AI-сводка</div>
               <div class="text-[15px] leading-relaxed text-white/90">{s.aiSummary}</div>
             </div>

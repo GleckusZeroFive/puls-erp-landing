@@ -1,9 +1,11 @@
 ---
 import Icon from "./Icon.astro";
+import CityPattern from "./CityPattern.astro";
 ---
 
 <section id="hero" class="bg-[var(--color-primary)] text-white overflow-hidden relative">
-  <div class="mx-auto max-w-6xl px-6 pt-24 pb-20 md:pt-32 md:pb-28">
+  <CityPattern className="hero-pattern" />
+  <div class="mx-auto max-w-6xl px-6 pt-24 pb-20 md:pt-32 md:pb-28 relative">
 
     <!-- Top nav -->
     <nav class="flex items-center justify-between mb-16 md:mb-20">
