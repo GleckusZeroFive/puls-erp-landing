@@ -15,36 +15,6 @@
 
   /* Onest typography */
   --font-sans: "Onest", system-ui, -apple-system, sans-serif;
-
-  /* Brandbook type scale */
-  --text-h1: 36px;
-  --text-h1--line-height: 46px;
-  --text-h1--letter-spacing: -0.3px;
-  --text-h1--font-weight: 700;
-
-  --text-h2: 30px;
-  --text-h2--line-height: 40px;
-  --text-h2--font-weight: 600;
-
-  --text-h3: 24px;
-  --text-h3--line-height: 34px;
-  --text-h3--font-weight: 600;
-
-  --text-body: 16px;
-  --text-body--line-height: 26px;
-
-  --text-caption: 14px;
-  --text-caption--line-height: 22px;
-  --text-caption--letter-spacing: 0.2px;
-
-  --text-label: 12px;
-  --text-label--line-height: 18px;
-  --text-label--letter-spacing: 0.5px;
-  --text-label--font-weight: 500;
-
-  --radius-sm: 12px;
-  --radius: 14px;
-  --radius-lg: 16px;
 }
 
 html {
@@ -57,24 +27,7 @@ body {
   color: var(--color-primary);
 }
 
-/* <details> — chevron rotation; height + stagger handled by JS in Layout.astro */
-details summary {
-  list-style: none;
-}
-details summary::-webkit-details-marker {
-  display: none;
-}
-details summary .chevron {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-details[open] summary .chevron {
-  transform: rotate(180deg);
-}
-details:not(.js-anim-ready) > .details-body {
-  display: block;
-}
-
-/* Reveal on scroll — IntersectionObserver добавляет .is-visible */
+/* Reveal on scroll — IntersectionObserver навешивает .is-visible */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
