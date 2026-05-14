@@ -31,5 +31,10 @@ const { className = "", opacity = 0.2 } = Astro.props;
     background-position: center;
     background-repeat: no-repeat;
     pointer-events: none;
+    filter: blur(2px) saturate(0.85);
+    /* blur «вытягивает» края — компенсируем небольшим scale,
+       чтобы по углам не было прозрачной каймы */
+    transform: scale(1.04);
+    transform-origin: center;
   }
 </style>
