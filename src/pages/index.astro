@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
 import Footer from "../components/Footer.astro";
 import Icon from "../components/Icon.astro";
+import PulseDashboard from "../components/PulseDashboard.astro";
 
 const pains = [
   { icon: "message-square", label: "Чаты с прорабами" },
@@ -214,11 +215,8 @@ const integrations = [
         </p>
       </div>
 
-      <div class="reveal rounded-2xl border-2 border-dashed border-[var(--color-gray-2)] bg-[var(--color-gray-3)] p-16 text-center">
-        <div class="inline-flex items-center gap-3 text-[var(--color-gray-1)] text-sm">
-          <Icon name="sparkles" size={20} />
-          Интерактивный дашборд появится здесь
-        </div>
+      <div class="reveal">
+        <PulseDashboard />
       </div>
     </div>
   </section>

@@ -1,0 +1,226 @@
+---
+import Icon from "./Icon.astro";
+import PulseScenarioTabs from "./PulseScenarioTabs.astro";
+import { scenarios } from "../data/scenarios.ts";
+
+const sidebarItems = [
+  { icon: "sparkles", label: "Дашборд", active: true },
+  { icon: "building", label: "Объекты" },
+  { icon: "package", label: "Заявки" },
+  { icon: "file-signature", label: "Документы" },
+  { icon: "users", label: "Команда" },
+  { icon: "credit-card", label: "Финансы" },
+];
+
+const statusClass: Record<string, string> = {
+  danger: "bg-[var(--color-danger)]",
+  warning: "bg-[var(--color-warning)]",
+  neutral: "bg-[var(--color-gray-2)]",
+};
+
+const accentBorder: Record<string, string> = {
+  primary: "border-[var(--color-primary)]",
+  danger: "border-[var(--color-danger)]/40",
+  warning: "border-[var(--color-warning)]/40",
+};
+---
+
+<div
+  class="pulse-dashboard rounded-2xl overflow-hidden border border-[var(--color-gray-2)] shadow-2xl bg-white"
+  data-active="director"
+>
+  <!-- Fake browser chrome -->
+  <div class="bg-[var(--color-gray-3)] px-4 py-3 border-b border-[var(--color-gray-2)] flex items-center gap-3">
+    <div class="flex items-center gap-1.5">
+      <span class="w-3 h-3 rounded-full bg-[var(--color-danger)]"></span>
+      <span class="w-3 h-3 rounded-full bg-[var(--color-warning)]"></span>
+      <span class="w-3 h-3 rounded-full bg-[var(--color-gray-2)]"></span>
+    </div>
+    <div class="flex-1 mx-3 bg-white border border-[var(--color-gray-2)] rounded-lg px-4 py-1.5 text-xs text-[var(--color-gray-1)] inline-flex items-center gap-2">
+      <span class="text-[var(--color-gray-1)]">🔒</span>
+      puls-erp.ru/dashboard
+    </div>
+    <div class="hidden md:flex items-center gap-2 text-[var(--color-gray-1)]">
+      <span class="w-1 h-1 rounded-full bg-[var(--color-gray-1)]"></span>
+      <span class="w-1 h-1 rounded-full bg-[var(--color-gray-1)]"></span>
+      <span class="w-1 h-1 rounded-full bg-[var(--color-gray-1)]"></span>
+    </div>
+  </div>
+
+  <!-- Main layout: sidebar + content -->
+  <div class="grid md:grid-cols-[220px_1fr] min-h-[640px]">
+
+    <!-- Sidebar -->
+    <aside class="hidden md:flex flex-col bg-white border-r border-[var(--color-gray-2)] p-5">
+      <div class="flex items-center gap-2 mb-8 px-2">
+        <img src="/logo-icon.png" alt="" class="h-7 w-auto" aria-hidden="true" />
+        <span class="font-bold text-[var(--color-primary)] tracking-tight">PULS</span>
+      </div>
+
+      <nav class="flex-1 space-y-1">
+        {sidebarItems.map((item) => (
+          <a
+            href="#"
+            class={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition ${
+              item.active
+                ? "bg-[var(--color-primary)] text-white font-medium"
+                : "text-[var(--color-gray-1)] hover:bg-[var(--color-gray-3)]"
+            }`}
+            onclick="event.preventDefault();"
+          >
+            <Icon name={item.icon} size={18} />
+            <span>{item.label}</span>
+          </a>
+        ))}
+      </nav>
+
+      <div class="pt-5 mt-5 border-t border-[var(--color-gray-2)]">
+        <div class="flex items-center gap-2 px-2">
+          <div class="w-9 h-9 rounded-full bg-[var(--color-primary)] text-white text-xs font-bold flex items-center justify-center">АП</div>
+          <div class="leading-tight">
+            <div class="text-sm font-medium text-[var(--color-primary)]">Артём П.</div>
+            <div class="text-xs text-[var(--color-gray-1)]">директор</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content area -->
+    <div class="p-6 md:p-8 bg-[var(--color-gray-3)]/40">
+
+      <!-- Header -->
+      <header class="flex flex-col gap-5 mb-7">
+        <div class="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <div class="text-xs uppercase tracking-widest text-[var(--color-gray-1)] mb-1.5 font-medium">14 мая · четверг</div>
+            <h3 class="font-bold text-2xl md:text-3xl text-[var(--color-primary)] tracking-tight">Пульс компании сегодня</h3>
+          </div>
+          <PulseScenarioTabs />
+        </div>
+
+        {scenarios.map((s) => (
+          <div class="pulse-subtitle text-sm text-[var(--color-gray-1)]" data-pulse-scenario={s.id}>
+            {s.subtitle}
+          </div>
+        ))}
+      </header>
+
+      <!-- Scenarios — only active is shown via CSS -->
+      {scenarios.map((s) => (
+        <div class="pulse-scenario space-y-5" data-pulse-scenario={s.id}>
+          <!-- AI summary banner -->
+          <div class="bg-[var(--color-primary)] text-white rounded-2xl p-5 md:p-6 flex items-start gap-4">
+            <div class="shrink-0 w-10 h-10 rounded-xl bg-[var(--color-accent)] flex items-center justify-center">
+              <Icon name="sparkles" size={20} />
+            </div>
+            <div class="flex-1 leading-relaxed">
+              <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-1.5 font-medium">AI-сводка</div>
+              <div class="text-[15px] leading-relaxed text-white/90">{s.aiSummary}</div>
+            </div>
+          </div>
+
+          <!-- Cards grid -->
+          <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            {s.cards.map((c) => (
+              <div class={`bg-white rounded-2xl p-5 border ${c.accent ? accentBorder[c.accent] : 'border-[var(--color-gray-2)]'}`}>
+                <div class="flex items-center gap-2.5 mb-4">
+                  <span class={`inline-flex w-9 h-9 rounded-xl items-center justify-center shrink-0 ${
+                    c.accent === 'danger' ? 'bg-[var(--color-danger)]/10 text-[var(--color-danger)]' :
+                    c.accent === 'warning' ? 'bg-[var(--color-warning)]/15 text-[var(--color-warning)]' :
+                    c.accent === 'primary' ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]' :
+                    'bg-[var(--color-gray-3)] text-[var(--color-primary)]'
+                  }`}>
+                    <Icon name={c.icon} size={18} />
+                  </span>
+                  <div class="font-semibold text-[var(--color-primary)] text-[15px] leading-tight">{c.title}</div>
+                </div>
+
+                {c.primary && (
+                  <div class="mb-4 pb-4 border-b border-[var(--color-gray-2)]">
+                    <div class={`font-black text-2xl leading-none mb-1 ${
+                      c.accent === 'danger' ? 'text-[var(--color-danger)]' :
+                      c.accent === 'primary' ? 'text-[var(--color-primary)]' :
+                      'text-[var(--color-primary)]'
+                    }`}>{c.primary.value}</div>
+                    <div class="text-xs text-[var(--color-gray-1)]">{c.primary.label}</div>
+                  </div>
+                )}
+
+                <ul class="space-y-2.5">
+                  {c.items.map((item) => (
+                    <li class="flex items-start gap-2.5 text-sm">
+                      <span class={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${item.status ? statusClass[item.status] : 'bg-[var(--color-gray-2)]'}`}></span>
+                      <div class="flex-1 flex items-baseline justify-between gap-2 leading-snug">
+                        <span class="text-[var(--color-primary)]">{item.label}</span>
+                        {item.meta && (
+                          <span class={`text-xs whitespace-nowrap ${
+                            item.status === 'danger' ? 'text-[var(--color-danger)] font-medium' :
+                            item.status === 'warning' ? 'text-[var(--color-warning)] font-medium' :
+                            'text-[var(--color-gray-1)]'
+                          }`}>{item.meta}</span>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .pulse-scenario,
+  .pulse-subtitle {
+    display: none;
+  }
+  .pulse-dashboard[data-active="director"] .pulse-scenario[data-pulse-scenario="director"],
+  .pulse-dashboard[data-active="rp"] .pulse-scenario[data-pulse-scenario="rp"],
+  .pulse-dashboard[data-active="supplier"] .pulse-scenario[data-pulse-scenario="supplier"] {
+    display: block;
+  }
+  .pulse-dashboard[data-active="director"] .pulse-subtitle[data-pulse-scenario="director"],
+  .pulse-dashboard[data-active="rp"] .pulse-subtitle[data-pulse-scenario="rp"],
+  .pulse-dashboard[data-active="supplier"] .pulse-subtitle[data-pulse-scenario="supplier"] {
+    display: block;
+  }
+  .pulse-scenario {
+    animation: pulse-fade-in 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes pulse-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    function init() {
+      document.querySelectorAll('.pulse-dashboard').forEach((dash) => {
+        if (dash.dataset.bound) return;
+        dash.dataset.bound = '1';
+        const tabs = dash.querySelectorAll('[data-pulse-tab]');
+        tabs.forEach((tab) => {
+          tab.addEventListener('click', () => {
+            const id = tab.getAttribute('data-pulse-tab');
+            dash.setAttribute('data-active', id);
+            tabs.forEach((t) => {
+              const isActive = t === tab;
+              t.classList.toggle('is-active', isActive);
+              t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+          });
+        });
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
