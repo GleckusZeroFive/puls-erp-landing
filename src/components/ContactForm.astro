@@ -1,0 +1,226 @@
+---
+import Icon from "./Icon.astro";
+
+/**
+ * Форма заявки → Google Apps Script webhook → Google Sheet + Telegram.
+ *
+ * Конфигурация через PUBLIC_FORM_WEBHOOK_URL в .env. Если не задан —
+ * форма отправит mailto fallback (на email из футера / contact).
+ *
+ * Защита от спама:
+ *  - Honeypot-поле «trap» (скрыто CSS, ловит ботов которые заполняют всё)
+ *  - Rate-limit 30 секунд между отправками через localStorage
+ *
+ * Submit стратегия — application/x-www-form-urlencoded, чтобы избежать
+ * CORS preflight на GAS doPost.
+ */
+const webhookUrl = import.meta.env.PUBLIC_FORM_WEBHOOK_URL || "";
+const fallbackEmail = "hello@puls-erp.ru";
+---
+
+<form
+  class="contact-form bg-white/5 border border-white/10 rounded-2xl p-6 space-y-3"
+  data-webhook={webhookUrl}
+  data-fallback-email={fallbackEmail}
+  novalidate
+>
+  <!-- Honeypot: bot trap, скрыто от живых пользователей -->
+  <label class="hp-field" aria-hidden="true">
+    Не заполняйте это поле
+    <input type="text" name="trap" tabindex="-1" autocomplete="off" />
+  </label>
+
+  <div>
+    <label class="block text-xs uppercase tracking-wider text-white/60 mb-2" for="cf-name">Имя</label>
+    <input
+      id="cf-name"
+      name="name"
+      type="text"
+      required
+      minlength="2"
+      maxlength="100"
+      placeholder="Артём"
+      class="cf-input w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[var(--color-accent)]"
+    />
+  </div>
+
+  <div>
+    <label class="block text-xs uppercase tracking-wider text-white/60 mb-2" for="cf-company">Компания</label>
+    <input
+      id="cf-company"
+      name="company"
+      type="text"
+      maxlength="200"
+      placeholder="ООО «Кровля Тюмени»"
+      class="cf-input w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[var(--color-accent)]"
+    />
+  </div>
+
+  <div>
+    <label class="block text-xs uppercase tracking-wider text-white/60 mb-2" for="cf-contact">Телефон или Telegram</label>
+    <input
+      id="cf-contact"
+      name="contact"
+      type="text"
+      required
+      minlength="3"
+      maxlength="100"
+      placeholder="+7 ___ ___ __ __  или @username"
+      class="cf-input w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[var(--color-accent)]"
+    />
+  </div>
+
+  <label class="flex items-start gap-2 text-xs text-white/60 pt-2">
+    <input
+      type="checkbox"
+      name="consent"
+      required
+      class="mt-0.5 accent-[var(--color-accent)]"
+    />
+    <span>Согласен на обработку персональных данных (152-ФЗ)</span>
+  </label>
+
+  <button
+    type="submit"
+    class="cf-submit w-full bg-[var(--color-accent)] hover:opacity-90 transition px-6 py-3 rounded-xl font-medium mt-2 inline-flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+  >
+    <span class="cf-label">Получить ранний доступ</span>
+    <span class="cf-spinner hidden" aria-hidden="true">
+      <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25" />
+        <path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+      </svg>
+    </span>
+    <span class="cf-arrow"><Icon name="arrow-right" size={18} /></span>
+  </button>
+
+  <div class="cf-status text-sm leading-relaxed pt-1 hidden" role="status" aria-live="polite"></div>
+</form>
+
+<style>
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .contact-form[data-state="loading"] .cf-arrow,
+  .contact-form[data-state="loading"] .cf-label { display: none; }
+  .contact-form[data-state="loading"] .cf-spinner { display: inline-flex; }
+  .contact-form[data-state="success"] .cf-input,
+  .contact-form[data-state="success"] .cf-submit { display: none; }
+  .contact-form[data-state="success"] .cf-status { color: #fff; }
+  .contact-form[data-state="error"] .cf-status { color: #FFC4CB; }
+</style>
+
+<script is:inline>
+  (() => {
+    const RATE_LIMIT_MS = 30_000;
+    const RATE_KEY = "puls_last_submit";
+
+    function init() {
+      document.querySelectorAll(".contact-form").forEach((form) => {
+        if (form.dataset.bound) return;
+        form.dataset.bound = "1";
+        form.addEventListener("submit", (e) => handleSubmit(e, form));
+      });
+    }
+
+    async function handleSubmit(e, form) {
+      e.preventDefault();
+      const status = form.querySelector(".cf-status");
+      const webhook = form.dataset.webhook;
+      const fallback = form.dataset.fallbackEmail;
+
+      // Rate-limit
+      const last = parseInt(localStorage.getItem(RATE_KEY) || "0", 10);
+      const since = Date.now() - last;
+      if (last && since < RATE_LIMIT_MS) {
+        const wait = Math.ceil((RATE_LIMIT_MS - since) / 1000);
+        showStatus(form, "error", `Подождите ещё ${wait} с до следующей отправки.`);
+        return;
+      }
+
+      // Honeypot — silent drop, бот не должен догадаться
+      const trap = form.querySelector('[name="trap"]')?.value;
+      if (trap) {
+        showStatus(form, "success", "Заявка получена. Свяжемся в течение рабочего дня.");
+        return;
+      }
+
+      // Browser validation
+      if (!form.reportValidity()) return;
+
+      const formData = new FormData(form);
+      formData.delete("trap");
+
+      // Если webhook не настроен — fallback на mailto
+      if (!webhook) {
+        const params = new URLSearchParams();
+        params.set("subject", "Заявка с лендинга PULS ERP");
+        const body = [
+          `Имя: ${formData.get("name") || ""}`,
+          `Компания: ${formData.get("company") || ""}`,
+          `Контакт: ${formData.get("contact") || ""}`,
+        ].join("\n");
+        params.set("body", body);
+        window.location.href = `mailto:${fallback}?${params.toString()}`;
+        return;
+      }
+
+      form.dataset.state = "loading";
+      showStatus(form, "", "");
+
+      try {
+        const body = new URLSearchParams();
+        formData.forEach((v, k) => body.append(k, v.toString()));
+        body.append("source", "puls-erp.ru/landing");
+        body.append("ts", new Date().toISOString());
+
+        const res = await fetch(webhook, {
+          method: "POST",
+          body,
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        });
+        const text = await res.text();
+        let json = null;
+        try { json = JSON.parse(text); } catch (_) { /* GAS иногда отдаёт plain text */ }
+
+        if (!res.ok || (json && json.ok === false)) {
+          throw new Error(json?.error || `HTTP ${res.status}`);
+        }
+
+        localStorage.setItem(RATE_KEY, Date.now().toString());
+        form.dataset.state = "success";
+        showStatus(
+          form,
+          "success",
+          "Заявка получена. Свяжемся в течение рабочего дня."
+        );
+      } catch (err) {
+        form.dataset.state = "error";
+        showStatus(
+          form,
+          "error",
+          `Не удалось отправить — попробуйте ещё раз или напишите на ${form.dataset.fallbackEmail}.`
+        );
+        console.error("[contact-form]", err);
+      }
+    }
+
+    function showStatus(form, kind, text) {
+      const el = form.querySelector(".cf-status");
+      if (!el) return;
+      el.textContent = text;
+      el.classList.toggle("hidden", !text);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+  })();
+</script>

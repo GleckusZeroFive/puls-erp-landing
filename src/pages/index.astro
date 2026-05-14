@@ -5,6 +5,7 @@ import Footer from "../components/Footer.astro";
 import Icon from "../components/Icon.astro";
 import PulseDashboard from "../components/PulseDashboard.astro";
 import CityPattern from "../components/CityPattern.astro";
+import ContactForm from "../components/ContactForm.astro";
 
 const pains = [
   { icon: "message-square", label: "Чаты с прорабами" },
@@ -459,28 +460,9 @@ const integrations = [
           </div>
         </div>
 
-        <form class="reveal bg-white/5 border border-white/10 rounded-2xl p-6 space-y-3" onsubmit="event.preventDefault(); alert('Форма заработает на этапе D6.');">
-          <div>
-            <label class="block text-xs uppercase tracking-wider text-white/60 mb-2" for="form-name">Имя</label>
-            <input id="form-name" type="text" placeholder="Артём" class="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[var(--color-accent)]" />
-          </div>
-          <div>
-            <label class="block text-xs uppercase tracking-wider text-white/60 mb-2" for="form-company">Компания</label>
-            <input id="form-company" type="text" placeholder="ООО «Кровля Тюмени»" class="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[var(--color-accent)]" />
-          </div>
-          <div>
-            <label class="block text-xs uppercase tracking-wider text-white/60 mb-2" for="form-contact">Телефон или Telegram</label>
-            <input id="form-contact" type="text" placeholder="+7 ___ ___ __ __  или @username" class="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[var(--color-accent)]" />
-          </div>
-          <label class="flex items-start gap-2 text-xs text-white/60 pt-2">
-            <input type="checkbox" class="mt-0.5" />
-            <span>Согласен на обработку персональных данных (152-ФЗ)</span>
-          </label>
-          <button type="submit" class="w-full bg-[var(--color-accent)] hover:opacity-90 transition px-6 py-3 rounded-xl font-medium mt-2 inline-flex items-center justify-center gap-2">
-            Получить ранний доступ
-            <Icon name="arrow-right" size={18} />
-          </button>
-        </form>
+        <div class="reveal">
+          <ContactForm />
+        </div>
       </div>
     </div>
   </section>
