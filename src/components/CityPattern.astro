@@ -3,22 +3,25 @@
  * Декоративный фоновый паттерн в стиле Юры — фото-текстура стеклянного
  * фасада здания (low-e glass) поверх navy primary, opacity ~0.2.
  * 1-в-1 повторяет фон карточки объекта в UI продукта.
- * Источник: Figma-экспорт «Kính low e 1.png» (1200×780, сжатие WebP 93 KB).
+ * Источник: Figma-экспорт «Kính low e 1.png» (1280×832, сжатие WebP).
  *
  * Сам по себе прозрачный — родитель должен быть navy (#202F4D)
  * и иметь position: relative + overflow: hidden.
  */
+import { asset } from "../utils/asset";
+
 interface Props {
   className?: string;
   /** Прозрачность текстуры, по умолчанию 0.2 (как у Юры) */
   opacity?: number;
 }
 const { className = "", opacity = 0.2 } = Astro.props;
+const bgUrl = asset("/figma/glass-facade.webp");
 ---
 
 <div
   class={`city-pattern ${className}`}
-  style={`opacity: ${opacity};`}
+  style={`opacity: ${opacity}; background-image: url(${bgUrl});`}
   aria-hidden="true"
 ></div>
 
@@ -26,7 +29,6 @@ const { className = "", opacity = 0.2 } = Astro.props;
   .city-pattern {
     position: absolute;
     inset: 0;
-    background-image: url("/figma/glass-facade.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
