@@ -1,0 +1,53 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-[var(--color-primary)] text-white/70">
+  <div class="mx-auto max-w-6xl px-6 py-14">
+    <div class="grid md:grid-cols-[1.5fr_1fr_1fr_1fr] gap-10 mb-12">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="/logo-icon.png" alt="" class="h-9 w-auto" aria-hidden="true" />
+          <span class="font-bold tracking-tight text-white text-lg">PULS ERP</span>
+        </div>
+        <p class="text-sm leading-relaxed text-white/60 max-w-xs">
+          Система оперативного контроля строительного подряда.
+          Объекты, материалы, оплаты, документы и AI-сводка — в одном месте.
+        </p>
+      </div>
+
+      <div>
+        <div class="text-xs uppercase tracking-widest text-white/40 mb-4 font-medium">Продукт</div>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="#features" class="hover:text-white transition">Возможности</a></li>
+          <li><a href="#dashboard" class="hover:text-white transition">Дашборд</a></li>
+          <li><a href="#roles" class="hover:text-white transition">Кому подходит</a></li>
+          <li><a href="#pricing" class="hover:text-white transition">Тарифы</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-xs uppercase tracking-widest text-white/40 mb-4 font-medium">Компания</div>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="#team" class="hover:text-white transition">Команда</a></li>
+          <li><a href="#cases" class="hover:text-white transition">Кейсы</a></li>
+          <li><a href="#integrations" class="hover:text-white transition">Интеграции</a></li>
+          <li><a href="/privacy" class="hover:text-white transition">Обработка данных</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-xs uppercase tracking-widest text-white/40 mb-4 font-medium">Связаться</div>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="#form" class="hover:text-white transition">Заявка</a></li>
+          <li><a href="mailto:hello@puls-erp.ru" class="hover:text-white transition">hello@puls-erp.ru</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs text-white/40">
+      <div>© {year} PULS ERP. Все права защищены.</div>
+      <div>Сделано в России</div>
+    </div>
+  </div>
+</footer>

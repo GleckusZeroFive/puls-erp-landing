@@ -1,0 +1,74 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<section id="hero" class="bg-[var(--color-primary)] text-white overflow-hidden relative">
+  <div class="mx-auto max-w-6xl px-6 pt-24 pb-20 md:pt-32 md:pb-28">
+
+    <!-- Top nav -->
+    <nav class="flex items-center justify-between mb-16 md:mb-20">
+      <a href="#hero" class="flex items-center gap-3">
+        <img src="/logo-icon.png" alt="" class="h-10 w-auto" aria-hidden="true" />
+        <span class="font-bold tracking-tight text-lg">PULS ERP</span>
+      </a>
+      <div class="hidden md:flex items-center gap-7 text-sm text-white/70">
+        <a href="#features" class="hover:text-white transition">Возможности</a>
+        <a href="#dashboard" class="hover:text-white transition">Дашборд</a>
+        <a href="#roles" class="hover:text-white transition">Кому подходит</a>
+        <a href="#pricing" class="hover:text-white transition">Тарифы</a>
+        <a href="#form" class="hover:text-white transition">Связаться</a>
+      </div>
+      <a href="#form" class="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:opacity-90 transition px-5 py-2.5 rounded-xl font-medium text-sm">
+        Получить доступ
+      </a>
+    </nav>
+
+    <!-- Hero content -->
+    <div class="grid md:grid-cols-[1.1fr_1fr] gap-12 md:gap-10 items-center">
+      <div class="reveal">
+        <div class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[var(--color-accent)] mb-6">
+          <span class="inline-block w-2 h-2 rounded-full bg-[var(--color-accent)]"></span>
+          Закрытый запуск · 5–10 компаний
+        </div>
+
+        <h1 class="font-black text-4xl md:text-[52px] leading-[1.05] tracking-tight mb-6">
+          Видеть, что горит<br/>
+          в компании,<br/>
+          <span class="text-[var(--color-accent)]">за 30 секунд утром</span>
+        </h1>
+
+        <p class="text-lg text-white/70 leading-relaxed max-w-xl mb-8">
+          PULS ERP — система оперативного контроля строительного подряда.
+          Объекты, материалы, оплаты, документы и риски — в одном экране,
+          с AI-сводкой на каждое утро.
+        </p>
+
+        <div class="flex flex-wrap gap-3 mb-10">
+          <a href="#form" class="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:opacity-90 transition px-6 py-3 rounded-xl font-medium">
+            Получить ранний доступ
+            <Icon name="arrow-right" size={18} />
+          </a>
+          <a href="#dashboard" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 transition px-6 py-3 rounded-xl font-medium border border-white/15">
+            Смотреть дашборд
+          </a>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-7 gap-y-2 text-sm text-white/60">
+          <span class="inline-flex items-center gap-2"><Icon name="check" size={14} /> Запуск через 3 месяца</span>
+          <span class="inline-flex items-center gap-2"><Icon name="check" size={14} /> Бесплатно для первых клиентов</span>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-white/5">
+          <img
+            src="/figma/screen-dashboard-2.webp"
+            alt="Главный экран PULS ERP — карточка объекта ЖК «Альянс»"
+            loading="eager"
+            class="w-full h-auto block"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

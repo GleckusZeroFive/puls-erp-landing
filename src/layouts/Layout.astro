@@ -150,6 +150,36 @@ const { title = "PULS ERP — управление строительным по
         }
       })();
 
+      // Reveal-on-scroll — IntersectionObserver навешивает .is-visible на элементы с .reveal
+      (() => {
+        function init() {
+          const items = document.querySelectorAll('.reveal');
+          if (!items.length) return;
+
+          if (!('IntersectionObserver' in window)) {
+            items.forEach((el) => el.classList.add('is-visible'));
+            return;
+          }
+
+          const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            });
+          }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+
+          items.forEach((el) => io.observe(el));
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else {
+          init();
+        }
+      })();
+
     </script>
   </body>
 </html>

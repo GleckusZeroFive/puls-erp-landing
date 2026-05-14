@@ -1,15 +1,462 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import Footer from "../components/Footer.astro";
+import Icon from "../components/Icon.astro";
+
+const pains = [
+  { icon: "message-square", label: "Чаты с прорабами" },
+  { icon: "table",          label: "Excel по объектам" },
+  { icon: "phone",          label: "Звонки снабженцам" },
+  { icon: "folder",         label: "Папки с актами" },
+];
+
+const steps = [
+  {
+    num: "1",
+    title: "Подключаете объекты",
+    desc: "За полчаса заводим список объектов, прораба и снабженца на каждый. ГПР подгружаем из вашего Excel.",
+  },
+  {
+    num: "2",
+    title: "Команда работает в системе",
+    desc: "Прорабы фиксируют факт по работам, снабженцы — заявки на материалы. Бухгалтер видит заявки на оплату.",
+  },
+  {
+    num: "3",
+    title: "Утром получаете сводку",
+    desc: "AI-агент собирает картину по всем объектам и присылает её в Telegram в 8:30 — что горит, где отставание, какие решения нужны.",
+  },
+];
+
+const features = [
+  { icon: "building",       title: "Объекты и работы",       desc: "Карточка объекта, ГПР, факт работ, бюджет" },
+  { icon: "package",        title: "Материалы и закупки",    desc: "Заявки от прорабов, статусы поставок" },
+  { icon: "credit-card",    title: "Заявки на оплату",       desc: "Согласование, лимиты, история" },
+  { icon: "file-signature", title: "Документы КС-2 / КС-3",  desc: "Все акты и счета в одном месте" },
+  { icon: "users",          title: "Подрядчики и роли",      desc: "Прорабы, снабженцы, ПТО, бухгалтерия" },
+  { icon: "sparkles",       title: "AI-сводка и риски",      desc: "Что горит сегодня — в одном письме" },
+];
+
+const roles = [
+  {
+    title: "Подрядчики 3–30 объектов",
+    desc: "Кровля, фасады, отделка — там, где параллельно идут 5+ объектов и не успеть всё держать в голове.",
+  },
+  {
+    title: "Оборот до 1 млрд ₽",
+    desc: "Штатного IT-отдела ещё нет, а Excel и WhatsApp уже не справляются.",
+  },
+  {
+    title: "Команды 10–60 человек",
+    desc: "Прорабы, снабженец, ПТО, бухгалтер — нужен один источник правды для всех.",
+  },
+];
+
+const cases = [
+  {
+    company: "Кейс 1 — описание появится после первых клиентов",
+    metric: "—",
+    desc: "Здесь будет реальная история: что было до, что стало после, измеримый результат за 1–3 месяца.",
+  },
+  {
+    company: "Кейс 2 — описание появится после первых клиентов",
+    metric: "—",
+    desc: "Раздел заполнится после того, как первые 3–5 компаний пройдут полный цикл работы в системе.",
+  },
+  {
+    company: "Кейс 3 — описание появится после первых клиентов",
+    metric: "—",
+    desc: "Цифры — выручка, экономия времени, количество объектов — будут от самих клиентов, не из маркетинга.",
+  },
+];
+
+const pricing = [
+  {
+    name: "Старт",
+    price: "Бесплатно",
+    period: "первые 6 месяцев",
+    note: "Для первых 5–10 компаний",
+    features: ["До 10 объектов", "До 20 пользователей", "Все модули", "Telegram-уведомления", "Поддержка от команды"],
+    cta: "Получить доступ",
+    primary: true,
+  },
+  {
+    name: "Базовый",
+    price: "—",
+    period: "после запуска",
+    note: "Цена будет известна перед запуском",
+    features: ["Безлимит объектов", "До 50 пользователей", "Все модули", "AI-сводка", "Email-поддержка"],
+    cta: "Узнать первым",
+    primary: false,
+  },
+  {
+    name: "Корпоративный",
+    price: "—",
+    period: "под задачу",
+    note: "Под объёмные команды и интеграции",
+    features: ["Безлимит пользователей", "Кастомные интеграции", "SLA по реакции", "Выделенный менеджер"],
+    cta: "Связаться",
+    primary: false,
+  },
+];
+
+const integrations = [
+  { name: "1С Бухгалтерия", note: "обмен документами" },
+  { name: "Excel / Google Sheets", note: "импорт ГПР, экспорт отчётов" },
+  { name: "Telegram", note: "уведомления и сводки" },
+  { name: "Эл. почта", note: "дублирование уведомлений" },
+];
 ---
 
 <Layout>
-  <main class="min-h-screen flex items-center justify-center bg-[var(--color-bg)]">
-    <div class="max-w-xl px-6 py-20 text-center">
-      <img src="/logo-vertical.png" alt="PULS ERP" class="h-24 w-auto mx-auto mb-8" />
-      <h1 class="font-black text-3xl md:text-4xl text-[var(--color-primary)] mb-4">PULS ERP</h1>
-      <p class="text-[var(--color-gray-1)] leading-relaxed">
-        Сайт в разработке.
-      </p>
+
+  <!-- 01 · HERO -->
+  <Hero />
+
+  <!-- 02 · PROBLEM -->
+  <section id="problem" class="bg-[var(--color-gray-3)]">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+      <div class="reveal max-w-3xl mb-12">
+        <div class="text-xs uppercase tracking-widest text-[var(--color-gray-1)] mb-3 font-medium">Проблема</div>
+        <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+          Каждое утро вы тратите час, чтобы понять, что вообще происходит
+        </h2>
+        <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+          Чтобы собрать картину дня, приходится переключаться между четырьмя источниками,
+          которые не разговаривают друг с другом. Цифры расходятся, решения опаздывают.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4 reveal">
+        {pains.map((item) => (
+          <div class="bg-white rounded-xl p-5 border border-[var(--color-gray-2)] hover:border-[var(--color-danger)]/40 transition">
+            <div class="w-11 h-11 rounded-lg bg-[var(--color-primary)]/5 text-[var(--color-primary)] flex items-center justify-center mb-3">
+              <Icon name={item.icon} size={22} />
+            </div>
+            <div class="font-medium text-[15px]">{item.label}</div>
+            <div class="text-xs text-[var(--color-danger)] mt-2 font-medium inline-flex items-center gap-1">
+              <Icon name="alert-triangle" size={12} />
+              данные расходятся
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-  </main>
+  </section>
+
+  <!-- 03 · HOW IT WORKS -->
+  <section id="how" class="bg-white">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+      <div class="reveal max-w-3xl mb-14">
+        <div class="text-xs uppercase tracking-widest text-[var(--color-gray-1)] mb-3 font-medium">Как это работает</div>
+        <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+          От первого подключения до утренней сводки — три шага
+        </h2>
+        <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+          Без сложного внедрения и переобучения. Прорабы продолжают работать как привыкли,
+          но факт автоматически собирается в единую картину.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 reveal">
+        {steps.map((s) => (
+          <div class="bg-[var(--color-gray-3)] rounded-2xl p-7">
+            <div class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-[var(--color-accent)] text-white font-bold text-lg mb-5">{s.num}</div>
+            <div class="font-bold text-xl mb-3 leading-snug">{s.title}</div>
+            <div class="text-[var(--color-gray-1)] leading-relaxed">{s.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · FEATURES -->
+  <section id="features" class="bg-[var(--color-primary)] text-white">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+      <div class="reveal max-w-3xl mb-14">
+        <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Возможности</div>
+        <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+          Шесть модулей. Единая база. Один интерфейс для всей команды.
+        </h2>
+        <p class="text-white/70 text-lg leading-relaxed">
+          PULS ERP не пытается заменить все ваши инструменты сразу. Мы закрываем главное —
+          операционный контроль подряда, в котором собственник тонет каждое утро.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal">
+        {features.map((f) => (
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-[var(--color-accent)]/40 transition">
+            <span class="inline-flex w-11 h-11 rounded-xl bg-[var(--color-accent)]/15 text-[var(--color-accent)] items-center justify-center mb-4">
+              <Icon name={f.icon} size={22} />
+            </span>
+            <div class="font-bold text-lg mb-2">{f.title}</div>
+            <div class="text-white/60 text-sm leading-relaxed">{f.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · DASHBOARD MOCKUP (placeholder под PulseDashboard) -->
+  <section id="dashboard" class="bg-white">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+      <div class="reveal max-w-3xl mb-12">
+        <div class="text-xs uppercase tracking-widest text-[var(--color-gray-1)] mb-3 font-medium">Дашборд</div>
+        <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+          Пульс компании сегодня — переключайте взгляд по ролям
+        </h2>
+        <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+          Один экран показывает разные данные в зависимости от роли, под которой вы вошли:
+          утро директора, утро руководителя проектов, утро снабженца. Попробуйте — переключатель
+          сверху живой.
+        </p>
+      </div>
+
+      <div class="reveal rounded-2xl border-2 border-dashed border-[var(--color-gray-2)] bg-[var(--color-gray-3)] p-16 text-center">
+        <div class="inline-flex items-center gap-3 text-[var(--color-gray-1)] text-sm">
+          <Icon name="sparkles" size={20} />
+          Интерактивный дашборд появится здесь
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 · ROLES -->
+  <section id="roles" class="bg-[var(--color-gray-3)]">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+      <div class="reveal max-w-3xl mb-12">
+        <div class="text-xs uppercase tracking-widest text-[var(--color-gray-1)] mb-3 font-medium">Кому подходит</div>
+        <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+          PULS ERP — не для всех. Он хорошо ложится на три типа компаний.
+        </h2>
+        <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+          Если ваша команда узнаёт себя ниже — система даст эффект уже в первый месяц.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5 reveal">
+        {roles.map((r) => (
+          <div class="bg-white rounded-2xl p-7 border border-[var(--color-gray-2)]">
+            <div class="font-bold text-xl mb-3 leading-snug">{r.title}</div>
+            <div class="text-[var(--color-gray-1)] leading-relaxed">{r.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 · CASES -->
+  <section id="cases" class="bg-white">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+      <div class="reveal max-w-3xl mb-12">
+        <div class="text-xs uppercase tracking-widest text-[var(--color-gray-1)] mb-3 font-medium">Кейсы</div>
+        <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+          Истории клиентов появятся после первых внедрений
+        </h2>
+        <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+          Мы не публикуем выдуманные кейсы. Первые истории — от компаний, которые сейчас
+          подключаются к закрытому запуску, с реальными цифрами и именами.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5 reveal">
+        {cases.map((c) => (
+          <div class="bg-[var(--color-gray-3)] rounded-2xl p-7 border border-dashed border-[var(--color-gray-2)]">
+            <div class="text-3xl font-black text-[var(--color-gray-2)] mb-3">{c.metric}</div>
+            <div class="font-semibold mb-2">{c.company}</div>
+            <div class="text-[var(--color-gray-1)] text-sm leading-relaxed">{c.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 · PRICING -->
+  <section id="pricing" class="bg-[var(--color-gray-3)]">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+      <div class="reveal max-w-3xl mb-12">
+        <div class="text-xs uppercase tracking-widest text-[var(--color-gray-1)] mb-3 font-medium">Тарифы</div>
+        <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+          На время закрытого запуска — бесплатно
+        </h2>
+        <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+          Первые 5–10 компаний получают полную версию на шесть месяцев бесплатно
+          в обмен на обратную связь. Платные тарифы появятся после общего запуска.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5 reveal">
+        {pricing.map((p) => (
+          <div class={`rounded-2xl p-7 ${p.primary ? 'bg-[var(--color-primary)] text-white border-2 border-[var(--color-accent)]' : 'bg-white border border-[var(--color-gray-2)]'}`}>
+            <div class={`text-xs uppercase tracking-widest mb-3 font-medium ${p.primary ? 'text-[var(--color-accent)]' : 'text-[var(--color-gray-1)]'}`}>{p.name}</div>
+            <div class="flex items-baseline gap-2 mb-1">
+              <div class="font-black text-3xl">{p.price}</div>
+            </div>
+            <div class={`text-sm mb-5 ${p.primary ? 'text-white/60' : 'text-[var(--color-gray-1)]'}`}>{p.period}</div>
+            <div class={`text-sm mb-6 leading-relaxed ${p.primary ? 'text-white/80' : 'text-[var(--color-gray-1)]'}`}>{p.note}</div>
+            <ul class="space-y-2.5 mb-7">
+              {p.features.map((f) => (
+                <li class="flex items-start gap-2.5 text-sm">
+                  <span class={`mt-0.5 shrink-0 ${p.primary ? 'text-[var(--color-accent)]' : 'text-[var(--color-primary)]'}`}>
+                    <Icon name="check" size={16} />
+                  </span>
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+            <a href="#form" class={`block text-center px-5 py-3 rounded-xl font-medium transition ${p.primary ? 'bg-[var(--color-accent)] hover:opacity-90 text-white' : 'bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white'}`}>
+              {p.cta}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 · TEAM -->
+  <section id="team" class="bg-white">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+      <div class="reveal max-w-3xl mb-12">
+        <div class="text-xs uppercase tracking-widest text-[var(--color-gray-1)] mb-3 font-medium">Команда</div>
+        <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+          Не теория — продукт из реальной стройки
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 reveal">
+        <div class="md:col-span-2 bg-[var(--color-gray-3)] rounded-2xl p-8 border border-[var(--color-gray-2)]">
+          <div class="text-5xl text-[var(--color-accent)]/40 leading-none mb-3">"</div>
+          <p class="text-lg leading-relaxed mb-6 -mt-4">
+            PULS ERP мы делаем не для рынка, а для себя — управлять подрядом
+            мембранной кровли. Только когда сами начали пользоваться, поняли,
+            что таких задач у соседей-подрядчиков много. Решили — открываем.
+          </p>
+          <div class="flex items-center gap-3 pt-4 border-t border-[var(--color-gray-2)]">
+            <div class="w-11 h-11 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold">АП</div>
+            <div>
+              <div class="font-semibold">Артём Плечёв</div>
+              <div class="text-xs text-[var(--color-gray-1)]">основатель · управляющий строительной компании</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          {[
+            { n: "30+", l: "объектов параллельно у нашей команды" },
+            { n: "9 лет", l: "в кровельных работах из ПВХ" },
+            { n: "100%", l: "функций — из реального процесса" },
+          ].map((f) => (
+            <div class="bg-white rounded-xl p-5 border border-[var(--color-gray-2)]">
+              <div class="text-2xl font-black text-[var(--color-primary)]">{f.n}</div>
+              <div class="text-xs text-[var(--color-gray-1)] mt-1 leading-snug">{f.l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · INTEGRATIONS -->
+  <section id="integrations" class="bg-[var(--color-gray-3)]">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+      <div class="reveal max-w-3xl mb-12">
+        <div class="text-xs uppercase tracking-widest text-[var(--color-gray-1)] mb-3 font-medium">Интеграции</div>
+        <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+          С чем PULS ERP работает из коробки
+        </h2>
+        <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+          Не заставляем переписывать ваши процессы. Подхватываем то, что уже работает в команде.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4 reveal">
+        {integrations.map((i) => (
+          <div class="bg-white rounded-xl p-5 border border-[var(--color-gray-2)] flex flex-col gap-2">
+            <div class="font-semibold">{i.name}</div>
+            <div class="text-xs text-[var(--color-gray-1)] leading-snug">{i.note}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · CTA -->
+  <section id="cta" class="bg-[var(--color-accent)] text-white">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+      <div class="reveal grid md:grid-cols-[1.4fr_1fr] gap-10 items-center">
+        <div>
+          <h2 class="font-black text-3xl md:text-5xl leading-[1.05] tracking-tight mb-5">
+            Набираем 5–10 компаний<br/>в закрытый ранний доступ
+          </h2>
+          <p class="text-white/85 text-lg leading-relaxed max-w-xl">
+            Запуск через 3 месяца. Первые клиенты получают бесплатный доступ
+            на полгода и помогают отшлифовать систему под реальный бизнес.
+            Дальше — за деньги, без бесплатных мест.
+          </p>
+        </div>
+        <ul class="space-y-3 text-[15px]">
+          {[
+            "Бесплатно 6 месяцев",
+            "Личная настройка под вашу компанию",
+            "Прямой канал к разработчикам",
+            "Влияние на дорожную карту продукта",
+          ].map((b) => (
+            <li class="flex items-start gap-3 bg-white/10 rounded-xl px-4 py-3 backdrop-blur">
+              <span class="text-white shrink-0 mt-0.5"><Icon name="check" size={18} /></span>
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · FORM -->
+  <section id="form" class="bg-[var(--color-primary)] text-white">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+      <div class="grid md:grid-cols-2 gap-10 items-start">
+        <div class="reveal">
+          <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Заявка</div>
+          <h2 class="font-black text-3xl md:text-4xl leading-tight mb-5">
+            Оставьте заявку — свяжемся<br/>в течение рабочего дня
+          </h2>
+          <p class="text-white/70 leading-relaxed mb-8 max-w-lg">
+            Покажем интерфейс, обсудим вашу схему работы и подберём первые объекты
+            для пилота. Без презентаций и пересушенных маркетинговых текстов.
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs text-white/50">
+            <span class="bg-white/10 px-2 py-1 rounded">Не звоним без запроса</span>
+            <span class="bg-white/10 px-2 py-1 rounded">Не передаём данные третьим лицам</span>
+          </div>
+        </div>
+
+        <form class="reveal bg-white/5 border border-white/10 rounded-2xl p-6 space-y-3" onsubmit="event.preventDefault(); alert('Форма заработает на этапе D6.');">
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-white/60 mb-2" for="form-name">Имя</label>
+            <input id="form-name" type="text" placeholder="Артём" class="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[var(--color-accent)]" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-white/60 mb-2" for="form-company">Компания</label>
+            <input id="form-company" type="text" placeholder="ООО «Кровля Тюмени»" class="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[var(--color-accent)]" />
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-white/60 mb-2" for="form-contact">Телефон или Telegram</label>
+            <input id="form-contact" type="text" placeholder="+7 ___ ___ __ __  или @username" class="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[var(--color-accent)]" />
+          </div>
+          <label class="flex items-start gap-2 text-xs text-white/60 pt-2">
+            <input type="checkbox" class="mt-0.5" />
+            <span>Согласен на обработку персональных данных (152-ФЗ)</span>
+          </label>
+          <button type="submit" class="w-full bg-[var(--color-accent)] hover:opacity-90 transition px-6 py-3 rounded-xl font-medium mt-2 inline-flex items-center justify-center gap-2">
+            Получить ранний доступ
+            <Icon name="arrow-right" size={18} />
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
 </Layout>
