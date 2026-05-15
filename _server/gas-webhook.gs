@@ -6,14 +6,19 @@
  *
  * Действия:
  *   1) Honeypot — если поле trap заполнено, тихо отвечает ok (бот)
- *   2) Записывает строку в Google Sheet (привязан к скрипту, активный лист)
+ *   2) Записывает строку в Google Sheet (открывается по SHEET_ID)
  *   3) Уведомление по email (всегда, если задан NOTIFY_EMAIL)
  *   4) Уведомление в Telegram (опционально, если заданы TG_BOT_TOKEN+TG_CHAT_ID)
  *
+ * Standalone-режим: проект создаётся под отдельным служебным Google-аккаунтом
+ * (например, pulserp.team@gmail.com), таблица Артёма расшарена с этим
+ * аккаунтом как Editor. Письма уходят с адреса служебного аккаунта, не от
+ * deployer'а.
+ *
  * Развёртывание:
- *   - Откройте Google Sheet → меню Расширения → Apps Script
+ *   - script.google.com → New project (под служебным аккаунтом)
  *   - Содержимое Code.gs замените целиком этим файлом
- *   - Settings → Script Properties → Add property:
+ *   - Project Settings → Script Properties → Add property:
  *       NOTIFY_EMAIL   = pulserp72@yandex.com           (адрес для писем)
  *       TG_BOT_TOKEN   = (опционально, токен от @BotFather)
  *       TG_CHAT_ID     = (опционально, chat.id получателя)
@@ -25,6 +30,8 @@
  * Лимиты MailApp.sendEmail: 100 писем/день для бесплатного Gmail-аккаунта.
  * Для пилотного запуска с 5–10 компаниями этого хватит с многократным запасом.
  */
+
+const SHEET_ID = "1HraH4jGI30bR-gqrFyMeiJIio2u4PID7HO-XdkHvWM0";
 
 const SHEET_HEADERS = [
   "Время",
@@ -71,8 +78,7 @@ function doGet() {
 }
 
 function appendToSheet(row) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  if (!ss) throw new Error("script must be bound to a spreadsheet");
+  const ss = SpreadsheetApp.openById(SHEET_ID);
   const sheet = ss.getActiveSheet();
   if (sheet.getLastRow() === 0) sheet.appendRow(SHEET_HEADERS);
   sheet.appendRow(row);

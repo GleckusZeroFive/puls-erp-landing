@@ -25,6 +25,8 @@ jobs:
         uses: withastro/action@v3
         with:
           node-version: 22
+        env:
+          PUBLIC_FORM_WEBHOOK_URL: ${{ secrets.PUBLIC_FORM_WEBHOOK_URL }}
 
   deploy:
     needs: build

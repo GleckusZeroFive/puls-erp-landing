@@ -36,11 +36,21 @@ CORS preflight'а нет — отправка `x-www-form-urlencoded` без к�
    скрипт. Если когда-нибудь передавать другому исполнителю —
    достаточно сменить email в правах доступа.
 
-### 2. Скрипт
+### 2. Скрипт (standalone-режим)
 
-1. Открыть таблицу → меню **Расширения → Apps Script**.
-2. Удалить содержимое `Code.gs`, вставить целиком [`gas-webhook.gs`](./gas-webhook.gs).
-3. **Project Settings → Script Properties → Add property**:
+Чтобы письма с заявками уходили не от чьей-то личной почты, проект создаётся
+под отдельным служебным Google-аккаунтом (например, `pulserp.team@gmail.com`).
+Таблица Артёма расшаривается с этим аккаунтом как Editor; скрипт открывает её
+по жёсткому `SHEET_ID` внутри кода.
+
+1. Создать служебный Google-аккаунт (если ещё нет).
+2. Войти в этот аккаунт → `https://script.google.com/u/0/home` →
+   **«Создать проект»**.
+3. Удалить дефолтный `function myFunction() {}`, вставить целиком
+   [`gas-webhook.gs`](./gas-webhook.gs). Сохранить (Ctrl+S).
+4. Расшарить таблицу-приёмник с этим служебным аккаунтом как Editor
+   (из аккаунта-владельца Sheet — у нас это `artem.plechev@gmail.com`).
+5. **Project Settings → Script Properties → Add property**:
 
    | Ключ | Значение | Обязателен |
    |---|---|---|
@@ -48,15 +58,16 @@ CORS preflight'а нет — отправка `x-www-form-urlencoded` без к�
    | `TG_BOT_TOKEN` | токен от `@BotFather` (для TG-канала) | ❌ |
    | `TG_CHAT_ID` | `chat.id` получателя | ❌ |
 
-   Telegram оставляем пустым на старте — почту хватит. Если позже
+   Telegram оставляем пустым на старте — почты хватит. Если позже
    потребуется дубль в TG — добавим эти два значения, код пересобирать
    не нужно.
 
-4. **Deploy → New deployment**:
+6. **Deploy → New deployment**:
    - Type: **Web app**
-   - Execute as: **Me** (исполняется от Артёма, его лимиты Gmail-relay)
+   - Execute as: **Me** (служебный аккаунт; от него же уходят письма)
    - Who has access: **Anyone**
-   - Deploy → скопировать выданный **Web app URL**.
+   - Deploy → пройти OAuth consent (Sheets / external service / Send mail as
+     you — все три) → скопировать **Web app URL**.
 
 ### 3. Прописать в лендинге
 
