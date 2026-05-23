@@ -106,6 +106,21 @@ const fallbackEmail = "hello@puls-erp.ru";
     </select>
   </div>
 
+  <!-- Появляется плавно, только если выбрано «Другое» -->
+  <div class="cf-extra" data-pain-extra>
+    <div class="cf-extra-inner">
+      <label class="block text-xs uppercase tracking-wider text-white/60 mb-2 pt-1" for="cf-pain-other">Уточните, что болит</label>
+      <input
+        id="cf-pain-other"
+        name="pain_other"
+        type="text"
+        maxlength="200"
+        placeholder="Коротко опишите вашу ситуацию"
+        class="cf-input w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[var(--color-accent)]"
+      />
+    </div>
+  </div>
+
   <label class="flex items-start gap-2 text-xs text-white/60 pt-2">
     <input
       type="checkbox"
@@ -158,6 +173,25 @@ const fallbackEmail = "hello@puls-erp.ru";
   .cf-select:invalid {
     color: rgba(255, 255, 255, 0.4);
   }
+  /* Поле уточнения «Другое» — плавное раскрытие через grid-template-rows (без рывка) */
+  .cf-extra {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .cf-extra > .cf-extra-inner {
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease 0.04s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.04s;
+  }
+  .cf-extra[data-open] {
+    grid-template-rows: 1fr;
+  }
+  .cf-extra[data-open] > .cf-extra-inner {
+    opacity: 1;
+    transform: translateY(0);
+  }
   .contact-form[data-state="loading"] .cf-arrow,
   .contact-form[data-state="loading"] .cf-label { display: none; }
   .contact-form[data-state="loading"] .cf-spinner { display: inline-flex; }
@@ -177,6 +211,23 @@ const fallbackEmail = "hello@puls-erp.ru";
         if (form.dataset.bound) return;
         form.dataset.bound = "1";
         form.addEventListener("submit", (e) => handleSubmit(e, form));
+
+        // Поле уточнения боли — показываем при выборе «Другое»
+        const painSel = form.querySelector('[name="pain"]');
+        const extra = form.querySelector("[data-pain-extra]");
+        const extraInput = form.querySelector('[name="pain_other"]');
+        if (painSel && extra) {
+          const sync = () => {
+            const on = painSel.value === "Другое";
+            extra.toggleAttribute("data-open", on);
+            if (extraInput) {
+              if (on) extraInput.setAttribute("required", "");
+              else extraInput.removeAttribute("required");
+            }
+          };
+          painSel.addEventListener("change", sync);
+          sync();
+        }
       });
     }
 
@@ -207,6 +258,13 @@ const fallbackEmail = "hello@puls-erp.ru";
 
       const formData = new FormData(form);
       formData.delete("trap");
+
+      // «Другое» + уточнение → подмешиваем в поле pain (отдельную колонку не плодим)
+      if (formData.get("pain") === "Другое") {
+        const other = (formData.get("pain_other") || "").toString().trim();
+        if (other) formData.set("pain", "Другое — " + other);
+      }
+      formData.delete("pain_other");
 
       // Если webhook не настроен — fallback на mailto
       if (!webhook) {
