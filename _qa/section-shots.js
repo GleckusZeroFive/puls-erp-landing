@@ -25,8 +25,8 @@ await page.evaluate(async () => {
 });
 
 const sections = [
-  "hero", "problem", "how", "features", "dashboard",
-  "roles", "cases", "pricing", "team", "integrations", "cta", "form",
+  "hero", "problem", "cost", "what", "dashboard", "roles", "ai",
+  "tools", "scenarios", "founder", "trust", "audience", "pilot", "steps", "faq", "form",
 ];
 
 for (const id of sections) {

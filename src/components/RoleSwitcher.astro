@@ -1,0 +1,58 @@
+---
+import Icon from "./Icon.astro";
+import TabSwitch from "./TabSwitch.astro";
+import { roles } from "../data/roles.ts";
+
+const tabs = roles.map((r) => ({ id: r.id, label: r.tab }));
+---
+
+<section id="roles" class="bg-[var(--color-gray-3)]">
+  <div class="mx-auto max-w-6xl px-6 py-20 md:py-24" data-switch="roles">
+    <div class="reveal max-w-3xl mb-8">
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Роли на стройке</div>
+      <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+        У каждой роли — своя простая задача, а не сложный софт
+      </h2>
+      <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+        Команду саботирует сложный софт. В PULS у каждого своя короткая задача — а директор
+        получает связанную картину по всей компании.
+      </p>
+    </div>
+
+    <div class="reveal mb-8">
+      <TabSwitch tabs={tabs} variant="pill" label="Роль в компании" />
+    </div>
+
+    <div class="switch-stack reveal">
+      {roles.map((r, i) => (
+        <div class={i === 0 ? "is-active" : ""} data-pane={r.id}>
+          <div class="grid lg:grid-cols-[1.3fr_1fr] gap-5">
+            <div class="bg-white rounded-2xl p-7 border border-[var(--color-gray-2)]">
+              {r.badge && (
+                <div class="inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-semibold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2.5 py-1 rounded-full mb-4">
+                  {r.badge}
+                </div>
+              )}
+              <h3 class="font-bold text-xl md:text-2xl text-[var(--color-primary)] mb-3 leading-snug">{r.title}</h3>
+              <p class="text-[var(--color-gray-1)] leading-relaxed">{r.desc}</p>
+            </div>
+
+            <div class="bg-[var(--color-primary)] text-white rounded-2xl p-7 flex flex-col gap-5">
+              <span class="inline-flex w-11 h-11 rounded-xl bg-[var(--color-accent)]/20 text-[var(--color-accent)] items-center justify-center">
+                <Icon name={r.icon} size={22} />
+              </span>
+              <div>
+                <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-1.5 font-medium">Что видит</div>
+                <div class="text-white/90 text-[15px] leading-relaxed">{r.sees}</div>
+              </div>
+              <div>
+                <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-1.5 font-medium">Личная выгода</div>
+                <div class="text-white/90 text-[15px] leading-relaxed">{r.benefit}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

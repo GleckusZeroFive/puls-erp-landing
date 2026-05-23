@@ -1,0 +1,47 @@
+---
+import Icon from "./Icon.astro";
+
+const points = [
+  { num: "1", title: "Индивидуальный разбор", desc: "Разберём ваши объекты, роли и где сейчас «течёт» прибыль компании." },
+  { num: "2", title: "Персональное демо", desc: "Покажем живой сценарий именно под ваши текущие объекты." },
+  { num: "3", title: "Влияние на продукт", desc: "Адаптируем функции помощника под особенности ваших договоров и процессов." },
+];
+---
+
+<section id="pilot" class="bg-[var(--color-gray-3)]">
+  <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+    <div class="reveal rounded-3xl border-2 border-dashed border-[var(--color-primary)]/25 bg-white p-8 md:p-12">
+      <div class="inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-semibold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-3 py-1.5 rounded-full mb-5">
+        <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]"></span>
+        Пилотный набор · ограниченный доступ
+      </div>
+      <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight max-w-3xl">
+        Ранний доступ — и настройка системы под реальные процессы вашей стройки
+      </h2>
+      <p class="text-[var(--color-gray-1)] text-lg leading-relaxed max-w-3xl mb-10">
+        Пилот — это не тестирование сырого продукта. Это совместная настройка первого рабочего
+        контура PULS (объекты, материалы, оплаты, документы) под ваши процессы силами нашей команды.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-5 mb-10">
+        {points.map((p) => (
+          <div class="bg-[var(--color-gray-3)] rounded-2xl p-6">
+            <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[var(--color-primary)] text-white font-bold mb-4">{p.num}</div>
+            <div class="font-bold text-lg text-[var(--color-primary)] mb-2">{p.title}</div>
+            <div class="text-[var(--color-gray-1)] leading-relaxed text-sm">{p.desc}</div>
+          </div>
+        ))}
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:items-center gap-5">
+        <a href="#form" class="inline-flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:opacity-90 transition px-7 py-3.5 rounded-xl font-medium text-white">
+          Заявка на пилотный доступ
+          <Icon name="arrow-right" size={18} />
+        </a>
+        <p class="text-[var(--color-gray-1)] text-sm leading-snug max-w-md">
+          Если увидим, что система пока не решит ваши задачи — честно скажем об этом на первом шаге.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

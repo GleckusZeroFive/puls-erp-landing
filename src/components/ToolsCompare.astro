@@ -1,0 +1,72 @@
+---
+import Icon from "./Icon.astro";
+
+const tools = [
+  {
+    icon: "table",
+    name: "Excel",
+    body: "Хорош для быстрых расчётов и простых таблиц на 1–2 объекта.",
+    problem: "Не показывает актуальную картину, если кто-то забыл внести данные. Нет связи со сроками.",
+  },
+  {
+    icon: "message-square",
+    name: "Мессенджеры",
+    body: "Идеальны для оперативной связи и обмена фото со стройки.",
+    problem: "Поручения, заявки и документы тонут в сотнях сообщений. Найти крайнего через неделю невозможно.",
+  },
+  {
+    icon: "credit-card",
+    name: "1С Бухгалтерия",
+    body: "Незаменима для строгого бухгалтерского и налогового учёта.",
+    problem: "Хранит прошлые периоды, но не показывает директору утром риски срыва сроков сегодня.",
+  },
+];
+---
+
+<section id="tools" class="bg-[var(--color-gray-3)]">
+  <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+    <div class="reveal max-w-3xl mb-12">
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Где чья зона ответственности</div>
+      <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+        Не ломаем инструменты. Собираем картину поверх них
+      </h2>
+      <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+        PULS не заставляет выбросить то, что уже работает. Он связывает данные из 1С, Excel
+        и мессенджеров в одну оперативную картину для директора.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 reveal">
+      {tools.map((t) => (
+        <div class="bg-white rounded-2xl p-6 border border-[var(--color-gray-2)] flex flex-col">
+          <span class="inline-flex w-11 h-11 rounded-xl bg-[var(--color-gray-3)] text-[var(--color-primary)] items-center justify-center mb-4">
+            <Icon name={t.icon} size={22} />
+          </span>
+          <div class="font-bold text-lg text-[var(--color-primary)] mb-2">{t.name}</div>
+          <div class="text-[var(--color-gray-1)] text-sm leading-relaxed mb-4">{t.body}</div>
+          <div class="mt-auto pt-4 border-t border-[var(--color-gray-2)]">
+            <div class="text-[11px] uppercase tracking-widest text-[var(--color-danger)] font-semibold mb-1.5">Слепая зона</div>
+            <div class="text-[var(--color-gray-1)] text-sm leading-snug">{t.problem}</div>
+          </div>
+        </div>
+      ))}
+
+      <div class="bg-[var(--color-primary)] text-white rounded-2xl p-6 flex flex-col border-2 border-[var(--color-accent)]">
+        <span class="inline-flex w-11 h-11 rounded-xl bg-[var(--color-accent)] text-white items-center justify-center mb-4">
+          <Icon name="sparkles" size={22} />
+        </span>
+        <div class="font-bold text-lg mb-2">PULS</div>
+        <div class="text-white/80 text-sm leading-relaxed mb-4">
+          Создаёт оперативный слой контроля поверх всех инструментов.
+        </div>
+        <div class="mt-auto pt-4 border-t border-white/15">
+          <div class="text-[11px] uppercase tracking-widest text-[var(--color-accent)] font-semibold mb-1.5">Результат</div>
+          <div class="text-white/90 text-sm leading-snug">
+            Прораб шлёт фото и объёмы с телефона, снабжение выставляет счета, 1С списывает деньги —
+            а директор видит риски простоя и маржу на одном экране.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,84 @@
+---
+import Icon from "./Icon.astro";
+import { aiRisks } from "../data/ai-risks.ts";
+---
+
+<section id="ai" class="relative overflow-hidden bg-[var(--color-primary)] text-white">
+  <div class="relative mx-auto max-w-6xl px-6 py-20 md:py-24" data-switch="ai">
+    <div class="reveal max-w-3xl mb-8">
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Встроенный помощник</div>
+      <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+        Не принимает решения — замечает упущенные детали
+      </h2>
+      <p class="text-white/70 text-lg leading-relaxed">
+        Это не «чат-бот для оптимизации». Помощник в ранней разработке сверяет график со
+        сроками и оплатами по данным вашей компании. Выберите тип риска — посмотрите, как
+        это задумано.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-[300px_1fr] gap-6">
+      <div class="reveal">
+        <div class="flex flex-col gap-2" data-tabwrap>
+          {aiRisks.map((r, i) => (
+            <button
+              type="button"
+              role="tab"
+              data-tab={r.id}
+              aria-selected={i === 0 ? "true" : "false"}
+              class={`tab-btn-dark text-left rounded-2xl px-5 py-4 border transition ${i === 0 ? "is-active" : ""}`}
+            >
+              <div class="flex items-center gap-3">
+                <span class="inline-flex w-9 h-9 rounded-xl bg-white/10 items-center justify-center shrink-0">
+                  <Icon name={r.icon} size={18} />
+                </span>
+                <div>
+                  <div class="font-semibold text-[15px] leading-tight">{r.tab}</div>
+                  <div class="text-white/55 text-xs mt-0.5 leading-snug">{r.hint}</div>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div class="switch-stack reveal">
+        {aiRisks.map((r, i) => (
+          <div class={i === 0 ? "is-active" : ""} data-pane={r.id}>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 h-full">
+              <div class="inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-semibold text-[var(--color-accent)] bg-[var(--color-accent)]/15 px-2.5 py-1 rounded-full mb-5">
+                Как это задумано
+              </div>
+              <div class="text-xs uppercase tracking-widest text-white/50 mb-2 font-medium">Помощник заметил</div>
+              <p class="text-white/90 text-[17px] leading-relaxed mb-7">{r.noticed}</p>
+              <div class="text-xs uppercase tracking-widest text-white/50 mb-3 font-medium">Подсказка директору</div>
+              <div class="flex flex-wrap gap-3">
+                {r.action.split(" · ").map((a, idx) => (
+                  <span class={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium ${idx === 0 ? "bg-[var(--color-accent)] text-white" : "bg-white/10 text-white border border-white/15"}`}>
+                    {a}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .tab-btn-dark {
+    border-color: rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 255, 255, 0.04);
+    color: #fff;
+    cursor: pointer;
+  }
+  .tab-btn-dark:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+  .tab-btn-dark.is-active {
+    border-color: var(--color-accent);
+    background-color: rgba(255, 58, 74, 0.12);
+  }
+</style>
