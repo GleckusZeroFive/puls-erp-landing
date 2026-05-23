@@ -116,5 +116,132 @@ const ogImage = new URL("/figma/screen-dashboard-2.webp", siteUrl).toString();
         }
       })();
     </script>
+    <script is:inline>
+      // Аккордеон <details> — плавная height-анимация + стаггер контента.
+      // Перехватываем клик по summary, анимируем вручную через .details-body.
+      (() => {
+        const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+        const HEIGHT_MS = 380;
+        const ITEM_MS = 520;
+        const ITEM_STAGGER = 90;
+        const ITEM_DELAY_START = 120;
+
+        function pickItems(details) {
+          const body = details.querySelector(":scope > .details-body");
+          if (!body) return [];
+          let cur = body;
+          while (cur && cur.children.length === 1 && cur.firstElementChild.tagName === "DIV") {
+            cur = cur.firstElementChild;
+          }
+          return Array.from(cur.children);
+        }
+
+        function resetItem(item) {
+          item.style.transition = "none";
+          item.style.opacity = "0";
+          item.style.transform = "translateY(24px)";
+        }
+
+        function animateOpen(details) {
+          const body = details.querySelector(":scope > .details-body");
+          if (!body) return;
+          const items = pickItems(details);
+          items.forEach(resetItem);
+
+          body.style.height = "auto";
+          const target = body.scrollHeight;
+          body.style.height = "0px";
+          body.style.overflow = "hidden";
+          body.style.transition = `height ${HEIGHT_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              body.style.height = target + "px";
+              items.forEach((it, i) => {
+                it.style.transition = `opacity ${ITEM_MS}ms ease, transform ${ITEM_MS}ms ${EASE}`;
+                it.style.transitionDelay = (ITEM_DELAY_START + i * ITEM_STAGGER) + "ms";
+                it.style.opacity = "1";
+                it.style.transform = "translateY(0)";
+              });
+            });
+          });
+
+          body.addEventListener("transitionend", function onEnd(e) {
+            if (e.propertyName !== "height") return;
+            body.removeEventListener("transitionend", onEnd);
+            body.style.height = "auto";
+            body.style.overflow = "";
+          });
+        }
+
+        function animateClose(details) {
+          const body = details.querySelector(":scope > .details-body");
+          if (!body) return;
+          const items = pickItems(details);
+
+          body.style.overflow = "hidden";
+          body.style.height = body.scrollHeight + "px";
+          void body.offsetHeight;
+          body.style.transition = `height ${HEIGHT_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+
+          details.setAttribute("open", "");
+
+          requestAnimationFrame(() => {
+            items.forEach((it) => {
+              it.style.transition = "opacity 160ms ease, transform 200ms ease";
+              it.style.transitionDelay = "0ms";
+              it.style.opacity = "0";
+              it.style.transform = "translateY(8px)";
+            });
+            body.style.height = "0px";
+          });
+
+          body.addEventListener("transitionend", function onEnd(e) {
+            if (e.propertyName !== "height") return;
+            body.removeEventListener("transitionend", onEnd);
+            details.removeAttribute("open");
+            body.style.height = "";
+            body.style.overflow = "";
+            body.style.transition = "";
+          });
+        }
+
+        function bind(details) {
+          if (details.dataset.animBound) return;
+          details.dataset.animBound = "1";
+          details.classList.add("js-anim-ready");
+
+          const items = pickItems(details);
+          items.forEach(resetItem);
+          const body = details.querySelector(":scope > .details-body");
+          if (body) {
+            body.style.height = "0px";
+            body.style.overflow = "hidden";
+          }
+
+          const summary = details.querySelector(":scope > summary");
+          if (!summary) return;
+          summary.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (details.open) {
+              animateClose(details);
+            } else {
+              details.setAttribute("open", "");
+              animateOpen(details);
+            }
+          });
+        }
+
+        function initAccordion() {
+          document.querySelectorAll("details").forEach(bind);
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initAccordion);
+        } else {
+          initAccordion();
+        }
+      })();
+    </script>
   </body>
 </html>

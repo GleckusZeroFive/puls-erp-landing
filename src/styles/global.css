@@ -68,3 +68,21 @@ body {
   background-color: var(--color-primary);
   color: #fff;
 }
+
+/* <details> аккордеон — chevron-поворот; height + стаггер контента анимирует JS в Layout.astro */
+details summary {
+  list-style: none;
+}
+details summary::-webkit-details-marker {
+  display: none;
+}
+details summary .chevron {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+details[open] summary .chevron {
+  transform: rotate(180deg);
+}
+/* До инициализации JS контент виден (нативный <details> как fallback без JS) */
+details:not(.js-anim-ready) > .details-body {
+  display: block;
+}
