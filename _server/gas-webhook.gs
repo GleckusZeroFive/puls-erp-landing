@@ -38,6 +38,9 @@ const SHEET_HEADERS = [
   "Имя",
   "Компания",
   "Контакт",
+  "Объектов",
+  "Роль",
+  "Боль",
   "Согласие",
   "Источник",
 ];
@@ -55,11 +58,14 @@ function doPost(e) {
       return jsonResponse({ ok: false, error: "missing fields" });
     }
     const company = sanitize(p.company);
+    const objects = sanitize(p.objects);
+    const role = sanitize(p.role);
+    const pain = sanitize(p.pain);
     const consent = p.consent ? "да" : "нет";
     const source = sanitize(p.source) || "lp";
-    const lead = { name, company, contact, consent, source, when: new Date() };
+    const lead = { name, company, contact, objects, role, pain, consent, source, when: new Date() };
 
-    appendToSheet([lead.when, lead.name, lead.company, lead.contact, lead.consent, lead.source]);
+    appendToSheet([lead.when, lead.name, lead.company, lead.contact, lead.objects, lead.role, lead.pain, lead.consent, lead.source]);
 
     const channels = {
       email: sendEmailNotification(lead),
@@ -95,6 +101,9 @@ function sendEmailNotification(lead) {
     `Имя:       ${lead.name}\n` +
     `Компания:  ${lead.company || "—"}\n` +
     `Контакт:   ${lead.contact}\n` +
+    `Объектов:  ${lead.objects || "—"}\n` +
+    `Роль:      ${lead.role || "—"}\n` +
+    `Боль:      ${lead.pain || "—"}\n` +
     `Согласие:  ${lead.consent}\n` +
     `Источник:  ${lead.source}\n` +
     `Время:     ${formatDate(lead.when)}\n\n` +
@@ -107,6 +116,9 @@ function sendEmailNotification(lead) {
     row("Имя", escapeHtml(lead.name)) +
     row("Компания", escapeHtml(lead.company) || "—") +
     row("Контакт", `<a href="${contactLink(lead.contact)}" style="color:#FF3A4A;text-decoration:none;">${escapeHtml(lead.contact)}</a>`) +
+    row("Объектов", escapeHtml(lead.objects) || "—") +
+    row("Роль", escapeHtml(lead.role) || "—") +
+    row("Боль", escapeHtml(lead.pain) || "—") +
     row("Согласие", escapeHtml(lead.consent)) +
     row("Источник", escapeHtml(lead.source)) +
     row("Время", escapeHtml(formatDate(lead.when))) +
@@ -140,6 +152,9 @@ function sendTelegramNotification(lead) {
     "*Имя:* " + escapeMd(lead.name) + "\n" +
     "*Компания:* " + (escapeMd(lead.company) || "—") + "\n" +
     "*Контакт:* " + escapeMd(lead.contact) + "\n" +
+    "*Объектов:* " + (escapeMd(lead.objects) || "—") + "\n" +
+    "*Роль:* " + (escapeMd(lead.role) || "—") + "\n" +
+    "*Боль:* " + (escapeMd(lead.pain) || "—") + "\n" +
     "*Источник:* " + escapeMd(lead.source);
 
   const res = UrlFetchApp.fetch(
