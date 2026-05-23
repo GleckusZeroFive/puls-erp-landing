@@ -20,7 +20,7 @@ const { first, second } = await page.evaluate(() => {
 });
 console.log(`tabs: first=${first} second=${second}`);
 
-const paneSel = (id) => `.pulse-dashboard .switch-stack > [data-pane="${id}"].space-y-5`;
+const paneSel = (id) => `.pulse-dashboard .switch-stack > [data-pane="${id}"].space-y-4`;
 
 const before = await page.evaluate((sel) => parseFloat(getComputedStyle(document.querySelector(sel)).opacity), paneSel(first));
 console.log("BEFORE click — first pane opacity:", before);
