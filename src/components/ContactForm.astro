@@ -195,9 +195,9 @@ const fallbackEmail = "hello@puls-erp.ru";
   .contact-form[data-state="loading"] .cf-arrow,
   .contact-form[data-state="loading"] .cf-label { display: none; }
   .contact-form[data-state="loading"] .cf-spinner { display: inline-flex; }
-  .contact-form[data-state="success"] .cf-input,
-  .contact-form[data-state="success"] .cf-submit { display: none; }
-  .contact-form[data-state="success"] .cf-status { color: #fff; }
+  /* На успехе прячем всю форму (поля, подписи, кнопку), оставляем только статус */
+  .contact-form[data-state="success"] > *:not(.cf-status) { display: none; }
+  .contact-form[data-state="success"] .cf-status { color: #fff; font-size: 1rem; }
   .contact-form[data-state="error"] .cf-status { color: #FFC4CB; }
 </style>
 
