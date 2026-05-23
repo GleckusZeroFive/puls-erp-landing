@@ -46,11 +46,11 @@ for (const vp of viewports) {
     const dash = await page.locator(".pulse-dashboard").first();
     await dash.scrollIntoViewIfNeeded();
     await page.waitForTimeout(300);
-    for (const scenario of ["director", "rp", "supplier"]) {
-      await page.locator(`[data-pulse-tab="${scenario}"]`).click();
+    for (const moduleId of ["objects", "payments", "materials", "docs", "ai"]) {
+      await page.locator(`.pulse-dashboard [data-tab="${moduleId}"]`).click();
       await page.waitForTimeout(350);
-      await dash.screenshot({ path: join(outDir, `dashboard-${scenario}.png`) });
-      console.log(`saved dashboard-${scenario}.png`);
+      await dash.screenshot({ path: join(outDir, `dashboard-${moduleId}.png`) });
+      console.log(`saved dashboard-${moduleId}.png`);
     }
   }
 

@@ -1,6 +1,6 @@
 ---
 import Icon from "./Icon.astro";
-import PulseScenarioTabs from "./PulseScenarioTabs.astro";
+import TabSwitch from "./TabSwitch.astro";
 import CityPattern from "./CityPattern.astro";
 import { scenarios } from "../data/scenarios.ts";
 import { asset } from "../utils/asset";
@@ -13,6 +13,8 @@ const sidebarItems = [
   { icon: "users", label: "Команда" },
   { icon: "credit-card", label: "Финансы" },
 ];
+
+const moduleTabs = scenarios.map((s) => ({ id: s.id, label: s.label }));
 
 const statusClass: Record<string, string> = {
   danger: "bg-[var(--color-danger)]",
@@ -29,7 +31,7 @@ const accentBorder: Record<string, string> = {
 
 <div
   class="pulse-dashboard rounded-2xl overflow-hidden border border-[var(--color-gray-2)] shadow-2xl bg-white"
-  data-active="director"
+  data-switch="dashboard"
 >
   <!-- Fake browser chrome -->
   <div class="bg-[var(--color-gray-3)] px-4 py-3 border-b border-[var(--color-gray-2)] flex items-center gap-3">
@@ -54,7 +56,7 @@ const accentBorder: Record<string, string> = {
 
     <!-- Sidebar — icon-only в стиле Юриного продукта -->
     <aside class="hidden md:flex flex-col items-center bg-white border-r border-[var(--color-gray-2)] py-5">
-      <a href="#" class="mb-7 inline-flex items-center justify-center w-11 h-11" aria-label="PULS ERP" onclick="event.preventDefault();">
+      <a href="#" class="mb-7 inline-flex items-center justify-center w-11 h-11" aria-label="PULS" onclick="event.preventDefault();">
         <img src={asset("/logo-pulse.png")} alt="" class="h-7 w-auto" aria-hidden="true" />
       </a>
 
@@ -86,25 +88,25 @@ const accentBorder: Record<string, string> = {
       <header class="flex flex-col gap-5 mb-7">
         <div class="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <div class="text-xs uppercase tracking-widest text-[var(--color-gray-1)] mb-1.5 font-medium">14 мая · четверг</div>
+            <div class="text-xs uppercase tracking-widest text-[var(--color-gray-1)] mb-1.5 font-medium">Сегодня · 9:00</div>
             <h3 class="font-bold text-2xl md:text-3xl text-[var(--color-primary)] tracking-tight">Пульс компании сегодня</h3>
           </div>
-          <PulseScenarioTabs />
+          <TabSwitch tabs={moduleTabs} label="Модуль дашборда" />
         </div>
 
-        <div class="pulse-subtitle-stack">
-          {scenarios.map((s) => (
-            <div class="pulse-subtitle text-sm text-[var(--color-gray-1)]" data-pulse-scenario={s.id}>
+        <div class="switch-stack">
+          {scenarios.map((s, i) => (
+            <div class={`text-sm text-[var(--color-gray-1)] ${i === 0 ? "is-active" : ""}`} data-pane={s.id}>
               {s.subtitle}
             </div>
           ))}
         </div>
       </header>
 
-      <!-- Scenarios stacked in a grid cell — cross-fade через opacity -->
-      <div class="pulse-scenario-stack">
-      {scenarios.map((s) => (
-        <div class="pulse-scenario space-y-5" data-pulse-scenario={s.id}>
+      <!-- Modules stacked in a grid cell — cross-fade через opacity -->
+      <div class="switch-stack">
+      {scenarios.map((s, i) => (
+        <div class={`space-y-5 ${i === 0 ? "is-active" : ""}`} data-pane={s.id}>
           <!-- AI summary banner -->
           <div class="relative overflow-hidden bg-[var(--color-primary)] text-white rounded-2xl p-5 md:p-6 flex items-start gap-4">
             <CityPattern opacity={0.1} />
@@ -112,7 +114,7 @@ const accentBorder: Record<string, string> = {
               <Icon name="sparkles" size={20} />
             </div>
             <div class="relative flex-1 leading-relaxed">
-              <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-1.5 font-medium">AI-сводка</div>
+              <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-1.5 font-medium">Сводка помощника</div>
               <div class="text-[15px] leading-relaxed text-white/90">{s.aiSummary}</div>
             </div>
           </div>
@@ -137,7 +139,6 @@ const accentBorder: Record<string, string> = {
                   <div class="mb-4 pb-4 border-b border-[var(--color-gray-2)]">
                     <div class={`font-black text-2xl leading-none mb-1 ${
                       c.accent === 'danger' ? 'text-[var(--color-danger)]' :
-                      c.accent === 'primary' ? 'text-[var(--color-primary)]' :
                       'text-[var(--color-primary)]'
                     }`}>{c.primary.value}</div>
                     <div class="text-xs text-[var(--color-gray-1)]">{c.primary.label}</div>
@@ -171,57 +172,3 @@ const accentBorder: Record<string, string> = {
     </div>
   </div>
 </div>
-
-<style is:global>
-  /* Stack scenarios в одной grid-ячейке для cross-fade без layout shift */
-  .pulse-scenario-stack,
-  .pulse-subtitle-stack {
-    display: grid;
-  }
-  .pulse-scenario-stack > .pulse-scenario,
-  .pulse-subtitle-stack > .pulse-subtitle {
-    grid-area: 1 / 1;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 320ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .pulse-dashboard[data-active="director"] .pulse-scenario[data-pulse-scenario="director"],
-  .pulse-dashboard[data-active="rp"] .pulse-scenario[data-pulse-scenario="rp"],
-  .pulse-dashboard[data-active="supplier"] .pulse-scenario[data-pulse-scenario="supplier"] {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .pulse-dashboard[data-active="director"] .pulse-subtitle[data-pulse-scenario="director"],
-  .pulse-dashboard[data-active="rp"] .pulse-subtitle[data-pulse-scenario="rp"],
-  .pulse-dashboard[data-active="supplier"] .pulse-subtitle[data-pulse-scenario="supplier"] {
-    opacity: 1;
-  }
-</style>
-
-<script is:inline>
-  (() => {
-    function init() {
-      document.querySelectorAll('.pulse-dashboard').forEach((dash) => {
-        if (dash.dataset.bound) return;
-        dash.dataset.bound = '1';
-        const tabs = dash.querySelectorAll('[data-pulse-tab]');
-        tabs.forEach((tab) => {
-          tab.addEventListener('click', () => {
-            const id = tab.getAttribute('data-pulse-tab');
-            dash.setAttribute('data-active', id);
-            tabs.forEach((t) => {
-              const isActive = t === tab;
-              t.classList.toggle('is-active', isActive);
-              t.setAttribute('aria-selected', isActive ? 'true' : 'false');
-            });
-          });
-        });
-      });
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
-  })();
-</script>
