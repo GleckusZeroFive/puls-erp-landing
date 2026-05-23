@@ -24,7 +24,9 @@ import { faq } from "../data/faq.ts";
             </span>
           </summary>
           <div class="details-body">
-            <p class="px-6 pb-6 -mt-1 text-[var(--color-gray-1)] leading-relaxed">{item.a}</p>
+            <div class="details-inner">
+              <p class="px-6 pb-6 text-[var(--color-gray-1)] leading-relaxed">{item.a}</p>
+            </div>
           </div>
         </details>
       ))}

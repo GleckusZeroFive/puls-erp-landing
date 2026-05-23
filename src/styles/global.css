@@ -69,7 +69,9 @@ body {
   color: #fff;
 }
 
-/* <details> аккордеон — chevron-поворот; height + стаггер контента анимирует JS в Layout.astro */
+/* <details> аккордеон. Высота анимируется через grid-template-rows 0fr→1fr
+   (без измерения scrollHeight и без снапа на auto — плавно до конца).
+   JS в Layout.astro перехватывает клик и тогглит [data-open]. */
 details summary {
   list-style: none;
 }
@@ -77,12 +79,33 @@ details summary::-webkit-details-marker {
   display: none;
 }
 details summary .chevron {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
 }
-details[open] summary .chevron {
+
+/* JS-режим: grid-анимация высоты + проявление контента */
+details.js-anim-ready .details-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+details.js-anim-ready .details-body > .details-inner {
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease 0.05s, transform 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
+}
+details.js-anim-ready[data-open] .details-body {
+  grid-template-rows: 1fr;
+}
+details.js-anim-ready[data-open] .details-body > .details-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
+details.js-anim-ready[data-open] summary .chevron {
   transform: rotate(180deg);
 }
-/* До инициализации JS контент виден (нативный <details> как fallback без JS) */
-details:not(.js-anim-ready) > .details-body {
-  display: block;
+
+/* Fallback без JS: нативный <details>, контент виден при [open] */
+details:not(.js-anim-ready)[open] summary .chevron {
+  transform: rotate(180deg);
 }
