@@ -1,0 +1,64 @@
+---
+const benefits = [
+  {
+    num: "01",
+    title: "Видеть раньше других",
+    desc: "Узнавать о проблеме за неделю до простоя бригады, а не когда сроки уже сорваны.",
+  },
+  {
+    num: "02",
+    title: "Спрашивать по фактам",
+    desc: "Вместо «мне не говорили» — точное время создания заявки и ответственный в системе.",
+  },
+  {
+    num: "03",
+    title: "Делегировать без слепоты",
+    desc: "Передавать ведение объектов РП и прорабам, но держать руку на пульсе маржинальности.",
+  },
+];
+---
+
+<section id="founder" class="bg-white">
+  <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+    <div class="reveal max-w-3xl mb-12">
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Личные выгоды собственника</div>
+      <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+        Вы перестаёте быть диспетчером собственной компании
+      </h2>
+      <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+        PULS нужен не чтобы «контролировать всех руками ещё больше», а чтобы контроль перестал
+        зависеть от вашей памяти, личного телефона и утренних созвонов-допросов.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-[1fr_1.1fr] gap-6 items-stretch reveal">
+      <div class="grid gap-4">
+        {benefits.map((b) => (
+          <div class="bg-[var(--color-gray-3)] rounded-2xl p-6 border border-[var(--color-gray-2)] flex gap-4">
+            <div class="font-black text-2xl text-[var(--color-accent)] leading-none shrink-0">{b.num}</div>
+            <div>
+              <div class="font-bold text-lg text-[var(--color-primary)] mb-1.5">{b.title}</div>
+              <div class="text-[var(--color-gray-1)] leading-relaxed">{b.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="bg-[var(--color-primary)] text-white rounded-2xl p-8 md:p-10 flex flex-col">
+        <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-4 font-medium">Слово основателя</div>
+        <p class="text-xl md:text-2xl leading-relaxed font-medium mb-8">
+          «Когда у меня было до 22 объектов параллельно, я понял: хаос на стройке нельзя победить
+          наймом новых людей — их засасывает в тот же водоворот чатов и Excel. Нужна простая
+          система-каркас, которая свяжет работы с деньгами и документами.»
+        </p>
+        <div class="mt-auto flex items-center gap-4 pt-6 border-t border-white/15">
+          <div class="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center font-bold">АП</div>
+          <div>
+            <div class="font-semibold">Артём Плечёв</div>
+            <div class="text-white/60 text-sm">основатель PULS · 19 лет в строительном подряде</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

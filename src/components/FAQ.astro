@@ -1,0 +1,40 @@
+---
+import { faq } from "../data/faq.ts";
+---
+
+<section id="faq" class="bg-white">
+  <div class="mx-auto max-w-3xl px-6 py-20 md:py-24">
+    <div class="reveal mb-10">
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Ответы на вопросы</div>
+      <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+        Отвечаем прямо на самые неудобные вопросы
+      </h2>
+      <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+        Собрали реальные сомнения директоров строительных компаний при внедрении софта.
+      </p>
+    </div>
+
+    <div class="space-y-3 reveal">
+      {faq.map((item) => (
+        <details class="faq-item group bg-[var(--color-gray-3)] rounded-2xl border border-[var(--color-gray-2)] overflow-hidden">
+          <summary class="flex items-center justify-between gap-4 cursor-pointer list-none px-6 py-5">
+            <span class="font-semibold text-[var(--color-primary)] text-[17px] leading-snug">{item.q}</span>
+            <span class="faq-chevron shrink-0 text-[var(--color-accent)] transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <div class="px-6 pb-6 -mt-1 text-[var(--color-gray-1)] leading-relaxed">{item.a}</div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

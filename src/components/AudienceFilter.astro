@@ -1,0 +1,63 @@
+---
+import Icon from "./Icon.astro";
+
+const fit = [
+  "У вас 5+ строительных объектов параллельно (а лучше 10+).",
+  "Оборот примерно от 50 млн ₽, целевой — 100–700 млн ₽.",
+  "Есть разделение ролей: ПТО, снабжение, прорабы, бухгалтерия. РП может и не быть — это нормально.",
+  "Директор тратит больше 3 часов в день на ручной сбор данных из чатов и таблиц.",
+  "Excel и мессенджеры уже ломаются от масштаба ваших проектов.",
+];
+
+const notFit = [
+  "Процессы уже жёстко зашиты в тяжёлую готовую ERP девелопера.",
+  "Вы ищете «волшебную кнопку», которая наведёт порядок без вовлечения команды.",
+  "Не готовы уделить пару часов на разбор ваших процессов перед пилотом.",
+];
+---
+
+<section id="audience" class="bg-white">
+  <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+    <div class="reveal max-w-3xl mb-12">
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Честно: подходит не каждому</div>
+      <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+        Кому PULS точно поможет, а кому — пока нет
+      </h2>
+      <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+        Мы ценим ваше и своё время. Сверьтесь с критериями ниже, прежде чем подавать заявку в пилот.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-5 reveal">
+      <div class="bg-[var(--color-gray-3)] rounded-2xl p-7 border border-[var(--color-gray-2)]">
+        <div class="flex items-center gap-2.5 mb-5">
+          <span class="inline-flex w-8 h-8 rounded-lg bg-[var(--color-primary)] text-white items-center justify-center"><Icon name="check" size={18} /></span>
+          <div class="font-bold text-lg text-[var(--color-primary)]">Вам точно подходит, если</div>
+        </div>
+        <ul class="space-y-3">
+          {fit.map((f) => (
+            <li class="flex items-start gap-3 text-[15px] leading-relaxed">
+              <span class="mt-1 shrink-0 text-[var(--color-primary)]"><Icon name="check" size={16} /></span>
+              <span class="text-[var(--color-primary)]">{f}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="bg-[var(--color-gray-3)] rounded-2xl p-7 border border-[var(--color-gray-2)]">
+        <div class="flex items-center gap-2.5 mb-5">
+          <span class="inline-flex w-8 h-8 rounded-lg bg-[var(--color-gray-2)] text-[var(--color-gray-1)] items-center justify-center"><Icon name="x" size={18} /></span>
+          <div class="font-bold text-lg text-[var(--color-primary)]">Пока не подходит, если</div>
+        </div>
+        <ul class="space-y-3">
+          {notFit.map((f) => (
+            <li class="flex items-start gap-3 text-[15px] leading-relaxed">
+              <span class="mt-1 shrink-0 text-[var(--color-gray-1)]"><Icon name="x" size={16} /></span>
+              <span class="text-[var(--color-gray-1)]">{f}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

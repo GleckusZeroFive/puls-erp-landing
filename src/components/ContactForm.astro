@@ -70,6 +70,42 @@ const fallbackEmail = "hello@puls-erp.ru";
     />
   </div>
 
+  <div class="grid sm:grid-cols-2 gap-3">
+    <div>
+      <label class="block text-xs uppercase tracking-wider text-white/60 mb-2" for="cf-objects">Объектов параллельно</label>
+      <select id="cf-objects" name="objects" required class="cf-input cf-select w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]">
+        <option value="" disabled selected>Выберите…</option>
+        <option value="1–4 объекта">1–4 объекта</option>
+        <option value="5–10 объектов">5–10 объектов</option>
+        <option value="10–30 объектов">10–30 объектов</option>
+        <option value="30+ объектов">30+ объектов</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs uppercase tracking-wider text-white/60 mb-2" for="cf-role">Ваша роль</label>
+      <select id="cf-role" name="role" required class="cf-input cf-select w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]">
+        <option value="" disabled selected>Выберите…</option>
+        <option value="Собственник / учредитель">Собственник / учредитель</option>
+        <option value="Директор">Директор</option>
+        <option value="Руководитель проектов">Руководитель проектов</option>
+        <option value="Главный инженер / ПТО">Главный инженер / ПТО</option>
+        <option value="Другое">Другое</option>
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <label class="block text-xs uppercase tracking-wider text-white/60 mb-2" for="cf-pain">Что болит сильнее всего</label>
+    <select id="cf-pain" name="pain" required class="cf-input cf-select w-full bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]">
+      <option value="" disabled selected>Выберите…</option>
+      <option value="Срывы и перерасход по материалам">Срывы и перерасход по материалам</option>
+      <option value="Споры с заказчиком и допработы">Споры с заказчиком и допработы</option>
+      <option value="Контроль ПТО и документов">Контроль ПТО и документов</option>
+      <option value="Финансы и маржа объектов">Финансы и маржа объектов</option>
+      <option value="Другое">Другое</option>
+    </select>
+  </div>
+
   <label class="flex items-start gap-2 text-xs text-white/60 pt-2">
     <input
       type="checkbox"
@@ -84,7 +120,7 @@ const fallbackEmail = "hello@puls-erp.ru";
     type="submit"
     class="cf-submit w-full bg-[var(--color-accent)] hover:opacity-90 transition px-6 py-3 rounded-xl font-medium mt-2 inline-flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
   >
-    <span class="cf-label">Получить ранний доступ</span>
+    <span class="cf-label">Подать заявку в пилот</span>
     <span class="cf-spinner hidden" aria-hidden="true">
       <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
         <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25" />
@@ -105,6 +141,22 @@ const fallbackEmail = "hello@puls-erp.ru";
     width: 1px;
     height: 1px;
     overflow: hidden;
+  }
+  /* select: значение белое на тёмном инпуте, но опции в нативном дропдауне — тёмные на светлом */
+  .cf-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    padding-right: 2.5rem;
+  }
+  .cf-select option {
+    color: #202F4D;
+    background: #fff;
+  }
+  .cf-select:invalid {
+    color: rgba(255, 255, 255, 0.4);
   }
   .contact-form[data-state="loading"] .cf-arrow,
   .contact-form[data-state="loading"] .cf-label { display: none; }
@@ -164,6 +216,9 @@ const fallbackEmail = "hello@puls-erp.ru";
           `Имя: ${formData.get("name") || ""}`,
           `Компания: ${formData.get("company") || ""}`,
           `Контакт: ${formData.get("contact") || ""}`,
+          `Объектов: ${formData.get("objects") || ""}`,
+          `Роль: ${formData.get("role") || ""}`,
+          `Что болит: ${formData.get("pain") || ""}`,
         ].join("\n");
         params.set("body", body);
         window.location.href = `mailto:${fallback}?${params.toString()}`;

@@ -84,5 +84,37 @@ const ogImage = new URL("/figma/screen-dashboard-2.webp", siteUrl).toString();
         }
       })();
     </script>
+    <script is:inline>
+      // Generic tab switcher — обслуживает все [data-switch] блоки (dashboard / roles / ai / scenarios).
+      // Клик по [data-tab] тогглит .is-active на кнопках и на [data-pane] внутри того же контейнера.
+      (() => {
+        function initSwitches() {
+          document.querySelectorAll("[data-switch]").forEach((group) => {
+            if (group.dataset.switchBound) return;
+            group.dataset.switchBound = "1";
+            const tabs = Array.from(group.querySelectorAll("[data-tab]"));
+            const panes = Array.from(group.querySelectorAll("[data-pane]"));
+            tabs.forEach((tab) => {
+              tab.addEventListener("click", () => {
+                const id = tab.getAttribute("data-tab");
+                tabs.forEach((t) => {
+                  const on = t === tab;
+                  t.classList.toggle("is-active", on);
+                  t.setAttribute("aria-selected", on ? "true" : "false");
+                });
+                panes.forEach((p) => {
+                  p.classList.toggle("is-active", p.getAttribute("data-pane") === id);
+                });
+              });
+            });
+          });
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initSwitches);
+        } else {
+          initSwitches();
+        }
+      })();
+    </script>
   </body>
 </html>

@@ -1,0 +1,65 @@
+---
+import Icon from "./Icon.astro";
+
+const chains = [
+  {
+    title: "Простой по материалам",
+    steps: ["Материал не заказан вовремя", "бригада стоит", "срок сдвигается", "срочная закупка по оверпрайсу", "штрафы от заказчика"],
+  },
+  {
+    title: "Слепые оплаты",
+    steps: ["Заявки без связки с объёмом", "оплата неподтверждённых работ", "кассовый разрыв и перерасход сметы"],
+  },
+  {
+    title: "Потерянные допработы",
+    steps: ["Письмо заказчику не ушло вовремя", "допработа без бумаг", "заказчик отказался платить", "минус на объекте"],
+  },
+  {
+    title: "Поздний перерасход",
+    steps: ["Прибыль съедается по проценту", "убыток виден только после сдачи", "на новые закупки денег уже не хватает"],
+  },
+  {
+    title: "Размазанная ответственность",
+    steps: ["«Я звонил» · «Я писал в чат» · «Думал, он знает»", "виноватых нет", "директор лично ищет ответственных"],
+  },
+];
+---
+
+<section id="cost" class="bg-[var(--color-gray-3)]">
+  <div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
+    <div class="reveal max-w-3xl mb-12">
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Цена ручного управления</div>
+      <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
+        Ручной контроль стоит дороже, чем кажется
+      </h2>
+      <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
+        Один незамеченный простой или упущенная доработка обходятся дороже, чем годы лицензии
+        на систему. Хаос забирает деньги тихо — через потерянные объёмы, сорванные сроки сдачи
+        и авансы, выданные сверх факта.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4 reveal">
+      {chains.map((c) => (
+        <div class="bg-white rounded-2xl p-6 border border-[var(--color-gray-2)]">
+          <div class="flex items-center gap-2.5 mb-4">
+            <span class="inline-flex w-9 h-9 rounded-xl bg-[var(--color-accent)]/10 text-[var(--color-accent)] items-center justify-center shrink-0">
+              <Icon name="alert-triangle" size={18} />
+            </span>
+            <div class="font-bold text-[var(--color-primary)]">{c.title}</div>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-1.5 gap-y-2 text-sm leading-snug">
+            {c.steps.map((s, i) => (
+              <>
+                <span class={i === c.steps.length - 1 ? "text-[var(--color-accent)] font-medium" : "text-[var(--color-gray-1)]"}>{s}</span>
+                {i < c.steps.length - 1 && (
+                  <span class="text-[var(--color-gray-2)] shrink-0"><Icon name="arrow-right" size={14} /></span>
+                )}
+              </>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

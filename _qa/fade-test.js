@@ -1,70 +1,53 @@
-// Functional test: cross-fade на табах PulseDashboard
+// Functional test: generic cross-fade на табах PulseDashboard (data-switch/data-tab/data-pane)
 import { chromium } from "playwright";
 
-const url = process.argv[2] || "https://gleckuszerofive.github.io/puls-erp-landing/";
+const url = process.argv[2] || "http://localhost:4322/";
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 const page = await ctx.newPage();
 await page.goto(url, { waitUntil: "networkidle" });
 
-// Прокрутка до dashboard для активации reveal
 await page.evaluate(async () => {
   const dash = document.querySelector(".pulse-dashboard");
   dash.scrollIntoView({ behavior: "instant" });
   await new Promise((r) => setTimeout(r, 300));
 });
 
-// Сначала зафиксируем initial state
-const before = await page.evaluate(() => {
-  const cs = (sel) => {
-    const el = document.querySelector(sel);
-    if (!el) return null;
-    return {
-      opacity: parseFloat(getComputedStyle(el).opacity),
-      transition: getComputedStyle(el).transition,
-    };
-  };
-  return {
-    director: cs('.pulse-scenario[data-pulse-scenario="director"]'),
-    rp: cs('.pulse-scenario[data-pulse-scenario="rp"]'),
-    supplier: cs('.pulse-scenario[data-pulse-scenario="supplier"]'),
-    active: document.querySelector(".pulse-dashboard").getAttribute("data-active"),
-  };
+// Определяем id первой и второй вкладки динамически
+const { first, second } = await page.evaluate(() => {
+  const tabs = document.querySelectorAll('.pulse-dashboard [data-tab]');
+  return { first: tabs[0].getAttribute("data-tab"), second: tabs[1].getAttribute("data-tab") };
 });
-console.log("BEFORE click:", JSON.stringify(before, null, 2));
+console.log(`tabs: first=${first} second=${second}`);
 
-// Кликаем на rp таб
-await page.locator('[data-pulse-tab="rp"]').click();
+const paneSel = (id) => `.pulse-dashboard .switch-stack > [data-pane="${id}"].space-y-5`;
 
-// Замеряем сразу после клика — должны быть В transition (значения между 0 и 1)
+const before = await page.evaluate((sel) => parseFloat(getComputedStyle(document.querySelector(sel)).opacity), paneSel(first));
+console.log("BEFORE click — first pane opacity:", before);
+
+await page.locator(`.pulse-dashboard [data-tab="${second}"]`).click();
 await page.waitForTimeout(150); // середина 320ms transition
-const mid = await page.evaluate(() => {
-  const cs = (sel) => parseFloat(getComputedStyle(document.querySelector(sel)).opacity);
-  return {
-    director: cs('.pulse-scenario[data-pulse-scenario="director"]'),
-    rp: cs('.pulse-scenario[data-pulse-scenario="rp"]'),
-  };
-});
-console.log("MID transition (150ms after click):", JSON.stringify(mid));
+const mid = await page.evaluate((sels) => ({
+  first: parseFloat(getComputedStyle(document.querySelector(sels[0])).opacity),
+  second: parseFloat(getComputedStyle(document.querySelector(sels[1])).opacity),
+}), [paneSel(first), paneSel(second)]);
+console.log("MID transition (150ms):", JSON.stringify(mid));
 
-// Финальное состояние после transition
 await page.waitForTimeout(400);
-const after = await page.evaluate(() => {
-  const cs = (sel) => parseFloat(getComputedStyle(document.querySelector(sel)).opacity);
-  return {
-    director: cs('.pulse-scenario[data-pulse-scenario="director"]'),
-    rp: cs('.pulse-scenario[data-pulse-scenario="rp"]'),
-    active: document.querySelector(".pulse-dashboard").getAttribute("data-active"),
-  };
-});
+const after = await page.evaluate((sels) => ({
+  first: parseFloat(getComputedStyle(document.querySelector(sels[0])).opacity),
+  second: parseFloat(getComputedStyle(document.querySelector(sels[1])).opacity),
+}), [paneSel(first), paneSel(second)]);
 console.log("AFTER transition:", JSON.stringify(after));
 
-const directorFading = mid.director > 0.01 && mid.director < 0.99;
-const rpAppearing = mid.rp > 0.01 && mid.rp < 0.99;
+const firstFading = mid.first > 0.01 && mid.first < 0.99;
+const secondAppearing = mid.second > 0.01 && mid.second < 0.99;
+const settled = after.first < 0.05 && after.second > 0.95;
 console.log("");
-console.log(`Cross-fade working: ${directorFading && rpAppearing ? "✓" : "✗"}`);
-console.log(`  director fading out (mid > 0, < 1): ${directorFading ? "yes" : "NO"} (${mid.director})`);
-console.log(`  rp appearing (mid > 0, < 1): ${rpAppearing ? "yes" : "NO"} (${mid.rp})`);
+console.log(`Cross-fade working: ${firstFading && secondAppearing && settled ? "✓" : "✗"}`);
+console.log(`  first fading out: ${firstFading ? "yes" : "NO"} (${mid.first})`);
+console.log(`  second appearing: ${secondAppearing ? "yes" : "NO"} (${mid.second})`);
+console.log(`  settled (first→0, second→1): ${settled ? "yes" : "NO"}`);
 
 await ctx.close();
 await browser.close();
