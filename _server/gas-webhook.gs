@@ -88,6 +88,31 @@ function appendToSheet(row) {
   const sheet = ss.getActiveSheet();
   if (sheet.getLastRow() === 0) sheet.appendRow(SHEET_HEADERS);
   sheet.appendRow(row);
+  formatSheet(sheet);
+}
+
+/**
+ * Перенос текста в ячейках (чтобы длинный текст не уезжал за границу)
+ * + авторазмер колонок в адекватных пределах (узкие — по содержимому,
+ * широкие — ограничиваем максимумом и переносим внутри ячейки).
+ */
+function formatSheet(sheet) {
+  const cols = SHEET_HEADERS.length;
+  const rows = sheet.getLastRow();
+  if (rows < 1) return;
+
+  sheet.getRange(1, 1, rows, cols)
+    .setWrap(true)
+    .setVerticalAlignment("top");
+
+  const MIN_W = 90;
+  const MAX_W = 340;
+  sheet.autoResizeColumns(1, cols);
+  for (let c = 1; c <= cols; c++) {
+    const w = sheet.getColumnWidth(c);
+    if (w > MAX_W) sheet.setColumnWidth(c, MAX_W);
+    else if (w < MIN_W) sheet.setColumnWidth(c, MIN_W);
+  }
 }
 
 function sendEmailNotification(lead) {
