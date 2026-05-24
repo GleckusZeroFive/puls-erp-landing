@@ -1,5 +1,6 @@
 ---
 import Icon from "./Icon.astro";
+import { asset } from "../utils/asset";
 
 /**
  * Форма заявки → Google Apps Script webhook → Google Sheet + Telegram.
@@ -128,7 +129,7 @@ const fallbackEmail = "hello@puls-erp.ru";
       required
       class="mt-0.5 accent-[var(--color-accent)]"
     />
-    <span>Согласен на обработку персональных данных (152-ФЗ)</span>
+    <span>Согласен на обработку <a href={asset("/privacy")} target="_blank" rel="noopener" class="underline hover:text-white">персональных данных</a> (152-ФЗ)</span>
   </label>
 
   <button

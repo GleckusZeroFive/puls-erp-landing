@@ -33,7 +33,7 @@ const year = new Date().getFullYear();
           <li><a href="#trust" class="hover:text-white transition">Опыт</a></li>
           <li><a href="#pilot" class="hover:text-white transition">Условия пилота</a></li>
           <li><a href="#faq" class="hover:text-white transition">Вопросы и ответы</a></li>
-          <li><a href="/privacy" class="hover:text-white transition">Обработка данных</a></li>
+          <li><a href={asset("/privacy")} class="hover:text-white transition">Обработка данных</a></li>
         </ul>
       </div>
 
@@ -46,9 +46,16 @@ const year = new Date().getFullYear();
       </div>
     </div>
 
-    <div class="pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs text-white/40">
-      <div>© {year} PULS ERP. Все права защищены.</div>
-      <div>Сделано в России</div>
+    <div class="pt-8 border-t border-white/10 text-xs text-white/40 space-y-4">
+      <p class="leading-relaxed max-w-3xl">
+        Участие в пилотной программе предоставляется на условиях, действующих на момент
+        подачи заявки. Оператор оставляет за собой право в одностороннем порядке изменять
+        состав функций, сроки и условия участия в пилоте.
+      </p>
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>© {year} PULS ERP. Все права защищены.</div>
+        <div>Сделано в России</div>
+      </div>
     </div>
   </div>
 </footer>
