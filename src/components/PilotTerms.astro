@@ -18,10 +18,18 @@ const points = [
       <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight max-w-3xl">
         Ранний доступ — и настройка системы под реальные процессы вашей стройки
       </h2>
-      <p class="text-[var(--color-gray-1)] text-lg leading-relaxed max-w-3xl mb-10">
+      <p class="text-[var(--color-gray-1)] text-lg leading-relaxed max-w-3xl mb-7">
         Пилот — это не тестирование сырого продукта. Это совместная настройка первого рабочего
         контура PULS (объекты, материалы, оплаты, документы) под ваши процессы силами нашей команды.
       </p>
+
+      <div class="flex flex-wrap gap-2.5 mb-10">
+        {["5–10 компаний в наборе", "3 месяца бесплатного доступа", "до 10 пользователей", "настройка под ваши процессы"].map((s) => (
+          <span class="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-primary)] bg-[var(--color-gray-3)] border border-[var(--color-gray-2)] rounded-full px-4 py-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]"></span>{s}
+          </span>
+        ))}
+      </div>
 
       <div class="grid md:grid-cols-3 gap-5 mb-10">
         {points.map((p) => (
