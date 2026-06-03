@@ -53,9 +53,9 @@ const steps = [
         </p>
       </div>
 
-      <div class="flex flex-wrap justify-center gap-4 reveal">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal">
         {pains.map((item) => (
-          <div class="bg-white rounded-2xl p-6 border border-[var(--color-gray-2)] hover:border-[var(--color-accent)]/40 transition w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
+          <div class="bg-white rounded-2xl p-6 border border-[var(--color-gray-2)] hover:border-[var(--color-accent)]/40 transition">
             <div class="flex items-center gap-3 mb-3">
               <span class="font-black text-[var(--color-gray-2)] text-lg leading-none">{item.num}</span>
               <span class="inline-flex w-10 h-10 rounded-xl bg-[var(--color-accent)]/10 text-[var(--color-accent)] items-center justify-center">
