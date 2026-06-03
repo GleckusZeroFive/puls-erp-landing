@@ -40,8 +40,8 @@ const chains = [
     </div>
 
     <div class="grid md:grid-cols-2 gap-4 reveal">
-      {chains.map((c) => (
-        <div class="bg-white rounded-2xl p-6 border border-[var(--color-gray-2)]">
+      {chains.map((c, idx) => (
+        <div class={`bg-white rounded-2xl p-6 border border-[var(--color-gray-2)] ${idx === chains.length - 1 ? "md:col-span-2" : ""}`}>
           <div class="flex items-center gap-2.5 mb-4">
             <span class="inline-flex w-9 h-9 rounded-xl bg-[var(--color-accent)]/10 text-[var(--color-accent)] items-center justify-center shrink-0">
               <Icon name="alert-triangle" size={18} />
