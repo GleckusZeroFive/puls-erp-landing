@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
 import Footer from "../components/Footer.astro";
 import Icon from "../components/Icon.astro";
-import PulseDashboard from "../components/PulseDashboard.astro";
+import ProductScreens from "../components/ProductScreens.astro";
 import CityPattern from "../components/CityPattern.astro";
 import ContactForm from "../components/ContactForm.astro";
 import CostOfChaos from "../components/CostOfChaos.astro";
@@ -83,16 +83,16 @@ const steps = [
       <div class="reveal max-w-3xl mb-12">
         <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Пульс компании</div>
         <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
-          Пульс компании сегодня — кликните, чтобы проверить в действии
+          Карточка объекта — листайте реальные экраны продукта
         </h2>
         <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
-          Один экран показывает разные участки контроля: объекты в риске, согласование оплат,
-          материалы, документы и сводку помощника. Переключатель сверху — живой, попробуйте.
+          Один объект — разные участки контроля: общая картина, бюджет, график работ, стройка
+          и снабжение. Переключайте вкладки сверху — это настоящие экраны PULS, попробуйте.
         </p>
       </div>
 
       <div class="reveal">
-        <PulseDashboard />
+        <ProductScreens />
       </div>
     </div>
   </section>
