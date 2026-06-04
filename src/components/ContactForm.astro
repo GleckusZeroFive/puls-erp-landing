@@ -270,7 +270,7 @@ const fallbackEmail = "hello@puls-erp.ru";
       // Если webhook не настроен — fallback на mailto
       if (!webhook) {
         const params = new URLSearchParams();
-        params.set("subject", "Заявка с лендинга Pulse");
+        params.set("subject", "Заявка с лендинга Puls");
         const body = [
           `Имя: ${formData.get("name") || ""}`,
           `Компания: ${formData.get("company") || ""}`,
