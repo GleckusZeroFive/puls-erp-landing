@@ -3,7 +3,8 @@
 @theme {
   /* PULS ERP — продуктовая палитра Юры (Figma) */
   --color-primary: #202F4D;          /* navy — основной */
-  --color-accent: #FF3A4A;           /* красный — CTA / акценты */
+  --color-accent: #2D61C7;           /* синий Юры (его primary action, Figma) — CTA / акценты на светлом */
+  --color-accent-light: #5E95FF;     /* светлый синий Юры — акцентный ТЕКСТ на тёмных (navy) секциях */
   --color-bg: #FFFFFF;               /* белый фон */
   --color-gray-1: #747476;           /* основной secondary текст */
   --color-gray-2: #D0D0D0;           /* border / divider */

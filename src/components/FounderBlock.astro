@@ -1,4 +1,6 @@
 ---
+import { asset } from "../utils/asset";
+
 const benefits = [
   {
     num: "01",
@@ -26,7 +28,7 @@ const benefits = [
         Вы перестаёте быть диспетчером собственной компании
       </h2>
       <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
-        PULS нужен не чтобы «контролировать всех руками ещё больше», а чтобы контроль перестал
+        Pulse нужен не чтобы «контролировать всех руками ещё больше», а чтобы контроль перестал
         зависеть от вашей памяти, личного телефона и утренних созвонов-допросов.
       </p>
     </div>
@@ -45,17 +47,17 @@ const benefits = [
       </div>
 
       <div class="bg-[var(--color-primary)] text-white rounded-2xl p-8 md:p-10 flex flex-col">
-        <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-4 font-medium">Слово основателя</div>
+        <div class="text-xs uppercase tracking-widest text-[var(--color-accent-light)] mb-4 font-medium">Слово основателя</div>
         <p class="text-xl md:text-2xl leading-relaxed font-medium mb-8">
           «Когда у меня было до 22 объектов параллельно, я понял: хаос на стройке нельзя победить
           наймом новых людей — их засасывает в тот же водоворот чатов и Excel. Нужна простая
           система-каркас, которая свяжет работы с деньгами и документами.»
         </p>
         <div class="mt-auto flex items-center gap-4 pt-6 border-t border-white/15">
-          <div class="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center font-bold">АП</div>
+          <img src={asset("/figma/founder-artem.webp")} alt="Артём Плечёв, основатель Pulse" class="w-12 h-12 rounded-full object-cover shrink-0" />
           <div>
             <div class="font-semibold">Артём Плечёв</div>
-            <div class="text-white/60 text-sm">основатель PULS · 19 лет в подрядном строительстве</div>
+            <div class="text-white/60 text-sm">основатель Pulse · 19 лет в подрядном строительстве</div>
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { aiRisks } from "../data/ai-risks.ts";
 <section id="ai" class="relative overflow-hidden bg-[var(--color-primary)] text-white">
   <div class="relative mx-auto max-w-6xl px-6 py-20 md:py-24" data-switch="ai">
     <div class="reveal max-w-3xl mb-8">
-      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Встроенный помощник</div>
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent-light)] mb-3 font-medium">Встроенный помощник</div>
       <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
         Не принимает решения — замечает упущенные детали
       </h2>
@@ -46,7 +46,7 @@ import { aiRisks } from "../data/ai-risks.ts";
         {aiRisks.map((r, i) => (
           <div class={i === 0 ? "is-active" : ""} data-pane={r.id}>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 h-full">
-              <div class="inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-semibold text-[var(--color-accent)] bg-[var(--color-accent)]/15 px-2.5 py-1 rounded-full mb-5">
+              <div class="inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-semibold text-[var(--color-accent-light)] bg-[var(--color-accent-light)]/15 px-2.5 py-1 rounded-full mb-5">
                 Как это задумано
               </div>
               <div class="text-xs uppercase tracking-widest text-white/50 mb-2 font-medium">Помощник заметил</div>
@@ -78,7 +78,7 @@ import { aiRisks } from "../data/ai-risks.ts";
     background-color: rgba(255, 255, 255, 0.08);
   }
   .tab-btn-dark.is-active {
-    border-color: var(--color-accent);
-    background-color: rgba(255, 58, 74, 0.12);
+    border-color: var(--color-accent-light);
+    background-color: rgba(94, 149, 255, 0.14);
   }
 </style>

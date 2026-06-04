@@ -7,7 +7,7 @@ interface Props {
   noindex?: boolean;
 }
 const {
-  title = "PULS ERP — управление строительной подрядной компанией",
+  title = "Pulse — управление строительной подрядной компанией",
   description = "Система оперативного контроля строительной подрядной компании. Объекты, материалы, оплаты, документы и риски — в одном экране, с AI-сводкой на каждое утро.",
   noindex = false,
 } = Astro.props as Props;
@@ -35,7 +35,7 @@ const ogImage = new URL("/figma/screen-yura-objekt.webp", siteUrl).toString();
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:site_name" content="PULS ERP" />
+    <meta property="og:site_name" content="Pulse" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
