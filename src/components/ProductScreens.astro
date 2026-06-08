@@ -31,6 +31,14 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
       <span class="w-3 h-3 rounded-full bg-[#FEBC2E]"></span>
       <span class="w-3 h-3 rounded-full bg-[#28C840]"></span>
       <span class="ml-3 text-xs text-[var(--color-gray-1)] truncate">Puls · ЖК «Альянс» — карточка объекта</span>
+      <button
+        type="button"
+        class="screens-toggle ml-auto inline-flex items-center gap-1.5 text-xs font-medium text-[var(--color-primary)] bg-white border border-[var(--color-gray-2)] hover:bg-[var(--color-gray-3)] transition rounded-lg px-2.5 py-1.5 shrink-0"
+        aria-pressed="false"
+      >
+        <svg class="toggle-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        <span class="toggle-label hidden sm:inline">Показать целиком</span>
+      </button>
     </div>
     <!-- экраны наложены (switch-stack): окно одной высоты, без скачков при переключении -->
     <div class="switch-stack">
@@ -64,6 +72,30 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
 </div>
 
 <style>
+  /* плавная анимация высоты окна при разворачивании (Chrome 129+; иначе мгновенно) */
+  [data-switch="objscreen"] {
+    interpolate-size: allow-keywords;
+  }
+  .screen-scroll {
+    transition: height 380ms cubic-bezier(0.4, 0, 0.2, 1);
+    /* всегда резервируем место под скроллбар → ширина картинки не скачет
+       при появлении/исчезновении полосы (разворот/сворачивание) */
+    scrollbar-gutter: stable;
+  }
+  /* развёрнутый режим: экран целиком; overflow оставляем auto (из Tailwind),
+     чтобы gutter был зарезервирован так же, как в свёрнутом — без горизонтального рывка */
+  [data-switch="objscreen"].is-expanded .screen-scroll {
+    height: auto;
+  }
+  /* в развёрнутом режиме неактивные панели не должны задавать высоту ячейки —
+     иначе под короткой активной вкладкой остаётся пустое поле */
+  [data-switch="objscreen"].is-expanded .switch-stack > [data-pane]:not(.is-active) {
+    display: none;
+  }
+  [data-switch="objscreen"].is-expanded .screen-fade,
+  [data-switch="objscreen"].is-expanded .screen-hint {
+    display: none;
+  }
   /* аффорданс прокрутки гаснет, когда долистали до низа окна */
   .screen-window[data-at-end] .screen-fade,
   .screen-window[data-at-end] .screen-hint {
@@ -105,5 +137,25 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
     });
   }
   initScreenScroll();
-  document.addEventListener("astro:after-swap", initScreenScroll);
+
+  // Тоггл «показать экран целиком ⇄ свернуть в окно с прокруткой»
+  function initExpandToggle() {
+    document.querySelectorAll<HTMLElement>('[data-switch="objscreen"]').forEach((root) => {
+      const btn = root.querySelector<HTMLButtonElement>(".screens-toggle");
+      const label = btn?.querySelector<HTMLElement>(".toggle-label");
+      if (!btn) return;
+      btn.addEventListener("click", () => {
+        const expanded = root.classList.toggle("is-expanded");
+        btn.setAttribute("aria-pressed", expanded ? "true" : "false");
+        if (label) label.textContent = expanded ? "Свернуть в окно" : "Показать целиком";
+        // при сворачивании вернуть активное окно к началу
+        if (!expanded) {
+          root.querySelectorAll<HTMLElement>(".screen-scroll").forEach((el) => { el.scrollTop = 0; });
+        }
+      });
+    });
+  }
+  initExpandToggle();
+
+  document.addEventListener("astro:after-swap", () => { initScreenScroll(); initExpandToggle(); });
 </script>
