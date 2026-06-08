@@ -2,6 +2,8 @@
 // Интерактивный вьюер реальных экранов продукта (Figma Юры).
 // Вкладки переключают настоящие скрины объекта — «пощупать продукт».
 // Движок: общий switch-stack (data-switch / data-tab / data-pane) + JS в Layout.astro.
+// Окно с прокруткой: виден весь экран целиком, посетитель листает внутри рамки.
+// overscroll-contain не даёт прокрутке «утекать» на страницу; тень+хинт снизу — аффорданс.
 // Демо-режим: листаем реальные экраны, НЕ имитируем рабочее приложение.
 import TabSwitch from "./TabSwitch.astro";
 import { asset } from "../utils/asset";
@@ -30,17 +32,25 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
       <span class="w-3 h-3 rounded-full bg-[#28C840]"></span>
       <span class="ml-3 text-xs text-[var(--color-gray-1)] truncate">Puls · ЖК «Альянс» — карточка объекта</span>
     </div>
-    <!-- экран: фиксированная высота, верх скрина, без скачков при переключении -->
+    <!-- экраны наложены (switch-stack): окно одной высоты, без скачков при переключении -->
     <div class="switch-stack">
       {screens.map((s, i) => (
         <div class={i === 0 ? "is-active" : ""} data-pane={s.id}>
-          <div class="aspect-[4/3] md:aspect-[16/10] overflow-hidden bg-[#E0E4ED]">
-            <img
-              src={asset(s.img)}
-              alt={s.alt}
-              loading="lazy"
-              class="w-full h-full object-cover object-top block"
-            />
+          <div class="screen-window relative bg-[#E0E4ED]">
+            <div class="screen-scroll h-[420px] md:h-[520px] overflow-auto overscroll-contain">
+              <img
+                src={asset(s.img)}
+                alt={s.alt}
+                loading="lazy"
+                class="w-full h-auto block"
+              />
+            </div>
+            <!-- аффорданс прокрутки: тень-фейд + хинт; прячутся у нижнего края -->
+            <div class="screen-fade pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/15 to-transparent"></div>
+            <div class="screen-hint pointer-events-none absolute bottom-3 right-3 flex items-center gap-1 text-[11px] text-white bg-black/55 backdrop-blur-sm px-2.5 py-1 rounded-full">
+              листайте экран
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
           </div>
         </div>
       ))}
@@ -48,6 +58,52 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
   </div>
 
   <p class="reveal mt-4 text-sm text-[var(--color-gray-1)]">
-    Реальные экраны продукта. Интерфейс дорабатывается — финальный вид настраивается под ваши процессы на пилоте.
+    Реальные экраны продукта целиком — листайте внутри окна. Интерфейс дорабатывается,
+    финальный вид настраивается под ваши процессы на пилоте.
   </p>
 </div>
+
+<style>
+  /* аффорданс прокрутки гаснет, когда долистали до низа окна */
+  .screen-window[data-at-end] .screen-fade,
+  .screen-window[data-at-end] .screen-hint {
+    opacity: 0;
+  }
+  .screen-fade,
+  .screen-hint {
+    transition: opacity 240ms ease;
+  }
+  /* аккуратный тонкий скроллбар внутри окна */
+  .screen-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+  }
+  .screen-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .screen-scroll::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.22);
+    border-radius: 8px;
+  }
+</style>
+
+<script>
+  // Прячем тень/хинт, когда окно долистано до низа (или контент не прокручивается).
+  function initScreenScroll() {
+    document.querySelectorAll<HTMLElement>(".screen-scroll").forEach((el) => {
+      const win = el.closest<HTMLElement>(".screen-window");
+      if (!win) return;
+      const update = () => {
+        const atEnd = el.scrollHeight - el.scrollTop - el.clientHeight < 8;
+        if (atEnd) win.setAttribute("data-at-end", "");
+        else win.removeAttribute("data-at-end");
+      };
+      el.addEventListener("scroll", update, { passive: true });
+      // первичная проверка (контент короче окна → сразу прячем хинт)
+      requestAnimationFrame(update);
+    });
+  }
+  initScreenScroll();
+  document.addEventListener("astro:after-swap", initScreenScroll);
+</script>
