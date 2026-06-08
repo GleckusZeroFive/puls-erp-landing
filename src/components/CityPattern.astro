@@ -1,18 +1,13 @@
 ---
 /**
- * Декоративный фоновый паттерн в стиле Юры — фото-текстура стеклянного
- * фасада здания (low-e glass) поверх navy primary, opacity ~0.2.
- * 1-в-1 повторяет фон карточки объекта в UI продукта.
- * Источник: Figma-экспорт «Kính low e 1.png» (1280×832, сжатие WebP).
- *
- * Сам по себе прозрачный — родитель должен быть navy (#202F4D)
- * и иметь position: relative + overflow: hidden.
+ * Декоративная фоновая текстура (стеклянный фасад) поверх navy primary.
+ * Прозрачная сама по себе — родитель должен быть navy + position: relative + overflow: hidden.
  */
 import { asset } from "../utils/asset";
 
 interface Props {
   className?: string;
-  /** Прозрачность текстуры, по умолчанию 0.2 (как у Юры) */
+  /** Прозрачность текстуры, по умолчанию 0.2 */
   opacity?: number;
 }
 const { className = "", opacity = 0.2 } = Astro.props;
@@ -34,8 +29,7 @@ const bgUrl = asset("/figma/glass-facade.webp");
     background-repeat: no-repeat;
     pointer-events: none;
     filter: blur(2px) saturate(0.85);
-    /* blur «вытягивает» края — компенсируем небольшим scale,
-       чтобы по углам не было прозрачной каймы */
+    /* scale компенсирует расплыв краёв от blur */
     transform: scale(1.04);
     transform-origin: center;
   }

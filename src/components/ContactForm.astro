@@ -12,8 +12,7 @@ import { asset } from "../utils/asset";
  *  - Honeypot-поле «trap» (скрыто CSS, ловит ботов которые заполняют всё)
  *  - Rate-limit 30 секунд между отправками через localStorage
  *
- * Submit стратегия — application/x-www-form-urlencoded, чтобы избежать
- * CORS preflight на GAS doPost.
+ * Submit: application/x-www-form-urlencoded — без CORS preflight на GAS doPost.
  */
 const webhookUrl = import.meta.env.PUBLIC_FORM_WEBHOOK_URL || "";
 const fallbackEmail = "hello@puls-erp.ru";
@@ -317,7 +316,7 @@ const fallbackEmail = "hello@puls-erp.ru";
       const formData = new FormData(form);
       formData.delete("trap");
 
-      // «Другое» + уточнение → подмешиваем в поле pain (отдельную колонку не плодим)
+      // «Другое» + уточнение → подмешиваем в поле pain
       if (formData.get("pain") === "Другое") {
         const other = (formData.get("pain_other") || "").toString().trim();
         if (other) formData.set("pain", "Другое — " + other);
