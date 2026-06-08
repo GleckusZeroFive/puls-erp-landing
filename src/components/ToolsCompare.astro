@@ -25,7 +25,7 @@ const tools = [
 
 <section id="tools" class="bg-[var(--color-gray-3)]">
   <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24">
-    <div class="reveal max-w-3xl mb-12">
+    <div class="reveal max-w-3xl mx-auto text-center mb-12">
       <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Где чья зона ответственности</div>
       <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
         Не ломаем инструменты. Собираем картину поверх них
@@ -36,9 +36,9 @@ const tools = [
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 reveal">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 reveal-group">
       {tools.map((t) => (
-        <div class="bg-white rounded-2xl p-6 border border-[var(--color-gray-2)] flex flex-col">
+        <div class="bg-white rounded-2xl p-6 border border-[var(--color-gray-2)] flex flex-col card-hover">
           <span class="inline-flex w-11 h-11 rounded-xl bg-[var(--color-gray-3)] text-[var(--color-primary)] items-center justify-center mb-4">
             <Icon name={t.icon} size={22} />
           </span>
@@ -51,7 +51,7 @@ const tools = [
         </div>
       ))}
 
-      <div class="bg-[var(--color-primary)] text-white rounded-2xl p-6 flex flex-col border-2 border-[var(--color-accent-light)]">
+      <div class="bg-[var(--color-primary)] text-white rounded-2xl p-6 flex flex-col border-2 border-[var(--color-accent-light)] card-hover">
         <span class="inline-flex w-11 h-11 rounded-xl bg-[var(--color-accent)] text-white items-center justify-center mb-4">
           <Icon name="sparkles" size={22} />
         </span>

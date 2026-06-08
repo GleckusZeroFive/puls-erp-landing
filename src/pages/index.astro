@@ -17,6 +17,7 @@ import TrustMetrics from "../components/TrustMetrics.astro";
 import AudienceFilter from "../components/AudienceFilter.astro";
 import PilotTerms from "../components/PilotTerms.astro";
 import FAQ from "../components/FAQ.astro";
+import StickyHeader from "../components/StickyHeader.astro";
 
 const pains = [
   { num: "01", icon: "package",        title: "Материал заказали поздно",          desc: "Заявка улетела в чат, до снабжения не дошла, оплату не согласовали вовремя. Бригада стоит, срок сдвигается, закупка идёт в срочном режиме и дороже." },
@@ -35,13 +36,15 @@ const steps = [
 
 <Layout>
 
+  <StickyHeader />
+
   <!-- 01 · HERO -->
   <Hero />
 
   <!-- 02 · PROBLEM -->
   <section id="problem" class="bg-[var(--color-gray-3)]">
     <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24">
-      <div class="reveal max-w-3xl mb-12">
+      <div class="reveal max-w-3xl mx-auto text-center mb-12">
         <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Знакомая картина?</div>
         <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
           Когда данные по стройке живут в разных местах, проблемы всплывают слишком поздно
@@ -53,9 +56,9 @@ const steps = [
         </p>
       </div>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal-group">
         {pains.map((item) => (
-          <div class="bg-white rounded-2xl p-6 border border-[var(--color-gray-2)] hover:border-[var(--color-accent)]/40 transition">
+          <div class="bg-white rounded-2xl p-6 border border-[var(--color-gray-2)] card-hover">
             <div class="flex items-center gap-3 mb-3">
               <span class="font-black text-[var(--color-gray-2)] text-lg leading-none">{item.num}</span>
               <span class="inline-flex w-10 h-10 rounded-xl bg-[var(--color-accent)]/10 text-[var(--color-accent)] items-center justify-center">
@@ -79,7 +82,7 @@ const steps = [
   <!-- 05 · ПУЛЬС КОМПАНИИ (дашборд, 5 модулей) -->
   <section id="dashboard" class="bg-white">
     <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24">
-      <div class="reveal max-w-3xl mb-12">
+      <div class="reveal max-w-3xl mx-auto text-center mb-12">
         <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Пульс компании</div>
         <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
           Карточка объекта — листайте реальные экраны продукта
@@ -123,7 +126,7 @@ const steps = [
   <!-- 14 · 3 ШАГА ДО ЗАПУСКА -->
   <section id="steps" class="bg-white">
     <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24">
-      <div class="reveal max-w-3xl mb-14">
+      <div class="reveal max-w-3xl mx-auto text-center mb-14">
         <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Прозрачный процесс</div>
         <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
           3 шага до запуска пилота — без давления и навязывания
@@ -134,9 +137,9 @@ const steps = [
         </p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-6 reveal">
+      <div class="grid md:grid-cols-3 gap-6 reveal-group">
         {steps.map((s) => (
-          <div class="bg-[var(--color-gray-3)] rounded-2xl p-7 border border-[var(--color-gray-2)]">
+          <div class="bg-[var(--color-gray-3)] rounded-2xl p-7 border border-[var(--color-gray-2)] card-hover">
             <div class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-[var(--color-accent)] text-white font-bold text-lg mb-5">{s.num}</div>
             <div class="font-bold text-xl mb-3 leading-snug text-[var(--color-primary)]">{s.title}</div>
             <div class="text-[var(--color-gray-1)] leading-relaxed">{s.desc}</div>

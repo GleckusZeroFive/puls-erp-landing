@@ -57,20 +57,44 @@ const ogImage = new URL("/figma/screen-yura-objekt.webp", siteUrl).toString();
       // Reveal-on-scroll — IntersectionObserver навешивает .is-visible на элементы с .reveal
       (() => {
         function init() {
-          const items = document.querySelectorAll(".reveal");
+          const items = document.querySelectorAll(".reveal, .reveal-group");
           if (!items.length) return;
+
+          const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+          // случайный лёгкий наклон (−1.5…1.5°): при появлении в каскаде и при наведении
+          if (!reduce) {
+            const tilt = () => (Math.random() * 3 - 1.5).toFixed(2) + "deg";
+            document.querySelectorAll(".reveal-group > *").forEach((c) => {
+              c.style.setProperty("--reveal-tilt", tilt());
+            });
+            document.querySelectorAll(".card-hover").forEach((c) => {
+              c.addEventListener("mouseenter", () => c.style.setProperty("--hover-tilt", tilt()));
+            });
+          }
 
           if (!("IntersectionObserver" in window)) {
             items.forEach((el) => el.classList.add("is-visible"));
             return;
           }
 
+          const STAGGER = 70;
           const io = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("is-visible");
-                io.unobserve(entry.target);
+              if (!entry.isIntersecting) return;
+              const el = entry.target;
+              el.classList.add("is-visible");
+              // Каскад: transition-delay ставится inline на время входа и снимается после.
+              if (!reduce && el.classList.contains("reveal-group")) {
+                const kids = el.children;
+                for (let i = 0; i < kids.length; i++) {
+                  kids[i].style.transitionDelay = i * STAGGER + "ms";
+                }
+                setTimeout(() => {
+                  for (let i = 0; i < kids.length; i++) kids[i].style.transitionDelay = "";
+                }, kids.length * STAGGER + 700);
               }
+              io.unobserve(el);
             });
           }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
 
@@ -118,8 +142,7 @@ const ogImage = new URL("/figma/screen-yura-objekt.webp", siteUrl).toString();
     </script>
     <script is:inline>
       // Аккордеон <details>: высоту анимирует CSS (grid-template-rows 0fr→1fr).
-      // JS перехватывает клик по summary и тогглит [data-open]. Нативный open
-      // держим всегда, чтобы контент оставался в потоке (схлопывает grid, не UA).
+      // JS перехватывает клик по summary и тогглит [data-open]; нативный open держим всегда.
       (() => {
         function bind(details) {
           if (details.dataset.animBound) return;
@@ -148,6 +171,48 @@ const ogImage = new URL("/figma/screen-yura-objekt.webp", siteUrl).toString();
         } else {
           initAccordion();
         }
+      })();
+    </script>
+    <script is:inline>
+      // Count-up чисел [data-countup] при попадании в кадр (once).
+      // Парсим «префикс + число + суффикс» (напр. «~600 млн ₽», «до 22», «19 лет»),
+      // анимируем только число. prefers-reduced-motion → оставляем исходник.
+      (() => {
+        const els = document.querySelectorAll("[data-countup]");
+        if (!els.length || !("IntersectionObserver" in window)) return;
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduce) return;
+
+        function run(el) {
+          const raw = el.textContent;
+          const m = raw.match(/^(\D*?)(\d[\d\s]*\d|\d)(.*)$/s);
+          if (!m) return;
+          const prefix = m[1];
+          const suffix = m[3];
+          const target = parseInt(m[2].replace(/\s/g, ""), 10);
+          if (isNaN(target)) return;
+          const dur = 1300;
+          const t0 = performance.now();
+          el.textContent = prefix + "0" + suffix;
+          function tick(now) {
+            const p = Math.min(1, (now - t0) / dur);
+            const eased = 1 - Math.pow(1 - p, 3);
+            if (p < 1) {
+              el.textContent = prefix + String(Math.round(target * eased)) + suffix;
+              requestAnimationFrame(tick);
+            } else {
+              el.textContent = raw;
+            }
+          }
+          requestAnimationFrame(tick);
+        }
+
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) { run(e.target); io.unobserve(e.target); }
+          });
+        }, { threshold: 0.6 });
+        els.forEach((el) => io.observe(el));
       })();
     </script>
   </body>

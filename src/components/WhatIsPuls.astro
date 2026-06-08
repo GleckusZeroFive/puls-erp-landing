@@ -44,9 +44,9 @@ const pillars = [
         </p>
       </div>
 
-      <div class="grid sm:grid-cols-2 gap-4 reveal">
+      <div class="grid sm:grid-cols-2 gap-4 reveal-group">
         {pillars.map((p) => (
-          <div class="bg-[var(--color-gray-3)] rounded-2xl p-6 border border-[var(--color-gray-2)]">
+          <div class="bg-[var(--color-gray-3)] rounded-2xl p-6 border border-[var(--color-gray-2)] card-hover">
             <span class="inline-flex w-11 h-11 rounded-xl bg-[var(--color-primary)]/5 text-[var(--color-primary)] items-center justify-center mb-4">
               <Icon name={p.icon} size={22} />
             </span>

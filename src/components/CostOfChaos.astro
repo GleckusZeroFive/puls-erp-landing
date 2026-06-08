@@ -27,7 +27,7 @@ const chains = [
 
 <section id="cost" class="bg-[var(--color-gray-3)]">
   <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24">
-    <div class="reveal max-w-3xl mb-12">
+    <div class="reveal max-w-3xl mx-auto text-center mb-12">
       <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Цена ручного управления</div>
       <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
         Ручной контроль стоит дороже, чем кажется
@@ -39,9 +39,9 @@ const chains = [
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-4 reveal">
+    <div class="grid md:grid-cols-2 gap-4 reveal-group">
       {chains.map((c) => (
-        <div class="bg-white rounded-2xl p-6 border border-[var(--color-gray-2)]">
+        <div class="bg-white rounded-2xl p-6 border border-[var(--color-gray-2)] card-hover">
           <div class="flex items-center gap-2.5 mb-4">
             <span class="inline-flex w-9 h-9 rounded-xl bg-[var(--color-accent)]/10 text-[var(--color-accent)] items-center justify-center shrink-0">
               <Icon name="alert-triangle" size={18} />

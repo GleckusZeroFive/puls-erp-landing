@@ -1,18 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  /* PULS ERP — продуктовая палитра Юры (Figma) */
+  /* Продуктовая палитра (Figma) */
   --color-primary: #202F4D;          /* navy — основной */
-  --color-accent: #2D61C7;           /* синий Юры (его primary action, Figma) — CTA / акценты на светлом */
-  --color-accent-light: #5E95FF;     /* светлый синий Юры — акцентный ТЕКСТ на тёмных (navy) секциях */
+  --color-accent: #2D61C7;           /* синий — primary action / CTA / акценты на светлом */
+  --color-accent-light: #5E95FF;     /* светлый синий — акцентный текст на тёмных (navy) секциях */
   --color-bg: #FFFFFF;               /* белый фон */
   --color-gray-1: #747476;           /* основной secondary текст */
   --color-gray-2: #D0D0D0;           /* border / divider */
   --color-gray-3: #EFEFEF;           /* светлый bg */
 
-  /* Семантика статусов — для PulseDashboard */
+  /* Семантика статусов */
   --color-danger: #E63946;
-  --color-warning: #FFC107;
 
   /* Onest typography */
   --font-sans: "Onest", system-ui, -apple-system, sans-serif;
@@ -22,25 +21,90 @@ html {
   scroll-behavior: smooth;
 }
 
+/* отступ для якорных переходов, чтобы цель не пряталась под липкой шапкой */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
 body {
   font-family: var(--font-sans);
   background: var(--color-bg);
   color: var(--color-primary);
 }
 
-/* Reveal on scroll — IntersectionObserver навешивает .is-visible */
+/* Токены движения: единый easing/длительности для анимаций. */
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);   /* плавный «прилёт» — входы/раскрытия */
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);   /* мягкий — hover/смена состояния */
+  --dur-fast: 0.2s;
+  --dur-base: 0.36s;
+  --dur-slow: 0.6s;
+  --reveal-shift: 22px;   /* дистанция fade-up */
+}
+
+/* prefers-reduced-motion: отключаем анимации и smooth-scroll. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal, .reveal-group > * { opacity: 1 !important; transform: none !important; }
+}
+
+/* Reveal on scroll — IntersectionObserver навешивает .is-visible.
+   .reveal — одиночный блок (текст/интро/изображение). */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(var(--reveal-shift));
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
 }
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Мягкие переходы на краях тёмных секций — гасим резкий стык navy↔светлая.
-   На секции: position:relative + класс sec-fade-* + --fade-color = цвет соседа. */
+/* .reveal-group — каскадная анимация прямых детей; контейнер не анимируется. */
+.reveal-group > * {
+  opacity: 0;
+  transform: translateY(var(--reveal-shift)) rotate(var(--reveal-tilt, 0deg));
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+}
+.reveal-group.is-visible > * {
+  opacity: 1;
+  transform: translateY(0) rotate(0);
+}
+
+/* Единый hover карточек — лёгкий подъём + тень + акцентная рамка.
+   Кладём на любую карточку класс .card-hover. */
+.card-hover {
+  transition: transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-soft);
+}
+@media (hover: hover) {
+  .card-hover:hover {
+    transform: translateY(-4px) rotate(var(--hover-tilt, 0deg));
+    box-shadow: 0 18px 40px -18px rgba(32, 47, 77, 0.28);
+    border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  }
+}
+
+/* Липкая шапка: скрыта (сдвинута вверх), .is-shown опускает её в кадр.
+   Тень снизу мягко отделяет шапку от контента, уходящего под неё. */
+.sticky-header {
+  background: var(--color-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 28px -12px rgba(16, 24, 40, 0.55);
+  transform: translateY(-100%);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.sticky-header.is-shown {
+  transform: translateY(0);
+}
+
+/* Градиент-фейд на краях тёмной секции; на секции: position:relative + sec-fade-* + --fade-color = цвет соседней секции. */
 .sec-fade-bottom::after,
 .sec-fade-top::before {
   content: "";

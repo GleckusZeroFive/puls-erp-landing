@@ -1,10 +1,7 @@
 ---
-// Интерактивный вьюер реальных экранов продукта (Figma Юры).
-// Вкладки переключают настоящие скрины объекта — «пощупать продукт».
-// Движок: общий switch-stack (data-switch / data-tab / data-pane) + JS в Layout.astro.
-// Окно с прокруткой: виден весь экран целиком, посетитель листает внутри рамки.
-// overscroll-contain не даёт прокрутке «утекать» на страницу; тень+хинт снизу — аффорданс.
-// Демо-режим: листаем реальные экраны, НЕ имитируем рабочее приложение.
+// Вьюер экранов продукта: вкладки переключают скрины объекта.
+// Движок: switch-stack (data-switch/data-tab/data-pane) + JS в Layout.astro.
+// Окно прокручивается внутри рамки (overscroll-contain); тень+хинт снизу — аффорданс прокрутки.
 import TabSwitch from "./TabSwitch.astro";
 import { asset } from "../utils/asset";
 
@@ -19,7 +16,7 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
 ---
 
 <div data-switch="objscreen">
-  <div class="reveal mb-6">
+  <div class="reveal mb-6 text-center">
     <TabSwitch tabs={tabs} variant="bar" label="Раздел карточки объекта" />
   </div>
 
@@ -72,23 +69,20 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
 </div>
 
 <style>
-  /* плавная анимация высоты окна при разворачивании (Chrome 129+; иначе мгновенно) */
+  /* анимация высоты окна (interpolate-size; без поддержки — мгновенно) */
   [data-switch="objscreen"] {
     interpolate-size: allow-keywords;
   }
   .screen-scroll {
     transition: height 380ms cubic-bezier(0.4, 0, 0.2, 1);
-    /* всегда резервируем место под скроллбар → ширина картинки не скачет
-       при появлении/исчезновении полосы (разворот/сворачивание) */
+    /* scrollbar-gutter: резерв под скроллбар, ширина контента не скачет */
     scrollbar-gutter: stable;
   }
-  /* развёрнутый режим: экран целиком; overflow оставляем auto (из Tailwind),
-     чтобы gutter был зарезервирован так же, как в свёрнутом — без горизонтального рывка */
+  /* развёрнутый режим: высота auto, overflow остаётся auto */
   [data-switch="objscreen"].is-expanded .screen-scroll {
     height: auto;
   }
-  /* в развёрнутом режиме неактивные панели не должны задавать высоту ячейки —
-     иначе под короткой активной вкладкой остаётся пустое поле */
+  /* развёрнутый режим: неактивные панели скрыты */
   [data-switch="objscreen"].is-expanded .switch-stack > [data-pane]:not(.is-active) {
     display: none;
   }
