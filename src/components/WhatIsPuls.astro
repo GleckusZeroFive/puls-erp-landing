@@ -1,46 +1,23 @@
 ---
 import Icon from "./Icon.astro";
+import { content } from "../data/content.ts";
 
-const pillars = [
-  {
-    icon: "monitor",
-    title: "Один экран директора",
-    desc: "Все объекты, отставания по графику, финансы, материалы и зависшие допработы — в едином окне управления.",
-  },
-  {
-    icon: "link",
-    title: "Связанность данных",
-    desc: "Любая заявка на материал или оплату жёстко привязана к объекту, этапу графика и ответственному.",
-  },
-  {
-    icon: "sparkles",
-    title: "Помощник по рискам",
-    desc: "Встроенный помощник (ранний доступ) подсвечивает простои заранее и помогает готовить черновики писем. Работает только на данных вашей компании, без выхода в интернет.",
-  },
-  {
-    icon: "smartphone",
-    title: "Простые сценарии",
-    desc: "Никаких сложных таблиц для прорабов. Для площадки — мобильная веб-версия под реальный ритм работы.",
-  },
-];
+const { eyebrow, h2, p1, p2, pillars } = content.what;
 ---
 
 <section id="what" class="bg-white">
   <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24">
     <div class="grid lg:grid-cols-[1fr_1.1fr] gap-12 items-start">
       <div class="reveal">
-        <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Что такое Puls</div>
+        <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">{eyebrow}</div>
         <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
-          Не ещё одна система. Оперативный пульт директора подрядной компании
+          {h2}
         </h2>
         <p class="text-[var(--color-gray-1)] text-lg leading-relaxed mb-5">
-          Puls — это оперативный слой контроля строительной подрядной компании. Он не заменяет
-          вашу 1С, не ломает привычный уклад и не требует переобучать бухгалтерию.
+          {p1}
         </p>
         <p class="text-[var(--color-gray-1)] leading-relaxed">
-          Он закрывает самый критический разрыв — то, что сейчас размазано между прорабами на
-          стройке, ПТО на телефоне, снабженцем в мессенджерах и вашим личным блокнотом. Ядро —
-          объекты, снабжение, ПТО и финансы; поверх — помощник, который подсвечивает риски.
+          {p2}
         </p>
       </div>
 

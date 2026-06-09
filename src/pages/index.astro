@@ -18,20 +18,10 @@ import AudienceFilter from "../components/AudienceFilter.astro";
 import PilotTerms from "../components/PilotTerms.astro";
 import FAQ from "../components/FAQ.astro";
 import StickyHeader from "../components/StickyHeader.astro";
+import { content } from "../data/content.ts";
 
-const pains = [
-  { num: "01", icon: "package",        title: "Материал заказали поздно",          desc: "Заявка улетела в чат, до снабжения не дошла, оплату не согласовали вовремя. Бригада стоит, срок сдвигается, закупка идёт в срочном режиме и дороже." },
-  { num: "02", icon: "credit-card",    title: "Оплата согласована вслепую",        desc: "Бухгалтерия видит счёт, но не видит объект целиком. Деньги уходят раньше, чем понятно, что реально выполнено и принято." },
-  { num: "03", icon: "hard-hat",       title: "«Всё нормально» — только на словах", desc: "Прораб уверяет, что работы идут по плану, а потом выясняется, что ключевой этап сорван давно и следующий тоже уже под риском." },
-  { num: "04", icon: "file-signature", title: "Документы оторваны от объекта",      desc: "Акты, КС, письма, заявки и фактические работы лежат в разных местах. Когда начинается спор, хронологию приходится собирать вручную." },
-  { num: "05", icon: "trending-down",  title: "Прибыль уходит постепенно",          desc: "Одна забытая заявка, один поздний материал, одна незафиксированная допработа, один зависший акт — и объект долго выглядит «нормально», пока не становится убыточным." },
-];
-
-const steps = [
-  { num: "01", title: "Короткий аудит-звонок", desc: "Связываемся за 15 минут в Telegram. Уточняем: сколько объектов ведёте параллельно, какие роли в штате, где учёт у снабжения и ПТО, что болит сильнее всего." },
-  { num: "02", title: "Демо-показ «Пульса»",   desc: "Показываем интерфейс на реальных кейсах: как прораб отправляет заявку, как помощник готовит черновик письма и как вы видите маржинальность." },
-  { num: "03", title: "Запуск первого контура", desc: "Если понимаем, что Puls даёт окупаемость — согласуем первый пилотный контур на 2 тестовых объектах и внедряем без остановки стройки." },
-];
+const pains = content.problem.items;
+const steps = content.steps.items;
 ---
 
 <Layout>
@@ -45,14 +35,12 @@ const steps = [
   <section id="problem" class="bg-[var(--color-gray-3)]">
     <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24">
       <div class="reveal max-w-3xl mx-auto text-center mb-12">
-        <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Знакомая картина?</div>
+        <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">{content.problem.eyebrow}</div>
         <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
-          Когда данные по стройке живут в разных местах, проблемы всплывают слишком поздно
+          {content.problem.h2}
         </h2>
         <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
-          В Telegram всё кажется быстрым, в Excel — привычным, в 1С — «для учёта». Но в итоге
-          директор всё равно вручную собирает ответ: где деньги, где сроки, где материалы и кто
-          виноват.
+          {content.problem.lead}
         </p>
       </div>
 
@@ -83,13 +71,12 @@ const steps = [
   <section id="dashboard" class="bg-white">
     <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24">
       <div class="reveal max-w-3xl mx-auto text-center mb-12">
-        <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Пульс компании</div>
+        <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">{content.dashboard.eyebrow}</div>
         <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
-          Карточка объекта — листайте реальные экраны продукта
+          {content.dashboard.h2}
         </h2>
         <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
-          Один объект — разные участки контроля: общая картина, бюджет, график работ, стройка
-          и снабжение. Переключайте вкладки сверху — это настоящие экраны Puls, попробуйте.
+          {content.dashboard.lead}
         </p>
       </div>
 
@@ -127,13 +114,12 @@ const steps = [
   <section id="steps" class="bg-white">
     <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24">
       <div class="reveal max-w-3xl mx-auto text-center mb-14">
-        <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Прозрачный процесс</div>
+        <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">{content.steps.eyebrow}</div>
         <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
-          3 шага до запуска пилота — без давления и навязывания
+          {content.steps.h2}
         </h2>
         <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
-          Мы понимаем, как раздражают менеджеры по продажам IT-сервисов. Поэтому процесс построен
-          на честной диагностике и строительной логике.
+          {content.steps.lead}
         </p>
       </div>
 
@@ -158,17 +144,17 @@ const steps = [
     <div class="relative mx-auto max-w-[1400px] px-6 py-20 md:py-24">
       <div class="grid md:grid-cols-2 gap-10 items-start">
         <div class="reveal">
-          <div class="text-xs uppercase tracking-widest text-[var(--color-accent-light)] mb-3 font-medium">Финальный шаг к контролю стройки</div>
+          <div class="text-xs uppercase tracking-widest text-[var(--color-accent-light)] mb-3 font-medium">{content.formSection.eyebrow}</div>
           <h2 class="font-black text-3xl md:text-4xl leading-tight mb-5">
-            Подайте заявку на пилотный доступ в Puls
+            {content.formSection.h2}
           </h2>
           <p class="text-white/70 leading-relaxed mb-8 max-w-lg">
-            Свяжемся в течение рабочего дня, разберём ваши процессы на стройке, покажем
-            демо-сценарий и определим, подходит ли ваша компания под условия пилота.
+            {content.formSection.lead}
           </p>
           <div class="flex flex-wrap gap-2 text-xs text-white/50">
-            <span class="bg-white/10 px-2 py-1 rounded">Не звоним без запроса</span>
-            <span class="bg-white/10 px-2 py-1 rounded">Не передаём данные третьим лицам</span>
+            {content.formSection.chips.map((c) => (
+              <span class="bg-white/10 px-2 py-1 rounded">{c}</span>
+            ))}
           </div>
         </div>
 

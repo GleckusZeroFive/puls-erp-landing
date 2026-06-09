@@ -1,6 +1,8 @@
 ---
 import { asset } from "../utils/asset";
+import { content } from "../data/content.ts";
 const year = new Date().getFullYear();
+const f = content.footer;
 ---
 
 <footer class="bg-[var(--color-primary)] text-white/70">
@@ -12,8 +14,7 @@ const year = new Date().getFullYear();
           <span class="font-bold uppercase tracking-[0.3em] text-white text-sm pl-[0.3em] translate-x-[3px]">Puls</span>
         </div>
         <p class="text-sm leading-relaxed text-white/60 max-w-xs">
-          Оперативный пульт директора подрядной компании.
-          Объекты, материалы, оплаты, документы и сводка помощника — в одном экране.
+          {f.tagline}
         </p>
       </div>
 
@@ -48,13 +49,11 @@ const year = new Date().getFullYear();
 
     <div class="pt-8 border-t border-white/10 text-xs text-white/40 space-y-4">
       <p class="leading-relaxed max-w-3xl">
-        Участие в пилотной программе предоставляется на условиях, действующих на момент
-        подачи заявки. Оператор оставляет за собой право в одностороннем порядке изменять
-        состав функций, сроки и условия участия в пилоте.
+        {f.legal}
       </p>
       <div class="flex flex-wrap items-center justify-between gap-3">
-        <div>© {year} Puls. Все права защищены.</div>
-        <div>Сделано в России</div>
+        <div>© {year} {f.copyright}</div>
+        <div>{f.madeIn}</div>
       </div>
     </div>
   </div>

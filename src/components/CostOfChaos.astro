@@ -1,41 +1,19 @@
 ---
 import Icon from "./Icon.astro";
+import { content } from "../data/content.ts";
 
-const chains = [
-  {
-    title: "Простой по материалам",
-    steps: ["Материал не заказан вовремя", "бригада стоит", "срок сдвигается", "срочная закупка по оверпрайсу", "штрафы от заказчика"],
-  },
-  {
-    title: "Слепые оплаты",
-    steps: ["Заявки без связки с объёмом", "оплата неподтверждённых работ", "кассовый разрыв и перерасход сметы"],
-  },
-  {
-    title: "Потерянные допработы",
-    steps: ["Письмо заказчику не ушло вовремя", "допработа без бумаг", "заказчик отказался платить", "минус на объекте"],
-  },
-  {
-    title: "Поздний перерасход",
-    steps: ["Прибыль съедается по проценту", "убыток виден только после сдачи", "на новые закупки денег уже не хватает"],
-  },
-  {
-    title: "Размазанная ответственность",
-    steps: ["«Я звонил» · «Я писал в чат» · «Думал, он знает»", "виноватых нет", "директор лично ищет ответственных"],
-  },
-];
+const { eyebrow, h2, lead, chains } = content.cost;
 ---
 
 <section id="cost" class="bg-[var(--color-gray-3)]">
   <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24">
     <div class="reveal max-w-3xl mx-auto text-center mb-12">
-      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Цена ручного управления</div>
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">{eyebrow}</div>
       <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
-        Ручной контроль стоит дороже, чем кажется
+        {h2}
       </h2>
       <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
-        Один незамеченный простой или упущенная доработка обходятся дороже, чем годы лицензии
-        на систему. Хаос забирает деньги тихо — через потерянные объёмы, сорванные сроки сдачи
-        и авансы, выданные сверх факта.
+        {lead}
       </p>
     </div>
 

@@ -2,22 +2,21 @@
 import Icon from "./Icon.astro";
 import TabSwitch from "./TabSwitch.astro";
 import { asset } from "../utils/asset";
-import { roles } from "../data/roles.ts";
+import { content } from "../data/content.ts";
 
+const { eyebrow, h2, intro, items: roles } = content.roles;
 const tabs = roles.map((r) => ({ id: r.id, label: r.tab }));
 ---
 
 <section id="roles" class="bg-[var(--color-gray-3)]">
   <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24" data-switch="roles">
     <div class="reveal max-w-3xl mx-auto text-center mb-8">
-      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Роли на стройке</div>
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">{eyebrow}</div>
       <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
-        У каждой роли — свой экран с оперативной информацией
+        {h2}
       </h2>
       <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
-        Puls — инструмент для всей команды, а не только надзор сверху. У каждого свой простой
-        экран со своими задачами: сотрудникам — проще и быстрее работать, директору — связанная
-        картина по компании и уверенность, что исполнение идёт качественно.
+        {intro}
       </p>
     </div>
 

@@ -2,6 +2,9 @@
 import Icon from "./Icon.astro";
 import CityPattern from "./CityPattern.astro";
 import { asset } from "../utils/asset";
+import { content } from "../data/content.ts";
+
+const h = content.hero;
 ---
 
 <section id="hero" class="bg-[var(--color-primary)] text-white overflow-hidden relative sec-fade-bottom" style="--fade-color: var(--color-gray-3)">
@@ -22,7 +25,7 @@ import { asset } from "../utils/asset";
         <a href="#form" class="hover:text-white transition">Заявка</a>
       </div>
       <a href="#form" class="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:opacity-90 transition px-5 py-2.5 rounded-xl font-medium text-sm">
-        Подать заявку в пилот
+        {h.ctaPrimary}
       </a>
     </nav>
 
@@ -31,35 +34,33 @@ import { asset } from "../utils/asset";
       <div class="reveal">
         <div class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[var(--color-accent-light)] mb-6">
           <span class="inline-block w-2 h-2 rounded-full bg-[var(--color-accent-light)]"></span>
-          Предзапуск · набор 5–10 компаний в пилот
+          {h.badge}
         </div>
 
         <h1 class="font-black text-5xl md:text-6xl lg:text-[68px] leading-[1.03] tracking-tight mb-6">
-          Видеть, что происходит<br/>
-          на объектах —<br/>
-          <span class="text-[var(--color-accent-light)]">до того, как стало пожаром</span>
+          {h.h1Line1}<br/>
+          {h.h1Line2}<br/>
+          <span class="text-[var(--color-accent-light)]">{h.h1Accent}</span>
         </h1>
 
         <p class="text-lg text-white/70 leading-relaxed max-w-xl mb-8">
-          Puls — оперативный пульт управления стройкой: где горят сроки, где зависли
-          материалы, кому платить и какие документы не закрыты по 10+ объектам сразу. Без ручного
-          сбора данных из чатов, таблиц и звонков. Деньги теряются не из-за отсутствия заказов,
-          а из-за того, что проблемы видно слишком поздно.
+          {h.lead}
         </p>
 
         <div class="flex flex-wrap gap-3 mb-10">
           <a href="#form" class="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:opacity-90 transition px-6 py-3 rounded-xl font-medium">
-            Подать заявку в пилот
+            {h.ctaPrimary}
             <Icon name="arrow-right" size={18} />
           </a>
           <a href="#dashboard" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 transition px-6 py-3 rounded-xl font-medium border border-white/15">
-            Смотреть дашборд
+            {h.ctaSecondary}
           </a>
         </div>
 
         <div class="flex flex-wrap items-center gap-x-7 gap-y-2 text-sm text-white/60">
-          <span class="inline-flex items-center gap-2"><Icon name="check" size={14} /> Ранний доступ для первых компаний</span>
-          <span class="inline-flex items-center gap-2"><Icon name="check" size={14} /> Настройка под ваши процессы</span>
+          {h.bullets.map((b) => (
+            <span class="inline-flex items-center gap-2"><Icon name="check" size={14} /> {b}</span>
+          ))}
         </div>
       </div>
 
@@ -67,7 +68,7 @@ import { asset } from "../utils/asset";
         <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-white/5">
           <img
             src={asset("/figma/screen-yura-objekt.webp")}
-            alt="Главный экран Puls — карточка объекта ЖК «Альянс»"
+            alt={h.screenAlt}
             loading="eager"
             class="w-full h-auto block"
           />

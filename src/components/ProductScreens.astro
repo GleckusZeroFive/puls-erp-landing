@@ -4,14 +4,9 @@
 // Окно прокручивается внутри рамки (overscroll-contain); тень+хинт снизу — аффорданс прокрутки.
 import TabSwitch from "./TabSwitch.astro";
 import { asset } from "../utils/asset";
+import { content } from "../data/content.ts";
 
-const screens = [
-  { id: "obshchee",   label: "Общее",     img: "/figma/screen-yura-objekt.webp",     alt: "Карточка объекта — общая информация" },
-  { id: "byudzhet",   label: "Бюджет",    img: "/figma/screen-yura-byudzhet.webp",   alt: "Объект — бюджет" },
-  { id: "gpr",        label: "ГПР",       img: "/figma/screen-yura-gpr.webp",        alt: "Объект — график производства работ" },
-  { id: "stroyka",    label: "Стройка",   img: "/figma/screen-yura-stroyka.webp",    alt: "Объект — стройка" },
-  { id: "snabzhenie", label: "Снабжение", img: "/figma/screen-yura-snabzhenie.webp", alt: "Объект — снабжение" },
-];
+const { chromeTitle, note, screens } = content.dashboard;
 const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
 ---
 
@@ -27,7 +22,7 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
       <span class="w-3 h-3 rounded-full bg-[#FF5F57]"></span>
       <span class="w-3 h-3 rounded-full bg-[#FEBC2E]"></span>
       <span class="w-3 h-3 rounded-full bg-[#28C840]"></span>
-      <span class="ml-3 text-xs text-[var(--color-gray-1)] truncate">Puls · ЖК «Альянс» — карточка объекта</span>
+      <span class="ml-3 text-xs text-[var(--color-gray-1)] truncate">{chromeTitle}</span>
       <button
         type="button"
         class="screens-toggle ml-auto inline-flex items-center gap-1.5 text-xs font-medium text-[var(--color-primary)] bg-white border border-[var(--color-gray-2)] hover:bg-[var(--color-gray-3)] transition rounded-lg px-2.5 py-1.5 shrink-0"
@@ -63,8 +58,7 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
   </div>
 
   <p class="reveal mt-4 text-sm text-[var(--color-gray-1)]">
-    Реальные экраны продукта целиком — листайте внутри окна. Интерфейс дорабатывается,
-    финальный вид настраивается под ваши процессы на пилоте.
+    {note}
   </p>
 </div>
 

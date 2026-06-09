@@ -1,35 +1,19 @@
 ---
 import { asset } from "../utils/asset";
+import { content } from "../data/content.ts";
 
-const benefits = [
-  {
-    num: "01",
-    title: "Видеть раньше других",
-    desc: "Узнавать о проблеме за неделю до простоя бригады, а не когда сроки уже сорваны.",
-  },
-  {
-    num: "02",
-    title: "Спрашивать по фактам",
-    desc: "Вместо «мне не говорили» — точное время создания заявки и ответственный в системе.",
-  },
-  {
-    num: "03",
-    title: "Делегировать без слепоты",
-    desc: "Передавать ведение объектов РП и прорабам, но держать руку на пульсе маржинальности.",
-  },
-];
+const { eyebrow, h2, lead, benefits, quoteLabel, quote, name, role, photoAlt } = content.founder;
 ---
 
 <section id="founder" class="bg-white">
   <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24">
     <div class="reveal max-w-3xl mx-auto text-center mb-12">
-      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">Личные выгоды собственника</div>
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent)] mb-3 font-medium">{eyebrow}</div>
       <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
-        Вы перестаёте быть диспетчером собственной компании
+        {h2}
       </h2>
       <p class="text-[var(--color-gray-1)] text-lg leading-relaxed">
-        Puls нужен не чтобы «контролировать всех руками ещё больше», а чтобы контроль перестал
-        зависеть от вашей памяти, личного телефона и утренних созвонов-допросов.
+        {lead}
       </p>
     </div>
 
@@ -47,17 +31,15 @@ const benefits = [
       </div>
 
       <div class="bg-[var(--color-primary)] text-white rounded-2xl p-8 md:p-10 flex flex-col">
-        <div class="text-xs uppercase tracking-widest text-[var(--color-accent-light)] mb-4 font-medium">Слово основателя</div>
+        <div class="text-xs uppercase tracking-widest text-[var(--color-accent-light)] mb-4 font-medium">{quoteLabel}</div>
         <p class="text-xl md:text-2xl leading-relaxed font-medium mb-8">
-          «Когда у меня было до 22 объектов параллельно, я понял: хаос на стройке нельзя победить
-          наймом новых людей — их засасывает в тот же водоворот чатов и Excel. Нужна простая
-          система-каркас, которая свяжет работы с деньгами и документами.»
+          {quote}
         </p>
         <div class="mt-auto flex items-center gap-4 pt-6 border-t border-white/15">
-          <img src={asset("/figma/founder-artem.webp")} alt="Артём Плечёв, основатель Puls" class="w-12 h-12 rounded-full object-cover shrink-0" />
+          <img src={asset("/figma/founder-artem.webp")} alt={photoAlt} class="w-12 h-12 rounded-full object-cover shrink-0" />
           <div>
-            <div class="font-semibold">Артём Плечёв</div>
-            <div class="text-white/60 text-sm">основатель Puls · 19 лет в подрядном строительстве</div>
+            <div class="font-semibold">{name}</div>
+            <div class="text-white/60 text-sm">{role}</div>
           </div>
         </div>
       </div>

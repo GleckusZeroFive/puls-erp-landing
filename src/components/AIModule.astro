@@ -1,19 +1,19 @@
 ---
 import Icon from "./Icon.astro";
-import { aiRisks } from "../data/ai-risks.ts";
+import { content } from "../data/content.ts";
+
+const { eyebrow, h2, lead, badge, noticedLabel, actionLabel, items: aiRisks } = content.ai;
 ---
 
 <section id="ai" class="relative overflow-hidden bg-[var(--color-primary)] text-white sec-fade-top sec-fade-bottom" style="--fade-color: var(--color-gray-3)">
   <div class="relative mx-auto max-w-[1400px] px-6 py-20 md:py-24" data-switch="ai">
     <div class="reveal max-w-3xl mx-auto text-center mb-8">
-      <div class="text-xs uppercase tracking-widest text-[var(--color-accent-light)] mb-3 font-medium">Встроенный помощник</div>
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent-light)] mb-3 font-medium">{eyebrow}</div>
       <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">
-        Не принимает решения — замечает упущенные детали
+        {h2}
       </h2>
       <p class="text-white/70 text-lg leading-relaxed">
-        Это не «чат-бот для оптимизации». Помощник в ранней разработке сверяет график со
-        сроками и оплатами по данным вашей компании. Выберите тип риска — посмотрите, как
-        это задумано.
+        {lead}
       </p>
     </div>
 
@@ -47,11 +47,11 @@ import { aiRisks } from "../data/ai-risks.ts";
           <div class={i === 0 ? "is-active" : ""} data-pane={r.id}>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 h-full">
               <div class="inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-semibold text-[var(--color-accent-light)] bg-[var(--color-accent-light)]/15 px-2.5 py-1 rounded-full mb-5">
-                Как это задумано
+                {badge}
               </div>
-              <div class="text-xs uppercase tracking-widest text-white/50 mb-2 font-medium">Помощник заметил</div>
+              <div class="text-xs uppercase tracking-widest text-white/50 mb-2 font-medium">{noticedLabel}</div>
               <p class="text-white/90 text-[17px] leading-relaxed mb-7">{r.noticed}</p>
-              <div class="text-xs uppercase tracking-widest text-white/50 mb-3 font-medium">Подсказка директору</div>
+              <div class="text-xs uppercase tracking-widest text-white/50 mb-3 font-medium">{actionLabel}</div>
               <div class="flex flex-wrap gap-3">
                 {r.action.split(" · ").map((a, idx) => (
                   <span class={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium ${idx === 0 ? "bg-[var(--color-accent)] text-white" : "bg-white/10 text-white border border-white/15"}`}>
