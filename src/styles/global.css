@@ -144,6 +144,21 @@ body {
   pointer-events: auto;
 }
 
+/* На мобиле окно экранов продукта подстраивается под АКТИВНЫЙ экран: убираем
+   grid-наложение (иначе высота шла по самому высокому экрану — короткие, напр.
+   «Общее», давали пустоту под собой). Показываем только активную панель. */
+@media (max-width: 767px) {
+  [data-switch="objscreen"] .switch-stack {
+    display: block;
+  }
+  [data-switch="objscreen"] .switch-stack > [data-pane] {
+    grid-area: auto;
+  }
+  [data-switch="objscreen"] .switch-stack > [data-pane]:not(.is-active) {
+    display: none;
+  }
+}
+
 /* Generic tab button state — визуал кнопки задаёт TabSwitch.astro, тут только активное состояние */
 .tab-btn {
   color: var(--color-gray-1);
