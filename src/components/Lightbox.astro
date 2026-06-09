@@ -17,11 +17,17 @@
     position: fixed;
     inset: 0;
     z-index: 100;
-    display: none;
     background: rgba(15, 23, 42, 0.94);
+    /* плавное появление/скрытие (display не анимируется → opacity+visibility) */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.28s ease, visibility 0.28s ease;
   }
   .lightbox.is-open {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
   .lightbox-scroll {
     position: absolute;
@@ -29,18 +35,25 @@
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    padding: 56px 12px 24px;
+    padding: 52px 12px 16px;
   }
   .lightbox-img {
     display: block;
-    /* шире вьюпорта на мобиле → читаемо и можно листать вбок; на десктопе — в меру */
-    width: clamp(680px, 92vw, 1180px);
-    max-width: none;
+    /* вписываем экран целиком в видимую область; крупнее — пинчем пальцами */
+    max-width: min(100%, 1280px);
+    max-height: 100%;
+    width: auto;
     height: auto;
+    object-fit: contain;
     border-radius: 10px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transform: scale(0.94);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .lightbox.is-open .lightbox-img {
+    transform: scale(1);
   }
   .lightbox-close {
     position: fixed;
@@ -82,7 +95,7 @@
         lb.classList.remove("is-open");
         lb.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
-        img.src = "";
+        // src НЕ чистим сразу — иначе картинка пропадёт до конца fade-out
       };
       document.addEventListener("click", (e) => {
         const z = e.target.closest("[data-zoomable]");
