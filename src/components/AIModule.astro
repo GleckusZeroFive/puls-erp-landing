@@ -2,7 +2,7 @@
 import Icon from "./Icon.astro";
 import { content } from "../data/content.ts";
 
-const { eyebrow, h2, lead, badge, noticedLabel, actionLabel, items: aiRisks } = content.ai;
+const { eyebrow, h2, lead, badge, noticedLabel, actionLabel, principles, tabsIntro, items: aiRisks } = content.ai;
 ---
 
 <section id="ai" class="relative overflow-hidden bg-[var(--color-primary)] text-white sec-fade-top sec-fade-bottom" style="--fade-color: var(--color-gray-3)">
@@ -15,6 +15,31 @@ const { eyebrow, h2, lead, badge, noticedLabel, actionLabel, items: aiRisks } = 
       <p class="text-white/70 text-lg leading-relaxed">
         {lead}
       </p>
+    </div>
+
+    <!-- Три карты-принципа доверия к ассистенту -->
+    <div class="grid sm:grid-cols-3 gap-4 mb-12 reveal-group">
+      {principles.map((p) => (
+        <div class="bg-white/5 rounded-2xl p-6 border border-white/10 card-hover">
+          <span class="inline-flex w-11 h-11 rounded-xl bg-[var(--color-accent-light)]/15 text-[var(--color-accent-light)] items-center justify-center mb-4">
+            <Icon name={p.icon} size={22} />
+          </span>
+          <div class="font-bold text-lg mb-3 leading-snug">{p.title}</div>
+          <ul class="space-y-2">
+            {p.points.map((pt) => (
+              <li class="flex gap-2.5 text-white/65 text-sm leading-relaxed">
+                <Icon name="check" size={16} class="mt-0.5 shrink-0 text-[var(--color-accent-light)]" />
+                <span>{pt}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="reveal max-w-3xl mx-auto text-center mb-8">
+      <h3 class="font-bold text-2xl md:text-3xl mb-3 leading-tight">{tabsIntro.h3}</h3>
+      <p class="text-white/60 leading-relaxed">{tabsIntro.sub}</p>
     </div>
 
     <div class="grid lg:grid-cols-[300px_1fr] gap-6">
