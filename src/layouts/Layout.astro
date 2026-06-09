@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Lightbox from "../components/Lightbox.astro";
+import { asset } from "../utils/asset";
 
 interface Props {
   title?: string;
@@ -23,6 +24,10 @@ const ogImage = new URL("/figma/screen-yura-objekt.webp", siteUrl).toString();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {noindex && <meta name="robots" content="noindex" />}
+
+    <!-- Картинки первого экрана грузим рано и приоритетно, чтобы не было pop-in -->
+    <link rel="preload" as="image" href={asset("/figma/glass-facade.webp")} fetchpriority="high" />
+    <link rel="preload" as="image" href={asset("/figma/screen-yura-objekt.webp")} fetchpriority="high" />
 
     <title>{title}</title>
     <meta name="description" content={description} />

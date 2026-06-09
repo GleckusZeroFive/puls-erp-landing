@@ -16,7 +16,7 @@ const bgUrl = asset("/figma/glass-facade.webp");
 
 <div
   class={`city-pattern ${className}`}
-  style={`opacity: ${opacity}; background-image: url(${bgUrl});`}
+  style={`--pattern-opacity: ${opacity}; background-image: url(${bgUrl});`}
   aria-hidden="true"
 ></div>
 
@@ -32,5 +32,20 @@ const bgUrl = asset("/figma/glass-facade.webp");
     /* scale компенсирует расплыв краёв от blur */
     transform: scale(1.04);
     transform-origin: center;
+    opacity: var(--pattern-opacity, 0.2);
+  }
+  /* мягкое проявление текстуры на загрузке вместо резкого pop-in */
+  @media (prefers-reduced-motion: no-preference) {
+    .city-pattern {
+      animation: city-pattern-in 0.7s ease both;
+    }
+  }
+  @keyframes city-pattern-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: var(--pattern-opacity, 0.2);
+    }
   }
 </style>
