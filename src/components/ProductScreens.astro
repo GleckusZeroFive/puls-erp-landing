@@ -25,7 +25,7 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
       <span class="ml-3 text-xs text-[var(--color-gray-1)] truncate">{chromeTitle}</span>
       <button
         type="button"
-        class="screens-toggle ml-auto inline-flex items-center gap-1.5 text-xs font-medium text-[var(--color-primary)] bg-white border border-[var(--color-gray-2)] hover:bg-[var(--color-gray-3)] transition rounded-lg px-2.5 py-1.5 shrink-0"
+        class="screens-toggle ml-auto hidden md:inline-flex items-center gap-1.5 text-xs font-medium text-[var(--color-primary)] bg-white border border-[var(--color-gray-2)] hover:bg-[var(--color-gray-3)] transition rounded-lg px-2.5 py-1.5 shrink-0"
         aria-pressed="false"
       >
         <svg class="toggle-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
@@ -37,7 +37,7 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
       {screens.map((s, i) => (
         <div class={i === 0 ? "is-active" : ""} data-pane={s.id}>
           <div class="screen-window relative bg-[#E0E4ED]">
-            <div class="screen-scroll h-[420px] md:h-[520px] overflow-auto overscroll-contain">
+            <div class="screen-scroll h-auto md:h-[520px] overflow-visible md:overflow-auto overscroll-contain">
               <img
                 src={asset(s.img)}
                 alt={s.alt}
@@ -50,9 +50,9 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>
               крупнее
             </span>
-            <!-- аффорданс прокрутки: тень-фейд + хинт; прячутся у нижнего края -->
-            <div class="screen-fade pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/15 to-transparent"></div>
-            <div class="screen-hint pointer-events-none absolute bottom-3 right-3 flex items-center gap-1 text-[11px] text-white bg-black/55 backdrop-blur-sm px-2.5 py-1 rounded-full">
+            <!-- аффорданс прокрутки (только десктоп, где окно скроллится): тень-фейд + хинт -->
+            <div class="screen-fade pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/15 to-transparent hidden md:block"></div>
+            <div class="screen-hint pointer-events-none absolute bottom-3 right-3 hidden md:flex items-center gap-1 text-[11px] text-white bg-black/55 backdrop-blur-sm px-2.5 py-1 rounded-full">
               листайте экран
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </div>
