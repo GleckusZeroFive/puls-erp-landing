@@ -19,8 +19,8 @@ const { tabs, variant = "bar", label = "Переключатель", class: cls 
 // от sm и шире — прежний центрированный перенос.
 const wrap =
   variant === "pill"
-    ? "flex items-center gap-2 flex-nowrap justify-start overflow-x-auto no-scrollbar sm:flex-wrap sm:justify-center sm:overflow-visible"
-    : "flex sm:inline-flex items-center gap-1 flex-nowrap justify-start overflow-x-auto no-scrollbar sm:flex-wrap sm:justify-center sm:overflow-visible bg-[var(--color-gray-3)] rounded-2xl p-1.5 border border-[var(--color-gray-2)]";
+    ? "scroll-x-fade flex items-center gap-2 flex-nowrap justify-start overflow-x-auto no-scrollbar sm:flex-wrap sm:justify-center sm:overflow-visible"
+    : "scroll-x-fade flex sm:inline-flex items-center gap-1 flex-nowrap justify-start overflow-x-auto no-scrollbar sm:flex-wrap sm:justify-center sm:overflow-visible bg-[var(--color-gray-3)] rounded-2xl p-1.5 border border-[var(--color-gray-2)]";
 
 const btn =
   variant === "pill"

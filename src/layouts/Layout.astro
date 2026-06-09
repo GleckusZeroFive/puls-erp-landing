@@ -217,5 +217,33 @@ const ogImage = new URL("/figma/screen-yura-objekt.webp", siteUrl).toString();
         els.forEach((el) => io.observe(el));
       })();
     </script>
+    <script is:inline>
+      // Мягкий край у горизонтальных лент [.scroll-x-fade]: ставит --ml/--mr по позиции
+      // скролла, чтобы контент таял только там, где есть куда листать.
+      (() => {
+        const FADE = "22px";
+        function upd(el) {
+          const max = el.scrollWidth - el.clientWidth;
+          el.style.setProperty("--ml", el.scrollLeft > 2 ? FADE : "0px");
+          el.style.setProperty("--mr", el.scrollLeft < max - 2 ? FADE : "0px");
+        }
+        function init() {
+          document.querySelectorAll(".scroll-x-fade").forEach((el) => {
+            if (el.dataset.fadeBound) return;
+            el.dataset.fadeBound = "1";
+            upd(el);
+            el.addEventListener("scroll", () => upd(el), { passive: true });
+          });
+        }
+        const updAll = () => document.querySelectorAll(".scroll-x-fade").forEach(upd);
+        window.addEventListener("resize", updAll);
+        window.addEventListener("load", updAll);
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", init);
+        } else {
+          init();
+        }
+      })();
+    </script>
   </body>
 </html>

@@ -223,6 +223,26 @@ details:not(.js-anim-ready)[open] summary .chevron {
   display: none;
 }
 
+/* Мягкий край горизонтальной ленты: контент не обрывается резко, а тает у того
+   края, где ещё есть прокрутка. Ширину растушёвки (--ml/--mr) ставит JS в Layout
+   по позиции скролла; 0 = край не тает (нечего листать в эту сторону). */
+.scroll-x-fade {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--ml, 0px),
+    #000 calc(100% - var(--mr, 0px)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--ml, 0px),
+    #000 calc(100% - var(--mr, 0px)),
+    transparent 100%
+  );
+}
+
 /* Аффорданс «нажмите, чтобы рассмотреть» поверх кликабельных экранов — только на мобиле */
 .zoom-hint {
   position: absolute;
