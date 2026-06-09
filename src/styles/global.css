@@ -215,6 +215,26 @@ details:not(.js-anim-ready)[open] summary .chevron {
   transform: rotate(180deg);
 }
 
+/* Лёгкий параллакс Hero-визуала: продуктовая карточка едет вверх чуть быстрее
+   текста на первом экране прокрутки → ощущение глубины. Нативная scroll-driven
+   анимация (на композиторе → плавно и на мобиле), без JS и без перехвата скролла.
+   Где не поддерживается (Safari) — карточка статична; reduced-motion отключает. */
+@keyframes hero-visual-parallax {
+  to {
+    transform: translateY(-40px);
+  }
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-visual {
+      animation: hero-visual-parallax linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 100vh;
+      will-change: transform;
+    }
+  }
+}
+
 /* Горизонтальная прокрутка таб-баров на мобиле без видимого скроллбара */
 .no-scrollbar {
   scrollbar-width: none;
