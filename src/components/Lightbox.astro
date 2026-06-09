@@ -1,0 +1,109 @@
+---
+// Просмотр экранов продукта на весь экран. Клик по любому [data-zoomable] открывает
+// картинку крупно (на мобиле читаемо + жест pinch-zoom), закрытие по фону/крестику/Esc.
+---
+
+<div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Просмотр экрана">
+  <button type="button" class="lightbox-close" aria-label="Закрыть">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+  <div class="lightbox-scroll">
+    <img class="lightbox-img" alt="" />
+  </div>
+</div>
+
+<style>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: none;
+    background: rgba(15, 23, 42, 0.94);
+  }
+  .lightbox.is-open {
+    display: block;
+  }
+  .lightbox-scroll {
+    position: absolute;
+    inset: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 56px 12px 24px;
+  }
+  .lightbox-img {
+    display: block;
+    /* шире вьюпорта на мобиле → читаемо и можно листать вбок; на десктопе — в меру */
+    width: clamp(680px, 92vw, 1180px);
+    max-width: none;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+  .lightbox-close {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 101;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+  .lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.24);
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    function init() {
+      const lb = document.getElementById("lightbox");
+      if (!lb) return;
+      const img = lb.querySelector(".lightbox-img");
+      const scroll = lb.querySelector(".lightbox-scroll");
+      const open = (src, alt) => {
+        img.src = src;
+        img.alt = alt || "";
+        lb.classList.add("is-open");
+        lb.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        scroll.scrollTop = 0;
+      };
+      const close = () => {
+        lb.classList.remove("is-open");
+        lb.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        img.src = "";
+      };
+      document.addEventListener("click", (e) => {
+        const z = e.target.closest("[data-zoomable]");
+        if (z) {
+          e.preventDefault();
+          open(z.getAttribute("src") || z.dataset.zoomSrc, z.getAttribute("alt"));
+          return;
+        }
+        // клик по фону/крестику (но не по самой картинке) — закрыть
+        if (lb.classList.contains("is-open") && e.target !== img) {
+          if (e.target === lb || e.target === scroll || e.target.closest(".lightbox-close")) close();
+        }
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && lb.classList.contains("is-open")) close();
+      });
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+  })();
+</script>

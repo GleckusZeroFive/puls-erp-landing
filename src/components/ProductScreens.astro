@@ -42,9 +42,14 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
                 src={asset(s.img)}
                 alt={s.alt}
                 loading="lazy"
-                class="w-full h-auto block"
+                data-zoomable
+                class="w-full h-auto block cursor-zoom-in"
               />
             </div>
+            <span class="zoom-hint">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>
+              крупнее
+            </span>
             <!-- аффорданс прокрутки: тень-фейд + хинт; прячутся у нижнего края -->
             <div class="screen-fade pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/15 to-transparent"></div>
             <div class="screen-hint pointer-events-none absolute bottom-3 right-3 flex items-center gap-1 text-[11px] text-white bg-black/55 backdrop-blur-sm px-2.5 py-1 rounded-full">

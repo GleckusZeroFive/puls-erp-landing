@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Lightbox from "../components/Lightbox.astro";
 
 interface Props {
   title?: string;
@@ -53,6 +54,7 @@ const ogImage = new URL("/figma/screen-yura-objekt.webp", siteUrl).toString();
   </head>
   <body class="antialiased">
     <slot />
+    <Lightbox />
     <script is:inline>
       // Reveal-on-scroll — IntersectionObserver навешивает .is-visible на элементы с .reveal
       (() => {

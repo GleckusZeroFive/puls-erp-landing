@@ -37,7 +37,7 @@ const h = content.hero;
           {h.badge}
         </div>
 
-        <h1 class="font-black text-5xl md:text-6xl lg:text-[68px] leading-[1.03] tracking-tight mb-6">
+        <h1 class="font-black text-[38px] sm:text-5xl md:text-6xl lg:text-[68px] leading-[1.05] sm:leading-[1.03] tracking-tight mb-6">
           {h.h1Line1}<br/>
           {h.h1Line2}<br/>
           <span class="text-[var(--color-accent-light)]">{h.h1Accent}</span>
@@ -65,13 +65,18 @@ const h = content.hero;
       </div>
 
       <div class="reveal">
-        <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-white/5">
+        <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-white/5">
           <img
             src={asset("/figma/screen-yura-objekt.webp")}
             alt={h.screenAlt}
             loading="eager"
-            class="w-full h-auto block"
+            data-zoomable
+            class="w-full h-auto block cursor-zoom-in"
           />
+          <span class="zoom-hint">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>
+            крупнее
+          </span>
         </div>
       </div>
     </div>

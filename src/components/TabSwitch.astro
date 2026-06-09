@@ -15,15 +15,17 @@ interface Props {
 }
 const { tabs, variant = "bar", label = "Переключатель", class: cls = "" } = Astro.props as Props;
 
+// На мобиле — один горизонтально-прокручиваемый ряд (flex-nowrap + overflow-x-auto);
+// от sm и шире — прежний центрированный перенос.
 const wrap =
   variant === "pill"
-    ? "flex flex-wrap items-center justify-center gap-2"
-    : "inline-flex flex-wrap items-center justify-center gap-1 bg-[var(--color-gray-3)] rounded-2xl p-1.5 border border-[var(--color-gray-2)]";
+    ? "flex items-center gap-2 flex-nowrap justify-start overflow-x-auto no-scrollbar sm:flex-wrap sm:justify-center sm:overflow-visible"
+    : "flex sm:inline-flex items-center gap-1 flex-nowrap justify-start overflow-x-auto no-scrollbar sm:flex-wrap sm:justify-center sm:overflow-visible bg-[var(--color-gray-3)] rounded-2xl p-1.5 border border-[var(--color-gray-2)]";
 
 const btn =
   variant === "pill"
-    ? "tab-btn rounded-full px-4 py-2 text-sm font-medium border border-[var(--color-gray-2)] transition"
-    : "tab-btn px-4 py-2.5 rounded-xl text-sm font-medium transition";
+    ? "tab-btn shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium border border-[var(--color-gray-2)] transition"
+    : "tab-btn shrink-0 whitespace-nowrap px-4 py-2.5 rounded-xl text-sm font-medium transition";
 ---
 
 <div role="tablist" aria-label={label} class={`${wrap} ${cls}`}>

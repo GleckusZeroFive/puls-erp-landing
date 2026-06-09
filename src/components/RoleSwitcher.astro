@@ -62,8 +62,12 @@ const tabs = roles.map((r) => ({ id: r.id, label: r.tab }));
                 <span class="w-2.5 h-2.5 rounded-full bg-[#28C840]"></span>
                 <span class="ml-2 text-[11px] text-[var(--color-gray-1)] truncate">Puls · {r.tab}</span>
               </div>
-              <div class="aspect-[16/10] overflow-hidden bg-[#E0E4ED]">
-                <img src={asset(r.img)} alt={r.imgAlt} loading="lazy" class="w-full h-full object-cover object-top block" />
+              <div class="relative aspect-[16/10] overflow-hidden bg-[#E0E4ED]">
+                <img src={asset(r.img)} alt={r.imgAlt} loading="lazy" data-zoomable class="w-full h-full object-cover object-top block cursor-zoom-in" />
+                <span class="zoom-hint">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>
+                  крупнее
+                </span>
               </div>
             </div>
           </div>
