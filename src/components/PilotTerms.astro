@@ -2,7 +2,7 @@
 import Icon from "./Icon.astro";
 import { content } from "../data/content.ts";
 
-const { badge, h2, lead, chips, points, ctaLabel, ctaNote } = content.pilot;
+const { badge, h2, lead, cards, cta } = content.pilot;
 ---
 
 <section id="pilot" class="bg-[var(--color-gray-3)]">
@@ -15,36 +15,34 @@ const { badge, h2, lead, chips, points, ctaLabel, ctaNote } = content.pilot;
       <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight max-w-3xl">
         {h2}
       </h2>
-      <p class="text-[var(--color-gray-1)] text-lg leading-relaxed max-w-3xl mb-7">
+      <p class="text-[var(--color-gray-1)] text-lg leading-relaxed max-w-3xl mb-10">
         {lead}
       </p>
 
-      <div class="flex flex-wrap gap-2.5 mb-10">
-        {chips.map((s) => (
-          <span class="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-primary)] bg-[var(--color-gray-3)] border border-[var(--color-gray-2)] rounded-full px-4 py-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]"></span>{s}
-          </span>
-        ))}
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-5 mb-10">
-        {points.map((p) => (
-          <div class="bg-[var(--color-gray-3)] rounded-2xl p-6">
-            <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[var(--color-primary)] text-white font-bold mb-4">{p.num}</div>
-            <div class="font-bold text-lg text-[var(--color-primary)] mb-2">{p.title}</div>
-            <div class="text-[var(--color-gray-1)] leading-relaxed text-sm">{p.desc}</div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 reveal-group">
+        {cards.map((c) => (
+          <div class="bg-[var(--color-gray-3)] rounded-2xl p-6 border border-[var(--color-gray-2)] card-hover">
+            <span class="inline-flex w-11 h-11 rounded-xl bg-[var(--color-accent)]/10 text-[var(--color-accent)] items-center justify-center mb-4">
+              <Icon name={c.icon} size={22} />
+            </span>
+            <div class="font-bold text-[var(--color-primary)] mb-2 leading-snug">{c.title}</div>
+            <div class="text-[var(--color-gray-1)] text-sm leading-relaxed">{c.desc}</div>
           </div>
         ))}
       </div>
 
-      <div class="flex flex-col sm:flex-row sm:items-center gap-5">
-        <a href="#form" class="inline-flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:opacity-90 transition px-7 py-3.5 rounded-xl font-medium text-white">
-          {ctaLabel}
+      <div class="rounded-2xl bg-[var(--color-primary)] text-white p-7 md:p-8 flex flex-col md:flex-row md:items-center gap-6">
+        <div class="md:flex-1">
+          <div class="font-bold text-xl mb-1.5">{cta.title}</div>
+          <p class="text-white/70 text-sm leading-relaxed max-w-xl">{cta.desc}</p>
+        </div>
+        <a
+          href="#form"
+          class="shrink-0 inline-flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent-light)] transition px-7 py-3.5 rounded-xl font-semibold text-white"
+        >
+          {cta.label}
           <Icon name="arrow-right" size={18} />
         </a>
-        <p class="text-[var(--color-gray-1)] text-sm leading-snug max-w-md">
-          {ctaNote}
-        </p>
       </div>
     </div>
   </div>
