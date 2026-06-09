@@ -15,6 +15,11 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
     <TabSwitch tabs={tabs} variant="bar" label="Раздел карточки объекта" />
   </div>
 
+  <!-- Подпись-дисклеймер НАД окном: читают до того, как формируют ожидания об интерфейсе -->
+  <p class="reveal mb-5 text-sm text-[var(--color-gray-1)] text-center max-w-3xl mx-auto">
+    {note}
+  </p>
+
   <!-- Окно продукта -->
   <div class="reveal rounded-2xl overflow-hidden border border-[var(--color-gray-2)] shadow-2xl bg-white">
     <!-- chrome -->
@@ -61,10 +66,6 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
       ))}
     </div>
   </div>
-
-  <p class="reveal mt-4 text-sm text-[var(--color-gray-1)]">
-    {note}
-  </p>
 </div>
 
 <style>
