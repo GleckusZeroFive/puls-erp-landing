@@ -1,0 +1,46 @@
+---
+import Icon from "./Icon.astro";
+import CityPattern from "./CityPattern.astro";
+import { content } from "../data/content.ts";
+
+const { eyebrow, h2, lead, cards, cta } = content.protection;
+---
+
+<section
+  id="protection"
+  class="relative overflow-hidden bg-[var(--color-primary)] text-white sec-fade-top sec-fade-bottom"
+  style="--fade-color: var(--color-gray-3)"
+>
+  <CityPattern opacity={0.08} />
+  <div class="relative mx-auto max-w-[1400px] px-6 py-20 md:py-24">
+    <div class="reveal max-w-3xl mx-auto text-center mb-12">
+      <div class="text-xs uppercase tracking-widest text-[var(--color-accent-light)] mb-3 font-medium">{eyebrow}</div>
+      <h2 class="font-bold text-3xl md:text-4xl mb-5 leading-tight">{h2}</h2>
+      <p class="text-white/70 text-lg leading-relaxed">{lead}</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal-group">
+      {cards.map((c) => (
+        <div class="bg-white/5 rounded-2xl p-6 border border-white/10 card-hover">
+          <span class="inline-flex w-11 h-11 rounded-xl bg-[var(--color-accent-light)]/15 text-[var(--color-accent-light)] items-center justify-center mb-4">
+            <Icon name={c.icon} size={22} />
+          </span>
+          <div class="font-bold text-lg mb-2 leading-snug">{c.title}</div>
+          <div class="text-white/65 text-sm leading-relaxed">{c.desc}</div>
+        </div>
+      ))}
+
+      <div class="rounded-2xl p-6 flex flex-col border-2 border-[var(--color-accent-light)] bg-[var(--color-accent)]/10 card-hover">
+        <div class="font-bold text-lg mb-2 leading-snug">{cta.title}</div>
+        <div class="text-white/70 text-sm leading-relaxed mb-5">{cta.desc}</div>
+        <a
+          href="#form"
+          class="mt-auto inline-flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent-light)] text-white font-semibold px-5 py-3 rounded-xl transition"
+        >
+          {cta.label}
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
