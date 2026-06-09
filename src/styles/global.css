@@ -225,8 +225,21 @@ details:not(.js-anim-ready)[open] summary .chevron {
 
 /* Мягкий край горизонтальной ленты: контент не обрывается резко, а тает у того
    края, где ещё есть прокрутка. Ширину растушёвки (--ml/--mr) ставит JS в Layout
-   по позиции скролла; 0 = край не тает (нечего листать в эту сторону). */
+   по позиции скролла; 0 = край не тает (нечего листать в эту сторону).
+   --ml/--mr зарегистрированы как <length> → их смену можно плавно анимировать
+   (без @property кастомные свойства не интерполируются и менялись бы скачком). */
+@property --ml {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --mr {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
 .scroll-x-fade {
+  transition: --ml 0.32s ease, --mr 0.32s ease;
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0,

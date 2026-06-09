@@ -221,11 +221,11 @@ const ogImage = new URL("/figma/screen-yura-objekt.webp", siteUrl).toString();
       // Мягкий край у горизонтальных лент [.scroll-x-fade]: ставит --ml/--mr по позиции
       // скролла, чтобы контент таял только там, где есть куда листать.
       (() => {
-        const FADE = "22px";
+        const FADE = "30px";
         function upd(el) {
           const max = el.scrollWidth - el.clientWidth;
-          el.style.setProperty("--ml", el.scrollLeft > 2 ? FADE : "0px");
-          el.style.setProperty("--mr", el.scrollLeft < max - 2 ? FADE : "0px");
+          el.style.setProperty("--ml", el.scrollLeft > 1 ? FADE : "0px");
+          el.style.setProperty("--mr", el.scrollLeft < max - 1 ? FADE : "0px");
         }
         function init() {
           document.querySelectorAll(".scroll-x-fade").forEach((el) => {
