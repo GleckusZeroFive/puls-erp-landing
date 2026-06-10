@@ -44,7 +44,7 @@ const { eyebrow, h2, lead, badge, noticedLabel, actionLabel, principles, tabsInt
 
     <div class="grid lg:grid-cols-[300px_1fr] gap-6">
       <div class="reveal">
-        <div class="flex flex-col gap-2" data-tabwrap>
+        <div class="flex flex-col gap-2" data-tabwrap role="tablist" aria-label={tabsIntro.h3}>
           {aiRisks.map((r, i) => (
             <button
               type="button"
