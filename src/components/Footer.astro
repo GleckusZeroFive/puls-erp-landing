@@ -3,6 +3,13 @@ import { asset } from "../utils/asset";
 import { content } from "../data/content.ts";
 const year = new Date().getFullYear();
 const f = content.footer;
+
+// In-page anchors only resolve on the home page; on sub-pages (privacy)
+// prefix them with the home URL so the browser navigates back to the section.
+const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+const currentPath = Astro.url.pathname.replace(/\/$/, "");
+const isHome = currentPath === base;
+const anchorBase = isHome ? "" : asset("/");
 ---
 
 <footer class="bg-[var(--color-primary)] text-white/70">
@@ -21,19 +28,19 @@ const f = content.footer;
       <div>
         <div class="text-xs uppercase tracking-widest text-white/40 mb-4 font-medium">Продукт</div>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="#what" class="hover:text-white transition">Что такое Puls</a></li>
-          <li><a href="#dashboard" class="hover:text-white transition">Дашборд</a></li>
-          <li><a href="#roles" class="hover:text-white transition">Роли на стройке</a></li>
-          <li><a href="#scenarios" class="hover:text-white transition">Сценарии</a></li>
+          <li><a href={`${anchorBase}#what`} class="hover:text-white transition">Что такое Puls</a></li>
+          <li><a href={`${anchorBase}#dashboard`} class="hover:text-white transition">Дашборд</a></li>
+          <li><a href={`${anchorBase}#roles`} class="hover:text-white transition">Роли на стройке</a></li>
+          <li><a href={`${anchorBase}#scenarios`} class="hover:text-white transition">Сценарии</a></li>
         </ul>
       </div>
 
       <div>
         <div class="text-xs uppercase tracking-widest text-white/40 mb-4 font-medium">Компания</div>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="#trust" class="hover:text-white transition">Опыт</a></li>
-          <li><a href="#pilot" class="hover:text-white transition">Условия пилота</a></li>
-          <li><a href="#faq" class="hover:text-white transition">Вопросы и ответы</a></li>
+          <li><a href={`${anchorBase}#trust`} class="hover:text-white transition">Опыт</a></li>
+          <li><a href={`${anchorBase}#pilot`} class="hover:text-white transition">Условия пилота</a></li>
+          <li><a href={`${anchorBase}#faq`} class="hover:text-white transition">Вопросы и ответы</a></li>
           <li><a href={asset("/privacy")} class="hover:text-white transition">Обработка данных</a></li>
         </ul>
       </div>
@@ -41,7 +48,7 @@ const f = content.footer;
       <div>
         <div class="text-xs uppercase tracking-widest text-white/40 mb-4 font-medium">Связаться</div>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="#form" class="hover:text-white transition">Заявка</a></li>
+          <li><a href={`${anchorBase}#form`} class="hover:text-white transition">Заявка</a></li>
           <li><a href="mailto:hello@puls-erp.ru" class="hover:text-white transition">hello@puls-erp.ru</a></li>
         </ul>
       </div>
