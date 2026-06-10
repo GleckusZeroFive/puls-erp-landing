@@ -288,14 +288,22 @@ const fallbackEmail = "hello@puls-erp.ru";
       });
     }
 
+    // localStorage может быть недоступен (заблокированные cookies, приватный режим)
+    function rateGet() {
+      try { return parseInt(localStorage.getItem(RATE_KEY) || "0", 10); } catch (_) { return 0; }
+    }
+    function rateSet() {
+      try { localStorage.setItem(RATE_KEY, Date.now().toString()); } catch (_) {}
+    }
+
     async function handleSubmit(e, form) {
       e.preventDefault();
-      const status = form.querySelector(".cf-status");
+      if (form.dataset.state === "loading") return;
       const webhook = form.dataset.webhook;
       const fallback = form.dataset.fallbackEmail;
 
       // Rate-limit
-      const last = parseInt(localStorage.getItem(RATE_KEY) || "0", 10);
+      const last = rateGet();
       const since = Date.now() - last;
       if (last && since < RATE_LIMIT_MS) {
         const wait = Math.ceil((RATE_LIMIT_MS - since) / 1000);
@@ -306,6 +314,7 @@ const fallbackEmail = "hello@puls-erp.ru";
       // Honeypot — silent drop, бот не должен догадаться
       const trap = form.querySelector('[name="trap"]')?.value;
       if (trap) {
+        form.dataset.state = "success";
         showStatus(form, "success", "Заявка получена. Свяжемся в течение рабочего дня.");
         return;
       }
@@ -341,7 +350,13 @@ const fallbackEmail = "hello@puls-erp.ru";
       }
 
       form.dataset.state = "loading";
+      const submitBtn = form.querySelector(".cf-submit");
+      if (submitBtn) submitBtn.disabled = true;
       showStatus(form, "", "");
+
+      // Таймаут: завис webhook → не крутим спиннер вечно
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 20_000);
 
       try {
         const body = new URLSearchParams();
@@ -353,6 +368,7 @@ const fallbackEmail = "hello@puls-erp.ru";
           method: "POST",
           body,
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          signal: ctrl.signal,
         });
         const text = await res.text();
         let json = null;
@@ -362,7 +378,7 @@ const fallbackEmail = "hello@puls-erp.ru";
           throw new Error(json?.error || `HTTP ${res.status}`);
         }
 
-        localStorage.setItem(RATE_KEY, Date.now().toString());
+        rateSet();
         form.dataset.state = "success";
         showStatus(
           form,
@@ -377,6 +393,9 @@ const fallbackEmail = "hello@puls-erp.ru";
           `Не удалось отправить — попробуйте ещё раз или напишите на ${form.dataset.fallbackEmail}.`
         );
         console.error("[contact-form]", err);
+      } finally {
+        clearTimeout(timer);
+        if (submitBtn) submitBtn.disabled = false;
       }
     }
 
