@@ -7,11 +7,13 @@ interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
+  preloadHero?: boolean;
 }
 const {
   title = "Puls — управление строительной подрядной компанией",
   description = "Система оперативного контроля строительной подрядной компании. Объекты, материалы, оплаты, документы и риски — в одном экране, с AI-сводкой на каждое утро.",
   noindex = false,
+  preloadHero = false,
 } = Astro.props as Props;
 
 const siteUrl = "https://puls-erp.ru/";
@@ -25,15 +27,15 @@ const ogImage = new URL("/figma/screen-yura-objekt.webp", siteUrl).toString();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {noindex && <meta name="robots" content="noindex" />}
 
-    <!-- Картинки первого экрана грузим рано и приоритетно, чтобы не было pop-in -->
-    <link rel="preload" as="image" href={asset("/figma/glass-facade.webp")} fetchpriority="high" />
-    <link rel="preload" as="image" href={asset("/figma/screen-yura-objekt.webp")} fetchpriority="high" />
+    <!-- Картинки первого экрана грузим рано и приоритетно, чтобы не было pop-in (только на страницах с Hero) -->
+    {preloadHero && <link rel="preload" as="image" href={asset("/figma/glass-facade.webp")} fetchpriority="high" />}
+    {preloadHero && <link rel="preload" as="image" href={asset("/figma/screen-yura-objekt.webp")} fetchpriority="high" />}
 
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={siteUrl} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="icon" href={asset("/favicon.svg")} type="image/svg+xml" />
+    <link rel="alternate icon" href={asset("/favicon.ico")} />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ru_RU" />
@@ -53,7 +55,7 @@ const ogImage = new URL("/figma/screen-yura-objekt.webp", siteUrl).toString();
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;900&display=swap"
       rel="stylesheet"
     />
   </head>

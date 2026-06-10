@@ -25,9 +25,11 @@ const pains = content.problem.items;
 const steps = content.steps.items;
 ---
 
-<Layout>
+<Layout preloadHero>
 
   <StickyHeader />
+
+  <main>
 
   <!-- 01 · HERO -->
   <Hero />
@@ -68,7 +70,7 @@ const steps = content.steps.items;
   <!-- 04 · ЧТО ТАКОЕ Puls -->
   <WhatIsPuls />
 
-  <!-- 05 · ПУЛЬС КОМПАНИИ (дашборд, 5 модулей) -->
+  <!-- 05 · ПУЛЬС КОМПАНИИ (окно экранов продукта) -->
   <section id="dashboard" class="bg-white">
     <div class="mx-auto max-w-[1400px] px-6 py-20 md:py-24">
       <div class="reveal max-w-3xl mx-auto text-center mb-12">
@@ -168,6 +170,8 @@ const steps = content.steps.items;
       </div>
     </div>
   </section>
+
+  </main>
 
   <Footer />
 </Layout>
