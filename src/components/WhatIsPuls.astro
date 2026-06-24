@@ -30,11 +30,6 @@ const { eyebrow, h2, lead, zonesTitle, zones, note, disclaimer, extrasTitle, ext
             >
               <span class="zone-ic"><Icon name={z.icon} size={20} /></span>
               <span class="zone-title">{z.title}</span>
-              <span class="zone-dots" aria-hidden="true">
-                <span class="dot dot-ok"></span>
-                <span class="dot dot-warn"></span>
-                <span class="dot dot-risk"></span>
-              </span>
             </button>
           ))}
         </div>
@@ -48,8 +43,7 @@ const { eyebrow, h2, lead, zonesTitle, zones, note, disclaimer, extrasTitle, ext
                 <p class="text-[var(--color-gray-1)] leading-relaxed mb-5">{z.desc}</p>
                 <ul class="space-y-2.5">
                   {z.signals.map((s) => (
-                    <li class="flex items-center gap-3">
-                      <span class={`dot dot-${s.tone} dot-lg`}></span>
+                    <li class={`sig sig-${s.tone}`}>
                       <span class="text-sm text-[var(--color-primary)]">{s.text}</span>
                     </li>
                   ))}
@@ -124,23 +118,19 @@ const { eyebrow, h2, lead, zonesTitle, zones, note, disclaimer, extrasTitle, ext
     color: var(--color-primary);
     white-space: nowrap;
   }
-  .zone-dots {
-    display: inline-flex;
-    gap: 0.3rem;
-    margin-left: auto;
-    padding-left: 0.5rem;
+  /* Статус-строки в духе продукта: белая карточка-строка + цветная риска-акцент слева. */
+  .sig {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 0.9rem;
+    background: #fff;
+    border: 1px solid var(--color-gray-2);
+    border-left: 3px solid var(--sig);
+    border-radius: 0.7rem;
   }
-  .dot {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 999px;
-    flex: 0 0 auto;
-    display: inline-block;
-  }
-  .dot-lg { width: 0.6rem; height: 0.6rem; }
-  .dot-ok { background: #2BA84A; }
-  .dot-warn { background: #F0A500; }
-  .dot-risk { background: var(--color-danger); }
+  .sig-ok { --sig: #2BA84A; }
+  .sig-warn { --sig: #F0A500; }
+  .sig-risk { --sig: var(--color-danger); }
 
   .zone-pane {
     border: 1px solid var(--color-gray-2);
@@ -150,22 +140,4 @@ const { eyebrow, h2, lead, zonesTitle, zones, note, disclaimer, extrasTitle, ext
     height: 100%;
   }
 
-  /* Статусы-светофор «дозаполняются» при появлении активной панели. */
-  @media (prefers-reduced-motion: no-preference) {
-    .switch-stack > [data-pane].is-active .zone-pane li .dot-lg {
-      animation: dot-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    .switch-stack > [data-pane].is-active .zone-pane li:nth-child(1) .dot-lg { animation-delay: 0.05s; }
-    .switch-stack > [data-pane].is-active .zone-pane li:nth-child(2) .dot-lg { animation-delay: 0.16s; }
-    .switch-stack > [data-pane].is-active .zone-pane li:nth-child(3) .dot-lg { animation-delay: 0.27s; }
-    .zone-tab.is-active .dot-risk { animation: dot-pulse 2.4s ease-in-out infinite; }
-  }
-  @keyframes dot-in {
-    from { opacity: 0; transform: scale(0.4); }
-    to { opacity: 1; transform: scale(1); }
-  }
-  @keyframes dot-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-danger) 55%, transparent); }
-    50% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-danger) 0%, transparent); }
-  }
 </style>
