@@ -196,8 +196,8 @@ export const content = {
           "AI-сводку по рискам и просрочкам",
         ],
         benefit: "Свобода от микроконтроля и уверенность, что объекты под контролем.",
-        img: "/figma/screen-yura-objekt.webp",
-        imgAlt: "Экран директора — карточка объекта с общей картиной",
+        img: "/figma/screen-role-director.webp",
+        imgAlt: "Экран директора — общая картина по объектам",
       },
       {
         id: "rp",
