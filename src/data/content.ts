@@ -213,7 +213,7 @@ export const content = {
           "Проблемные согласования",
         ],
         benefit: "Меньше созвонов, быстрее реакция на отставания.",
-        img: "/figma/screen-yura-gpr.webp",
+        img: "/figma/screen-role-rp.webp",
         imgAlt: "Экран РП — график производства работ",
       },
       {
@@ -231,7 +231,7 @@ export const content = {
           "Что нужно подтвердить или закрыть",
         ],
         benefit: "Меньше звонков и объяснений «а где материал».",
-        img: "/figma/screen-yura-stroyka.webp",
+        img: "/figma/screen-role-foreman.webp",
         imgAlt: "Экран прораба — стройка на объекте",
       },
       {
@@ -249,7 +249,7 @@ export const content = {
           "Поставщиков и документы",
         ],
         benefit: "Нет срочных закупок по оверпрайсу из-за забытой заявки.",
-        img: "/figma/screen-yura-snabzhenie.webp",
+        img: "/figma/screen-role-supplier.webp",
         imgAlt: "Экран снабженца — снабжение объекта",
       },
       {
@@ -267,7 +267,7 @@ export const content = {
           "Историю событий по объекту",
         ],
         benefit: "Допработы не теряются и закрываются юридически.",
-        img: "/figma/screen-yura-pto.webp",
+        img: "/figma/screen-role-pto.webp",
         imgAlt: "Экран ПТО — работы и документы исполнителя",
       },
       {
@@ -285,7 +285,7 @@ export const content = {
           "Кто должен компании и кому должна компания",
         ],
         benefit: "Меньше оплат «вслепую» и кассовых разрывов.",
-        img: "/figma/screen-yura-platezhi.webp",
+        img: "/figma/screen-role-accountant.webp",
         imgAlt: "Экран бухгалтера — платежи по объекту",
       },
     ] as Role[],
