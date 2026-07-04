@@ -163,10 +163,10 @@ export const content = {
     chromeTitle: "Puls · ЖК «Альянс» — карточка объекта",
     note: "Реальные экраны продукта — нажмите, чтобы рассмотреть крупно. Интерфейс дорабатывается, финальный вид настраивается под ваши процессы на пилоте.",
     screens: [
+      { id: "stroyka",    label: "Стройка",   img: "/figma/screen-yura-stroyka.webp",    alt: "Объект — стройка" },
       { id: "dogovory",   label: "Договоры",  img: "/figma/screen-yura-dogovory.webp",   alt: "Объект — договоры и сметы" },
       { id: "gpr",        label: "ГПР",       img: "/figma/screen-yura-gpr.webp",        alt: "Объект — график производства работ" },
       { id: "byudzhet",   label: "Бюджет",    img: "/figma/screen-yura-byudzhet.webp",   alt: "Объект — бюджет" },
-      { id: "stroyka",    label: "Стройка",   img: "/figma/screen-yura-stroyka.webp",    alt: "Объект — стройка" },
       { id: "snabzhenie", label: "Снабжение", img: "/figma/screen-yura-snabzhenie.webp", alt: "Объект — снабжение" },
       { id: "pto",        label: "ПТО",       img: "/figma/screen-yura-pto.webp",        alt: "Объект — ПТО, акты и письма" },
     ],
