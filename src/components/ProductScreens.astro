@@ -34,7 +34,7 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
       {screens.map((s, i) => (
         <div class={i === 0 ? "is-active" : ""} data-pane={s.id}>
           <div class="screen-window relative bg-[#E0E4ED]">
-            <div class="screen-scroll h-auto md:h-[520px] overflow-visible md:overflow-hidden">
+            <div class="screen-scroll h-[160px] md:h-[520px] overflow-hidden">
               <img
                 src={asset(s.img)}
                 alt={s.alt}
@@ -47,8 +47,8 @@ const tabs = screens.map((s) => ({ id: s.id, label: s.label }));
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>
               крупнее
             </span>
-            <!-- крой-индикатор (десктоп): тень снизу = экран продолжается ниже, клик открывает целиком -->
-            <div class="screen-fade pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/25 to-transparent hidden md:block"></div>
+            <!-- крой-индикатор: тень снизу = экран продолжается ниже, клик открывает целиком -->
+            <div class="screen-fade pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/25 to-transparent"></div>
           </div>
         </div>
       ))}
