@@ -319,7 +319,11 @@ const fallbackEmail = "hello@puls-erp.ru";
         return;
       }
 
-      // Browser validation
+      // Browser validation — сначала обрезаем пробелы, иначе "   " проходит required/minlength
+      ["name", "contact"].forEach((n) => {
+        const el = form.querySelector(`[name="${n}"]`);
+        if (el) el.value = el.value.trim();
+      });
       if (!form.reportValidity()) return;
 
       const formData = new FormData(form);
